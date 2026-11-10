@@ -1,4 +1,4 @@
-# The Home Assistant Glow-Up Guide 🫧
+# The Home Assistant Glow-Up Guide ✨
 
 **Make your Home Assistant look amazing and do more, using only free and open-source tools.** Written for Home Assistant **2026.11**, running as **Container on Docker Desktop (Windows 11)** behind Tailscale. Everything here was checked in November 2026, and every GitHub link was confirmed to exist.
 
@@ -327,7 +327,7 @@ Pick a theme under **Profile → Theme** and set the mode to *Auto* for themes w
 | — | **[MNML](https://github.com/bfmatei/ha-mnml)** | Minimal card set and theme; color only where it needs attention. | Marketplace custom repo |
 | <img src="https://user-images.githubusercontent.com/5878303/152695688-9d705231-500c-49e7-82f5-69e206da95db.png" width="280"> | **[Mushroom Themes](https://github.com/piitaya/lovelace-mushroom-themes)** | Themes tuned for Mushroom (try "Mushroom Shadow"). | Marketplace |
 
-### 🫧 DIY: the "Aero Glass" theme (Frutiger Aero vibes)
+### ✨ DIY: the "Aero Glass" theme (Frutiger Aero vibes)
 
 Glossy sky-blue glass, aqua highlights and a grass-green accent, with **no background image needed** (the sky-to-grass gradient is pure CSS). It requires **card-mod** (for the blur). Save as `/config/themes/aero_glass.yaml`, then run the action `frontend.reload_themes`.
 

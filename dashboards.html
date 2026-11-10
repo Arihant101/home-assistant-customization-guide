@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboards &amp; cards · The Home Assistant Glow-Up Guide ✨</title>
+<meta name="description" content="A free and open-source Home Assistant customization guide: dashboards, cards, themes, Reddit showcases, GitHub configs, devices, automations, local AI, DIY hardware and security.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%237fe0ff'/><stop offset='1' stop-color='%230a84ff'/></linearGradient></defs><rect x='4' y='4' width='92' height='92' rx='24' fill='url(%23g)'/><path d='M50 22 24 44v32h18V58h16v18h18V44z' fill='%23fff'/></svg>">
+<style>
+:root{
+  --sky1:#2aa7ee;--sky2:#8fd8fa;--sky3:#dff6ff;--grass1:#8fdc78;--grass2:#3fae4a;
+  --ink:#06324d;--ink2:#2c6a8c;--accent:#0a84ff;--aqua:#1fc8e0;--green:#34c759;
+  --glass:rgba(255,255,255,.66);--glass2:rgba(255,255,255,.42);--edge:rgba(255,255,255,.9);
+  --shadow:0 14px 40px rgba(0,60,120,.16);--code:#04223a;--codeink:#d8f3ff;
+  --font:"Segoe UI","Frutiger","Myriad Pro","Helvetica Neue",system-ui,-apple-system,sans-serif;
+  --mono:"Cascadia Code","JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+html.night{
+  --sky1:#020f22;--sky2:#062a4d;--sky3:#0a3b5e;--grass1:#0b4d3a;--grass2:#06301f;
+  --ink:#e6f6ff;--ink2:#9fd3ef;--accent:#4cc2ff;--aqua:#3fe0f0;--green:#5be37d;
+  --glass:rgba(10,40,70,.66);--glass2:rgba(10,40,70,.42);--edge:rgba(140,210,255,.28);
+  --shadow:0 14px 40px rgba(0,0,0,.45);--code:#010b16;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;font:16px/1.65 var(--font);color:var(--ink);min-height:100vh;
+  background:
+   radial-gradient(ellipse 60% 40% at 15% -5%,rgba(255,255,255,.95),transparent 60%),
+   radial-gradient(ellipse 120% 35% at 50% 108%,var(--grass2) 0 40%,transparent 41%),
+   radial-gradient(ellipse 90% 30% at 10% 104%,var(--grass1) 0 45%,transparent 46%),
+   linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 45%,var(--sky3) 75%,var(--grass1) 100%);
+  background-attachment:fixed}
+html.night body{background:
+   radial-gradient(ellipse 50% 35% at 75% 0%,rgba(76,194,255,.28),transparent 60%),
+   radial-gradient(ellipse 40% 30% at 20% 10%,rgba(91,227,125,.14),transparent 60%),
+   linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 60%,var(--grass1) 100%);background-attachment:fixed}
+a{color:var(--accent);text-decoration:none;font-weight:600}
+a:hover{text-decoration:underline}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;z-index:50;background:linear-gradient(90deg,var(--aqua),var(--green));box-shadow:0 0 12px var(--aqua)}
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:26px;max-width:1360px;margin:0 auto;padding:22px}
+.glass{background:linear-gradient(180deg,var(--glass) 0%,var(--glass2) 100%);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+/* sidebar */
+nav.side{position:sticky;top:22px;align-self:start;max-height:calc(100vh - 44px);overflow:auto;padding:16px 12px}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px;color:var(--ink);font-weight:800}
+.brand:hover{text-decoration:none;filter:drop-shadow(0 0 8px rgba(31,200,224,.8))}
+.brand .logo{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:19px;
+  background:linear-gradient(180deg,#9fe8ff,#0a84ff);box-shadow:0 4px 12px rgba(10,132,255,.4),inset 0 1px 0 rgba(255,255,255,.8)}
+.brand small{display:block;font-weight:600;color:var(--ink2);font-size:12px}
+a.pg{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;color:var(--ink);font-weight:650;font-size:14.5px;line-height:1.3}
+a.pg:hover{background:rgba(255,255,255,.55);text-decoration:none}
+html.night a.pg:hover{background:rgba(255,255,255,.08)}
+a.pg.on{background:linear-gradient(180deg,#5fd3ff,#0a84ff);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 10px rgba(10,132,255,.35)}
+.pi{width:24px;text-align:center;flex:none}
+.subs{margin:4px 0 8px 22px;padding-left:10px;border-left:2px solid rgba(10,132,255,.25)}
+.subs a{display:flex;gap:8px;align-items:baseline;padding:4px 8px;border-radius:10px;color:var(--ink);font-weight:550;font-size:13px;line-height:1.35}
+.subs a:hover{background:rgba(255,255,255,.5);text-decoration:none}
+.subs a.active{color:var(--accent);background:rgba(255,255,255,.7)}
+html.night .subs a.active{background:rgba(255,255,255,.08)}
+.subs .num{font:700 11px var(--mono);opacity:.65;min-width:16px}
+.side-tools{display:flex;gap:8px;padding:12px 6px 4px}
+/* buttons */
+.gloss{appearance:none;border:1px solid rgba(255,255,255,.85);cursor:pointer;font:700 13px var(--font);color:#fff;padding:9px 14px;border-radius:999px;display:inline-block;
+  background:linear-gradient(180deg,#7fe0ff 0%,#22a6f2 48%,#0a84ff 52%,#1aa3ff 100%);box-shadow:0 4px 14px rgba(10,132,255,.35),inset 0 1px 0 rgba(255,255,255,.85);text-shadow:0 1px 1px rgba(0,60,120,.35)}
+.gloss.green{background:linear-gradient(180deg,#b8f5a0 0%,#5fd068 48%,#34b84a 52%,#4fd062 100%);box-shadow:0 4px 14px rgba(52,199,89,.35),inset 0 1px 0 rgba(255,255,255,.85)}
+.gloss:hover{filter:brightness(1.07);text-decoration:none}
+/* headers */
+header.hero{padding:34px 34px 30px;margin-bottom:24px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;inset:0 0 60% 0;background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
+html.night header.hero::after{background:linear-gradient(180deg,rgba(255,255,255,.07),transparent)}
+.hero h1{margin:0 0 10px;font-size:clamp(32px,4.6vw,56px);line-height:1.05;letter-spacing:-.02em;font-weight:800;
+  background:linear-gradient(180deg,#0b5ea8 0%,#0a84ff 45%,#11b6d8 55%,#1d8f4a 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+html.night .hero h1{background:linear-gradient(180deg,#e6f6ff 0%,#7fd6ff 50%,#5be37d 100%);-webkit-background-clip:text;background-clip:text}
+.hero.small{padding:24px 30px 22px}
+.hero.small h1{font-size:clamp(28px,3.6vw,42px);display:flex;align-items:center;gap:14px}
+.hero .hi{-webkit-text-fill-color:initial;color:initial;font-size:.85em}
+.crumbs{font:600 13px var(--font);color:var(--ink2);margin-bottom:6px;position:relative;z-index:1}
+.lede{margin:0 0 14px;font-size:17px;color:var(--ink2);max-width:820px}
+.hero .intro p{margin:0 0 6px;font-size:18px;max-width:880px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{font:700 12.5px var(--font);padding:6px 12px;border-radius:999px;color:var(--ink);background:rgba(255,255,255,.7);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff}
+html.night .chip{background:rgba(255,255,255,.08)}
+.pg-h{margin:28px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2)}
+.pagegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;position:relative;z-index:1}
+.pagecard{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:18px;color:var(--ink);background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(235,250,255,.8));border:1px solid #fff;box-shadow:0 6px 18px rgba(0,60,120,.12);transition:transform .15s,box-shadow .15s}
+html.night .pagecard{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border-color:rgba(140,210,255,.22)}
+.pagecard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,60,120,.22);text-decoration:none}
+.pagecard .pi{font-size:26px;width:auto;text-align:left}
+.pagecard b{font-size:16.5px}
+.pagecard small{font-weight:500;font-size:13.5px;line-height:1.45;color:var(--ink2)}
+.preamble{margin:0 0 20px}
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:relative;z-index:1}
+.search input{flex:1;min-width:220px;font:16px var(--font);padding:12px 18px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(235,250,255,.85));box-shadow:inset 0 2px 6px rgba(0,60,120,.12)}
+html.night .search input{background:rgba(255,255,255,.08)}
+.search input:focus{outline:3px solid rgba(31,200,224,.5)}
+#count{font:600 13px var(--font);color:var(--ink2)}
+/* panels */
+main{min-width:0}
+section.panel{padding:6px 30px 26px;margin:0 0 26px;background:linear-gradient(180deg,var(--glass) 0%,var(--glass2) 100%);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+section.panel h2{margin:0 -30px 18px;padding:16px 30px;border-radius:24px 24px 0 0;color:#fff;font-size:24px;letter-spacing:-.01em;text-shadow:0 1px 2px rgba(0,50,100,.4);
+  background:linear-gradient(180deg,#7fdcff 0%,#2aa7ee 48%,#0a84ff 52%,#16a0f5 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(0,60,120,.2)}
+html.night section.panel h2{background:linear-gradient(180deg,#1b5c8f 0%,#0b3f6b 50%,#06304f 100%)}
+h3{font-size:19px;margin:26px 0 10px}
+h4{margin:0 0 6px;font-size:16px;line-height:1.3}
+p,li{max-width:980px}
+p.tldr{font-size:16.5px;padding:12px 16px;border-radius:16px;background:linear-gradient(180deg,rgba(214,255,206,.85),rgba(170,240,160,.55));border:1px solid rgba(255,255,255,.95);box-shadow:inset 0 1px 0 #fff;color:#0b3d17}
+html.night p.tldr{background:rgba(91,227,125,.13);color:var(--ink);border-color:rgba(91,227,125,.35)}
+blockquote{margin:16px 0;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid var(--edge);border-left:5px solid var(--aqua)}
+html.night blockquote{background:rgba(255,255,255,.06)}
+blockquote p{margin:4px 0}
+a.sref{padding:0 2px;border-radius:5px;background:rgba(10,132,255,.08)}
+code{font:14px var(--mono);background:rgba(10,132,255,.1);padding:1px 6px;border-radius:6px}
+pre{position:relative;background:var(--code);color:var(--codeink);border-radius:16px;padding:18px;overflow:auto;border:1px solid rgba(31,200,224,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 20px rgba(0,30,60,.25);font-size:13.5px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:10px;right:10px;padding:5px 11px;font-size:12px}
+.table-wrap{overflow-x:auto;margin:14px 0;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.55)}
+html.night .table-wrap{background:rgba(255,255,255,.04)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th{text-align:left;padding:10px 14px;color:#fff;background:linear-gradient(180deg,#56cdfb,#1696ec);white-space:nowrap}
+html.night th{background:#0b3f6b}
+td{padding:10px 14px;border-top:1px solid rgba(10,132,255,.12);vertical-align:top}
+tr:hover td{background:rgba(255,255,255,.45)}
+html.night tr:hover td{background:rgba(255,255,255,.04)}
+li.todo{list-style:none;margin-left:-22px}
+li.todo input{accent-color:var(--green);transform:scale(1.2);margin-right:6px}
+/* gallery cards */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin:16px 0 8px}
+.card{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(240,251,255,.78));border:1px solid #fff;box-shadow:0 8px 22px rgba(0,60,120,.14);transition:transform .18s,box-shadow .18s}
+html.night .card{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border-color:rgba(140,210,255,.22)}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,60,120,.24)}
+.shot{margin:0;position:relative;aspect-ratio:16/10;background:linear-gradient(180deg,#c9f0ff,#7fd0f5);overflow:hidden;border-bottom:1px solid rgba(255,255,255,.8)}
+html.night .shot{background:linear-gradient(180deg,#0b3f6b,#062a4d)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.shot .orb{display:none}
+.shot.noimg img{display:none}
+.shot.noimg .orb{display:grid;place-items:center;position:absolute;inset:0;margin:auto;width:76px;height:76px;border-radius:22px;font:800 34px var(--font);color:#fff;text-shadow:0 2px 3px rgba(0,60,120,.4);
+  background:linear-gradient(180deg,#9fe8ff,#0a84ff);box-shadow:0 10px 24px rgba(10,132,255,.35),inset 0 1px 0 rgba(255,255,255,.8)}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.card .body p{margin:0 0 12px;font-size:14.2px;line-height:1.5;color:var(--ink2);flex:1}
+.card h4 a{color:var(--ink)}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.pill{font:700 11.5px var(--font);padding:4px 10px;border-radius:999px;color:#0b3d17;background:linear-gradient(180deg,#d6ffce,#9be98c);border:1px solid #fff}
+html.night .pill{color:#d6ffce;background:rgba(91,227,125,.18);border-color:rgba(91,227,125,.35)}
+.stars{height:20px}
+.card.hide,.card.devhide{display:none}
+/* devices */
+.devtools{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:18px 0 6px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.75);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff;position:sticky;top:8px;z-index:5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+html.night .devtools{background:rgba(6,42,77,.85)}
+.sortlbl{font-weight:700;display:flex;align-items:center;gap:8px}
+.devtools select{font:600 14px var(--font);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);background:linear-gradient(180deg,#fff,#dff4ff);box-shadow:0 2px 8px rgba(0,60,120,.12)}
+html.night .devtools select{background:#0b3f6b;color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;cursor:pointer}
+.toggle input{accent-color:var(--green);transform:scale(1.25)}
+#devcount{font:600 13px var(--font);color:var(--ink2)}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+.chipbtn{cursor:pointer;font:700 12.5px var(--font);padding:6px 12px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);background:rgba(255,255,255,.75)}
+html.night .chipbtn{background:rgba(255,255,255,.08)}
+.chipbtn.on{color:#fff;background:linear-gradient(180deg,#7fe0ff,#0a84ff);text-shadow:0 1px 1px rgba(0,60,120,.35)}
+.dev-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 0}
+.dev-ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:linear-gradient(180deg,#e9f9ff,#9fdcf7);box-shadow:0 6px 14px rgba(10,132,255,.22),inset 0 1px 0 #fff}
+html.night .dev-ico{background:linear-gradient(180deg,#14507f,#0b3f6b)}
+.dev-price{font:800 18px var(--font);color:var(--accent)}
+.dev-meta{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.tag{font:700 11.5px var(--font);padding:3px 9px;border-radius:999px;background:rgba(10,132,255,.1);color:var(--ink);letter-spacing:.02em}
+.tag.s1{background:rgba(52,199,89,.18)}.tag.s2{background:rgba(255,204,0,.22)}.tag.s3{background:rgba(255,69,58,.16)}
+.via{font-size:13px;color:var(--ink2);margin-bottom:8px}
+.fit{font:600 13px var(--font);padding:6px 10px;border-radius:12px}
+.fit.f2{background:rgba(52,199,89,.14)}.fit.f1{background:rgba(255,204,0,.18)}.fit.f0{background:rgba(255,69,58,.13)}
+/* pager */
+.pager{display:flex;justify-content:space-between;gap:12px;margin:6px 0 26px;flex-wrap:wrap}
+.pager .gloss{font-size:15px;padding:12px 20px}
+#totop{position:fixed;right:22px;bottom:22px;z-index:20;width:52px;height:52px;border-radius:50%;padding:0;font-size:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+#totop.show{opacity:1;pointer-events:auto}
+footer{text-align:center;padding:4px 0 40px;color:var(--ink2);font-size:14px}
+.menu-btn{display:none}
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr;padding:12px}
+  nav.side{position:fixed;inset:12px auto 12px 12px;width:min(300px,86vw);z-index:40;transform:translateX(-110%);transition:transform .25s;max-height:none}
+  nav.side.open{transform:none}
+  .menu-btn{display:inline-block;position:fixed;left:14px;bottom:22px;z-index:41}
+  section.panel{padding:4px 16px 18px}
+  section.panel h2{margin:0 -16px 14px;padding:14px 16px;font-size:20px}
+  header.hero{padding:24px 18px}
+  .devtools{position:static}
+}
+</style>
+<script>try{if(localStorage.getItem('aero-night')==='1'||(!localStorage.getItem('aero-night')&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('night')}catch(e){}</script>
+</head>
+<body>
+<div id="progress"></div>
+<div class="shell">
+  <nav class="side glass" id="side" aria-label="Pages">
+    <a class="brand" href="index.html" aria-label="The Home Assistant Glow-Up Guide, home page"><span class="logo">🏠</span><span>HA Glow-Up<small>Home Assistant guide · 2026.11</small></span></a>
+    <a class="pg" href="index.html"><span class="pi">🏠</span>Home</a><a class="pg" href="setup.html"><span class="pi">🐳</span>Setup &amp; security</a><a class="pg" href="connect.html"><span class="pi">🔌</span>Marketplace &amp; integrations</a><a class="pg on" href="dashboards.html"><span class="pi">🧩</span>Dashboards &amp; cards</a><div class="subs" id="toc"><a href="#06-dashboards-from-default-to-drop-dead"><span class="num">06</span>Dashboards: from default to drop-dead</a><a href="#07-the-card-gallery"><span class="num">07</span>The card gallery</a></div><a class="pg" href="themes.html"><span class="pi">🎨</span>Themes</a><a class="pg" href="showcase.html"><span class="pi">🏆</span>Showcase &amp; configs</a><a class="pg" href="devices.html"><span class="pi">🛒</span>Device shopping guide</a><a class="pg" href="automations.html"><span class="pi">🍳</span>Automations &amp; workshops</a><a class="pg" href="voice-ai.html"><span class="pi">🤖</span>Voice, AI &amp; cameras</a><a class="pg" href="cyber.html"><span class="pi">🛡️</span>Cyber corner</a><a class="pg" href="diy.html"><span class="pi">🛠️</span>DIY &amp; wall panels</a><a class="pg" href="resources.html"><span class="pi">📚</span>Free swaps &amp; resources</a>
+    <div class="side-tools">
+      <button class="gloss" id="night" type="button">🌙 Aero Night</button>
+      <a class="gloss green" href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+  <main>
+    <header class="hero glass small"><div class="crumbs"><a href="index.html">Home</a> › Dashboards &amp; cards</div><h1><span class="hi">🧩</span>Dashboards &amp; cards</h1><p class="lede">Dashboard frameworks and a big gallery of custom cards.</p><div class="search"><input id="q" type="search" placeholder="Filter this page… (try “glass”, “energy”, “reddit”)" aria-label="Filter cards on this page"><span id="count"></span></div></header>
+    <section class="panel"><h2 id="06-dashboards-from-default-to-drop-dead">06 · Dashboards: from default to drop-dead</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> start with the built-in <strong>Sections</strong> view and <strong>tile cards</strong> (they've improved a lot). Add Mushroom and Bubble Card on top. When you're bored, try a whole <em>framework</em> or a standalone dashboard app.</p>
+<h3 id="the-5-step-recipe">The 5-step recipe</h3>
+<ol>
+<li><strong>New dashboard:</strong> Settings → Dashboards → <em>Add</em> → <strong>Sections</strong>.</li>
+<li><strong>Header row:</strong> Mushroom <em>chips</em> for weather, who's home, alarm state and server status.</li>
+<li><strong>Room sections:</strong> one per room, with up to 4 tile or Mushroom cards each (matt8707's rule of thumb is to keep groups even).</li>
+<li><strong>Details go in pop-ups:</strong> a Bubble Card pop-up per room keeps the main view clean.</li>
+<li><strong>Theme + background:</strong> Frosted Glass or the DIY <em>Aero Glass</em> theme (<a class="sref" href="themes.html#08-themes-and-a-diy-frutiger-aero-theme">§08</a>) over a sky gradient.</li>
+</ol>
+<h3 id="frameworks-dashboard-apps">Frameworks &amp; dashboard apps</h3>
+<div class="gallery"><article class="card" data-search="  fluvy   redesigns all of ha: 52 styled cards, 5 automatic dashboards, 15 palettes. needs ha 2026.9+. marketplace custom repo (integration)"><figure class="shot"><img src="https://raw.githubusercontent.com/acosta290/fluvy/main/docs/images/readme/hero.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">F</span></figure><div class="body"><h4><strong><a href="https://github.com/acosta290/fluvy" target="_blank" rel="noopener">Fluvy</a></strong></h4><p>Redesigns all of HA: 52 styled cards, 5 automatic dashboards, 15 palettes. Needs HA 2026.9+.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo (Integration)</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/acosta290/fluvy?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  dashhaus   two complete looks (&quot;orb&quot; round and soft, &quot;field&quot; hardware-panel style) with no yaml. first shown on reddit. marketplace custom repo (dashboard)"><figure class="shot"><img src="https://raw.githubusercontent.com/Krystosterone/dashhaus/HEAD/docs/src/assets/skins/phone-orb-light.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">D</span></figure><div class="body"><h4><strong><a href="https://github.com/Krystosterone/dashhaus" target="_blank" rel="noopener">Dashhaus</a></strong></h4><p>Two complete looks ("Orb" round and soft, "Field" hardware-panel style) with no YAML. First shown on Reddit.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo (Dashboard)</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Krystosterone/dashhaus?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ui lovelace minimalist   the famous rounded minimalist card framework. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/UI-Lovelace-Minimalist/UI/main/docs/assets/img/example_home.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">U</span></figure><div class="body"><h4><strong><a href="https://github.com/UI-Lovelace-Minimalist/UI" target="_blank" rel="noopener">UI Lovelace Minimalist</a></strong></h4><p>The famous rounded minimalist card framework.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/UI-Lovelace-Minimalist/UI?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  dwains dashboard next   builds dashboards automatically from your areas. (dd3 is being phased out, so use next.) marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/dwainscheeren/dwains-dashboard-next/HEAD/docs/media/dd-next-1.11-home-areas.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">D</span></figure><div class="body"><h4><strong><a href="https://github.com/dwainscheeren/dwains-dashboard-next" target="_blank" rel="noopener">Dwains Dashboard Next</a></strong></h4><p>Builds dashboards automatically from your areas. (DD3 is being phased out, so use Next.)</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dwainscheeren/dwains-dashboard-next?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  simon42 dashboard strategy   a dashboard  strategy  that creates itself from your rooms. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/TheRealSimon42/simon42-dashboard-strategy/main/assets/Screenshot-simon42-strategy.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/TheRealSimon42/simon42-dashboard-strategy" target="_blank" rel="noopener">simon42 Dashboard Strategy</a></strong></h4><p>A dashboard <em>strategy</em> that creates itself from your rooms.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/TheRealSimon42/simon42-dashboard-strategy?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ha-fusion   a separate sveltekit app with drag-and-drop editing and slide-to-dim. this is the maintained fork of matt8707&#x27;s original. docker container"><figure class="shot"><img src="https://raw.githubusercontent.com/knowald/ha-fusion/HEAD/static/preview.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/knowald/ha-fusion" target="_blank" rel="noopener">ha-fusion</a></strong></h4><p>A separate SvelteKit app with drag-and-drop editing and slide-to-dim. This is the maintained fork of matt8707's original.</p><div class="meta"><span class="pill" title="Get it">Docker container</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/knowald/ha-fusion?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  tunet   react dashboard with a drag-and-drop grid and energy views.  docker compose up -d . docker container"><figure class="shot"><img src="https://raw.githubusercontent.com/oyvhov/tunet/HEAD/public/Main.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">T</span></figure><div class="body"><h4><strong><a href="https://github.com/oyvhov/tunet" target="_blank" rel="noopener">Tunet</a></strong></h4><p>React dashboard with a drag-and-drop grid and energy views. <code>docker compose up -d</code>.</p><div class="meta"><span class="pill" title="Get it">Docker container</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/oyvhov/tunet?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  homie dashboard   touch-first wall-tablet app with full-screen music, calendar, camera and solar modes. ⚠️ stores a token in plain text, so give it its own user. marketplace custom repo"><figure class="shot noimg"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/Big-Edge2297/homie-dashboard" target="_blank" rel="noopener">Homie Dashboard</a></strong></h4><p>Touch-first wall-tablet app with full-screen music, calendar, camera and solar modes. ⚠️ Stores a token in plain text, so give it its own user.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Big-Edge2297/homie-dashboard?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  hemma   mobile-first yaml dashboard inspired by homio. manual yaml"><figure class="shot"><img src="https://raw.githubusercontent.com/willsanderson/Hemma/HEAD/docs/images/hero-light.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/willsanderson/Hemma" target="_blank" rel="noopener">Hemma</a></strong></h4><p>Mobile-first YAML dashboard inspired by Homio.</p><div class="meta"><span class="pill" title="Get it">Manual YAML</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/willsanderson/Hemma?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+
+</section><section class="panel"><h2 id="07-the-card-gallery">07 · The card gallery</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> browse, install from the Marketplace, and add with the card picker. Use the search box at the top of the site to filter.</p>
+<div class="gallery"><article class="card" data-search="  clock weather card   big clock, animated weather icons and a forecast bar. perfect for a wall tablet. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/pkissling/clock-weather-card/HEAD/docs/previews/hero.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/pkissling/clock-weather-card" target="_blank" rel="noopener">Clock Weather Card</a></strong></h4><p>Big clock, animated weather icons and a forecast bar. Perfect for a wall tablet.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/pkissling/clock-weather-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mini-graph-card   small, smooth sensor graphs. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/457678/52977264-edf34980-33cc-11e9-903b-cee43b307ed8.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/kalkih/mini-graph-card" target="_blank" rel="noopener">mini-graph-card</a></strong></h4><p>Small, smooth sensor graphs.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/kalkih/mini-graph-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  apexcharts card   serious charts: multiple y axes, data transforms, &quot;now&quot; markers. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/RomRider/apexcharts-card/master/docs/Header.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/RomRider/apexcharts-card" target="_blank" rel="noopener">ApexCharts Card</a></strong></h4><p>Serious charts: multiple Y axes, data transforms, "now" markers.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/RomRider/apexcharts-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  plotly graph card   zoomable, pannable, interactive history. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/dbuezas/lovelace-plotly-graph-card/HEAD/docs/resources/example1.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://github.com/dbuezas/lovelace-plotly-graph-card" target="_blank" rel="noopener">Plotly Graph Card</a></strong></h4><p>Zoomable, pannable, interactive history.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dbuezas/lovelace-plotly-graph-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  power flow card plus   animated energy flow between grid, solar, battery and home. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/61006057/227771568-78497ecc-e863-46f2-b29e-e15c7c20a154.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://github.com/flixlix/power-flow-card-plus" target="_blank" rel="noopener">Power Flow Card Plus</a></strong></h4><p>Animated energy flow between grid, solar, battery and home.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/flixlix/power-flow-card-plus?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  sankey chart   where your watts go, room by room, as a sankey diagram. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/MindFreeze/ha-sankey-chart/HEAD/img/example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/MindFreeze/ha-sankey-chart" target="_blank" rel="noopener">Sankey Chart</a></strong></h4><p>Where your watts go, room by room, as a sankey diagram.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/MindFreeze/ha-sankey-chart?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mini media player   compact media controls with artwork backgrounds (great with jellyfin). marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/457678/47517460-9282d600-d888-11e8-9705-cf9ec3698c3c.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/kalkih/mini-media-player" target="_blank" rel="noopener">Mini Media Player</a></strong></h4><p>Compact media controls with artwork backgrounds (great with Jellyfin).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/kalkih/mini-media-player?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  universal remote card   build a tv remote with a touchpad, d-pad and app shortcuts. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/Nerwyn/universal-remote-card/main/assets/screenshot.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">U</span></figure><div class="body"><h4><strong><a href="https://github.com/Nerwyn/universal-remote-card" target="_blank" rel="noopener">Universal Remote Card</a></strong></h4><p>Build a TV remote with a touchpad, D-pad and app shortcuts.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Nerwyn/universal-remote-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  horizon card   sun (and moon) arc across the sky with rise and set times. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/rejuvenate/lovelace-horizon-card/main/images/full-dark.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/rejuvenate/lovelace-horizon-card" target="_blank" rel="noopener">Horizon Card</a></strong></h4><p>Sun (and moon) arc across the sky with rise and set times.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/rejuvenate/lovelace-horizon-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  big slider card   a whole-card brightness slider: swipe to dim. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/assets/preview-default-light.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/nicufarmache/lovelace-big-slider-card" target="_blank" rel="noopener">Big Slider Card</a></strong></h4><p>A whole-card brightness slider: swipe to dim.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/nicufarmache/lovelace-big-slider-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  atomic calendar revive   a much nicer calendar card. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/totaldebug/atomic-calendar-revive/master/.github/img/atomic_calendar_revive.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/totaldebug/atomic-calendar-revive" target="_blank" rel="noopener">Atomic Calendar Revive</a></strong></h4><p>A much nicer calendar card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/totaldebug/atomic-calendar-revive?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  scheduler card   +  component  schedules your family can edit, without writing automations. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/nielsfaber/scheduler-card/main/screenshots/Demonstration.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/nielsfaber/scheduler-card" target="_blank" rel="noopener">Scheduler Card</a></strong> + <a href="https://github.com/nielsfaber/scheduler-component" target="_blank" rel="noopener">component</a></h4><p>Schedules your family can edit, without writing automations.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/nielsfaber/scheduler-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  kiosk mode   hides the header and sidebar for wall tablets. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/NemesisRE/kiosk-mode/HEAD/example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">K</span></figure><div class="body"><h4><strong><a href="https://github.com/NemesisRE/kiosk-mode" target="_blank" rel="noopener">Kiosk Mode</a></strong></h4><p>Hides the header and sidebar for wall tablets.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/NemesisRE/kiosk-mode?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  navbar card   app-style bottom navigation bar. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/joseluis9595/lovelace-navbar-card/HEAD/docs/content/img/navbar-card-hero-rounded.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">N</span></figure><div class="body"><h4><strong><a href="https://github.com/joseluis9595/lovelace-navbar-card" target="_blank" rel="noopener">Navbar Card</a></strong></h4><p>App-style bottom navigation bar.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/joseluis9595/lovelace-navbar-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  streamline card   reusable card templates, so you stop copy-pasting yaml. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/brunosabot/streamline-card/HEAD/images/hero.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/brunosabot/streamline-card" target="_blank" rel="noopener">Streamline Card</a></strong></h4><p>Reusable card templates, so you stop copy-pasting YAML.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/brunosabot/streamline-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  stack in card   merges several cards into one seamless card. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/custom-cards/stack-in-card/HEAD/docs/Example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/custom-cards/stack-in-card" target="_blank" rel="noopener">Stack In Card</a></strong></h4><p>Merges several cards into one seamless card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/custom-cards/stack-in-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  custom card features   adds custom buttons, sliders and selectors to the  native  tile card. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/Nerwyn/custom-card-features/main/assets/example_tile.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/Nerwyn/custom-card-features" target="_blank" rel="noopener">Custom Card Features</a></strong></h4><p>Adds custom buttons, sliders and selectors to the <em>native</em> tile card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Nerwyn/custom-card-features?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  multiple entity row   several values on one entity row. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/benct/lovelace-multiple-entity-row/master/example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/benct/lovelace-multiple-entity-row" target="_blank" rel="noopener">Multiple Entity Row</a></strong></h4><p>Several values on one entity row.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/benct/lovelace-multiple-entity-row?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  swiss army knife card   svg-based gauges and widgets you design yourself. very niche, very pretty. marketplace"><figure class="shot noimg"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/AmoebeLabs/swiss-army-knife-card" target="_blank" rel="noopener">Swiss Army Knife Card</a></strong></h4><p>SVG-based gauges and widgets you design yourself. Very niche, very pretty.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/AmoebeLabs/swiss-army-knife-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ha-floorplan   interactive svg floorplans (rooms light up when lights are on). marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/3549445/293683009-196cd771-7d29-4975-a741-0a5c8a76e095.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/ExperienceLovelace/ha-floorplan" target="_blank" rel="noopener">ha-floorplan</a></strong></h4><p>Interactive SVG floorplans (rooms light up when lights are on).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/ExperienceLovelace/ha-floorplan?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  xiaomi vacuum map card   live vacuum map with zone cleaning (works with many brands). marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card/master/docs/media/tiles.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">X</span></figure><div class="body"><h4><strong><a href="https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card" target="_blank" rel="noopener">Xiaomi Vacuum Map Card</a></strong></h4><p>Live vacuum map with zone cleaning (works with many brands).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/PiotrMachowski/lovelace-xiaomi-vacuum-map-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  advanced camera card   camera views with a timeline, clips and ptz (formerly the frigate card). marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/dermotduffy/advanced-camera-card/main/docs/images/advanced-camera-card.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/dermotduffy/advanced-camera-card" target="_blank" rel="noopener">Advanced Camera Card</a></strong></h4><p>Camera views with a timeline, clips and PTZ (formerly the Frigate card).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dermotduffy/advanced-camera-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+
+</section>
+    <nav class="pager" aria-label="Pages"><a class="gloss" href="connect.html">← 🔌 Marketplace &amp; integrations</a><a class="gloss green" href="themes.html">🎨 Themes →</a></nav>
+    <footer>Built from <a href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener">README.md</a> · GitHub star counts are live · Images belong to their projects' authors</footer>
+  </main>
+</div>
+<button class="gloss menu-btn" id="menu" type="button" aria-controls="side">☰ Pages</button>
+<button class="gloss" id="totop" type="button" aria-label="Back to top">↑</button>
+<script>
+(function(){
+  var d=document,root=d.documentElement;
+  // night toggle
+  var nb=d.getElementById('night');
+  function label(){nb.textContent=root.classList.contains('night')?'☀️ Aero Day':'🌙 Aero Night'}label();
+  nb.onclick=function(){root.classList.toggle('night');try{localStorage.setItem('aero-night',root.classList.contains('night')?'1':'0')}catch(e){}label()};
+  // mobile menu
+  var side=d.getElementById('side');d.getElementById('menu').onclick=function(){side.classList.toggle('open')};
+  side.addEventListener('click',function(e){if(e.target.closest('a'))side.classList.remove('open')});
+  // copy buttons
+  d.querySelectorAll('pre').forEach(function(p){var c=d.createElement('button');c.className='gloss copy';c.type='button';c.textContent='Copy';c.onclick=function(){var t=p.querySelector('code').innerText;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy'},1500)},function(){c.textContent='Select & copy'})};p.appendChild(c)});
+  // page search
+  var q=d.getElementById('q'),cards=[].slice.call(d.querySelectorAll('.card')),cnt=d.getElementById('count');
+  function filter(){if(!q)return;var v=q.value.trim().toLowerCase(),n=0;cards.forEach(function(c){var ok=!v||c.dataset.search.indexOf(v)>-1;c.classList.toggle('hide',!ok);if(ok)n++});cnt.textContent=v?(n+' of '+cards.length+' match'):(cards.length+' on this page')}
+  if(q){q.addEventListener('input',filter);filter()}
+  // device sorting + filters
+  var grid=d.getElementById('devgrid');
+  if(grid){
+    var devs=[].slice.call(grid.children),sel=d.getElementById('devsort'),fit=d.getElementById('devfit'),dc=d.getElementById('devcount'),cat='all';
+    function apply(){
+      var k=sel.value.split('-'),key=k[0],dir=k[1]==='desc'?-1:1;
+      devs.sort(function(a,b){if(key==='idx')return a.dataset.idx-b.dataset.idx;var x=+a.dataset[key],y=+b.dataset[key];return x===y?a.dataset.idx-b.dataset.idx:(x-y)*dir});
+      var n=0;devs.forEach(function(c){grid.appendChild(c);var ok=(cat==='all'||c.dataset.cat===cat)&&(!fit.checked||c.dataset.fit!=='0');c.classList.toggle('devhide',!ok);if(ok&&!c.classList.contains('hide'))n++});
+      dc.textContent=n+' of '+devs.length+' devices';
+    }
+    sel.onchange=apply;fit.onchange=apply;
+    d.getElementById('devcats').addEventListener('click',function(e){var b=e.target.closest('.chipbtn');if(!b)return;cat=b.dataset.cat;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});apply()});
+    if(q)q.addEventListener('input',apply);apply();
+  }
+  // progress, section highlight, back to top
+  var bar=d.getElementById('progress'),top=d.getElementById('totop'),links=[].slice.call(d.querySelectorAll('#toc a')),heads=links.map(function(a){return d.getElementById(a.getAttribute('href').slice(1))});
+  top.onclick=function(){scrollTo({top:0,behavior:'smooth'})};
+  function onScroll(){var h=root.scrollHeight-innerHeight;bar.style.width=(h>0?scrollY/h*100:0)+'%';top.classList.toggle('show',scrollY>900);
+    var cur=0;heads.forEach(function(el,i){if(el&&el.getBoundingClientRect().top<140)cur=i});links.forEach(function(a,i){a.classList.toggle('active',i===cur)})}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>

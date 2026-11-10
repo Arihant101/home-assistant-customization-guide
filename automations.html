@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automations &amp; workshops · The Home Assistant Glow-Up Guide ✨</title>
+<meta name="description" content="A free and open-source Home Assistant customization guide: dashboards, cards, themes, Reddit showcases, GitHub configs, devices, automations, local AI, DIY hardware and security.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%237fe0ff'/><stop offset='1' stop-color='%230a84ff'/></linearGradient></defs><rect x='4' y='4' width='92' height='92' rx='24' fill='url(%23g)'/><path d='M50 22 24 44v32h18V58h16v18h18V44z' fill='%23fff'/></svg>">
+<style>
+:root{
+  --sky1:#2aa7ee;--sky2:#8fd8fa;--sky3:#dff6ff;--grass1:#8fdc78;--grass2:#3fae4a;
+  --ink:#06324d;--ink2:#2c6a8c;--accent:#0a84ff;--aqua:#1fc8e0;--green:#34c759;
+  --glass:rgba(255,255,255,.66);--glass2:rgba(255,255,255,.42);--edge:rgba(255,255,255,.9);
+  --shadow:0 14px 40px rgba(0,60,120,.16);--code:#04223a;--codeink:#d8f3ff;
+  --font:"Segoe UI","Frutiger","Myriad Pro","Helvetica Neue",system-ui,-apple-system,sans-serif;
+  --mono:"Cascadia Code","JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+html.night{
+  --sky1:#020f22;--sky2:#062a4d;--sky3:#0a3b5e;--grass1:#0b4d3a;--grass2:#06301f;
+  --ink:#e6f6ff;--ink2:#9fd3ef;--accent:#4cc2ff;--aqua:#3fe0f0;--green:#5be37d;
+  --glass:rgba(10,40,70,.66);--glass2:rgba(10,40,70,.42);--edge:rgba(140,210,255,.28);
+  --shadow:0 14px 40px rgba(0,0,0,.45);--code:#010b16;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;font:16px/1.65 var(--font);color:var(--ink);min-height:100vh;
+  background:
+   radial-gradient(ellipse 60% 40% at 15% -5%,rgba(255,255,255,.95),transparent 60%),
+   radial-gradient(ellipse 120% 35% at 50% 108%,var(--grass2) 0 40%,transparent 41%),
+   radial-gradient(ellipse 90% 30% at 10% 104%,var(--grass1) 0 45%,transparent 46%),
+   linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 45%,var(--sky3) 75%,var(--grass1) 100%);
+  background-attachment:fixed}
+html.night body{background:
+   radial-gradient(ellipse 50% 35% at 75% 0%,rgba(76,194,255,.28),transparent 60%),
+   radial-gradient(ellipse 40% 30% at 20% 10%,rgba(91,227,125,.14),transparent 60%),
+   linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 60%,var(--grass1) 100%);background-attachment:fixed}
+a{color:var(--accent);text-decoration:none;font-weight:600}
+a:hover{text-decoration:underline}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;z-index:50;background:linear-gradient(90deg,var(--aqua),var(--green));box-shadow:0 0 12px var(--aqua)}
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:26px;max-width:1360px;margin:0 auto;padding:22px}
+.glass{background:linear-gradient(180deg,var(--glass) 0%,var(--glass2) 100%);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+/* sidebar */
+nav.side{position:sticky;top:22px;align-self:start;max-height:calc(100vh - 44px);overflow:auto;padding:16px 12px}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px;color:var(--ink);font-weight:800}
+.brand:hover{text-decoration:none;filter:drop-shadow(0 0 8px rgba(31,200,224,.8))}
+.brand .logo{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:19px;
+  background:linear-gradient(180deg,#9fe8ff,#0a84ff);box-shadow:0 4px 12px rgba(10,132,255,.4),inset 0 1px 0 rgba(255,255,255,.8)}
+.brand small{display:block;font-weight:600;color:var(--ink2);font-size:12px}
+a.pg{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;color:var(--ink);font-weight:650;font-size:14.5px;line-height:1.3}
+a.pg:hover{background:rgba(255,255,255,.55);text-decoration:none}
+html.night a.pg:hover{background:rgba(255,255,255,.08)}
+a.pg.on{background:linear-gradient(180deg,#5fd3ff,#0a84ff);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 10px rgba(10,132,255,.35)}
+.pi{width:24px;text-align:center;flex:none}
+.subs{margin:4px 0 8px 22px;padding-left:10px;border-left:2px solid rgba(10,132,255,.25)}
+.subs a{display:flex;gap:8px;align-items:baseline;padding:4px 8px;border-radius:10px;color:var(--ink);font-weight:550;font-size:13px;line-height:1.35}
+.subs a:hover{background:rgba(255,255,255,.5);text-decoration:none}
+.subs a.active{color:var(--accent);background:rgba(255,255,255,.7)}
+html.night .subs a.active{background:rgba(255,255,255,.08)}
+.subs .num{font:700 11px var(--mono);opacity:.65;min-width:16px}
+.side-tools{display:flex;gap:8px;padding:12px 6px 4px}
+/* buttons */
+.gloss{appearance:none;border:1px solid rgba(255,255,255,.85);cursor:pointer;font:700 13px var(--font);color:#fff;padding:9px 14px;border-radius:999px;display:inline-block;
+  background:linear-gradient(180deg,#7fe0ff 0%,#22a6f2 48%,#0a84ff 52%,#1aa3ff 100%);box-shadow:0 4px 14px rgba(10,132,255,.35),inset 0 1px 0 rgba(255,255,255,.85);text-shadow:0 1px 1px rgba(0,60,120,.35)}
+.gloss.green{background:linear-gradient(180deg,#b8f5a0 0%,#5fd068 48%,#34b84a 52%,#4fd062 100%);box-shadow:0 4px 14px rgba(52,199,89,.35),inset 0 1px 0 rgba(255,255,255,.85)}
+.gloss:hover{filter:brightness(1.07);text-decoration:none}
+/* headers */
+header.hero{padding:34px 34px 30px;margin-bottom:24px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;inset:0 0 60% 0;background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
+html.night header.hero::after{background:linear-gradient(180deg,rgba(255,255,255,.07),transparent)}
+.hero h1{margin:0 0 10px;font-size:clamp(32px,4.6vw,56px);line-height:1.05;letter-spacing:-.02em;font-weight:800;
+  background:linear-gradient(180deg,#0b5ea8 0%,#0a84ff 45%,#11b6d8 55%,#1d8f4a 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+html.night .hero h1{background:linear-gradient(180deg,#e6f6ff 0%,#7fd6ff 50%,#5be37d 100%);-webkit-background-clip:text;background-clip:text}
+.hero.small{padding:24px 30px 22px}
+.hero.small h1{font-size:clamp(28px,3.6vw,42px);display:flex;align-items:center;gap:14px}
+.hero .hi{-webkit-text-fill-color:initial;color:initial;font-size:.85em}
+.crumbs{font:600 13px var(--font);color:var(--ink2);margin-bottom:6px;position:relative;z-index:1}
+.lede{margin:0 0 14px;font-size:17px;color:var(--ink2);max-width:820px}
+.hero .intro p{margin:0 0 6px;font-size:18px;max-width:880px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{font:700 12.5px var(--font);padding:6px 12px;border-radius:999px;color:var(--ink);background:rgba(255,255,255,.7);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff}
+html.night .chip{background:rgba(255,255,255,.08)}
+.pg-h{margin:28px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2)}
+.pagegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;position:relative;z-index:1}
+.pagecard{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:18px;color:var(--ink);background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(235,250,255,.8));border:1px solid #fff;box-shadow:0 6px 18px rgba(0,60,120,.12);transition:transform .15s,box-shadow .15s}
+html.night .pagecard{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border-color:rgba(140,210,255,.22)}
+.pagecard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,60,120,.22);text-decoration:none}
+.pagecard .pi{font-size:26px;width:auto;text-align:left}
+.pagecard b{font-size:16.5px}
+.pagecard small{font-weight:500;font-size:13.5px;line-height:1.45;color:var(--ink2)}
+.preamble{margin:0 0 20px}
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:relative;z-index:1}
+.search input{flex:1;min-width:220px;font:16px var(--font);padding:12px 18px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(235,250,255,.85));box-shadow:inset 0 2px 6px rgba(0,60,120,.12)}
+html.night .search input{background:rgba(255,255,255,.08)}
+.search input:focus{outline:3px solid rgba(31,200,224,.5)}
+#count{font:600 13px var(--font);color:var(--ink2)}
+/* panels */
+main{min-width:0}
+section.panel{padding:6px 30px 26px;margin:0 0 26px;background:linear-gradient(180deg,var(--glass) 0%,var(--glass2) 100%);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+section.panel h2{margin:0 -30px 18px;padding:16px 30px;border-radius:24px 24px 0 0;color:#fff;font-size:24px;letter-spacing:-.01em;text-shadow:0 1px 2px rgba(0,50,100,.4);
+  background:linear-gradient(180deg,#7fdcff 0%,#2aa7ee 48%,#0a84ff 52%,#16a0f5 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(0,60,120,.2)}
+html.night section.panel h2{background:linear-gradient(180deg,#1b5c8f 0%,#0b3f6b 50%,#06304f 100%)}
+h3{font-size:19px;margin:26px 0 10px}
+h4{margin:0 0 6px;font-size:16px;line-height:1.3}
+p,li{max-width:980px}
+p.tldr{font-size:16.5px;padding:12px 16px;border-radius:16px;background:linear-gradient(180deg,rgba(214,255,206,.85),rgba(170,240,160,.55));border:1px solid rgba(255,255,255,.95);box-shadow:inset 0 1px 0 #fff;color:#0b3d17}
+html.night p.tldr{background:rgba(91,227,125,.13);color:var(--ink);border-color:rgba(91,227,125,.35)}
+blockquote{margin:16px 0;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid var(--edge);border-left:5px solid var(--aqua)}
+html.night blockquote{background:rgba(255,255,255,.06)}
+blockquote p{margin:4px 0}
+a.sref{padding:0 2px;border-radius:5px;background:rgba(10,132,255,.08)}
+code{font:14px var(--mono);background:rgba(10,132,255,.1);padding:1px 6px;border-radius:6px}
+pre{position:relative;background:var(--code);color:var(--codeink);border-radius:16px;padding:18px;overflow:auto;border:1px solid rgba(31,200,224,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 20px rgba(0,30,60,.25);font-size:13.5px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:10px;right:10px;padding:5px 11px;font-size:12px}
+.table-wrap{overflow-x:auto;margin:14px 0;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.55)}
+html.night .table-wrap{background:rgba(255,255,255,.04)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th{text-align:left;padding:10px 14px;color:#fff;background:linear-gradient(180deg,#56cdfb,#1696ec);white-space:nowrap}
+html.night th{background:#0b3f6b}
+td{padding:10px 14px;border-top:1px solid rgba(10,132,255,.12);vertical-align:top}
+tr:hover td{background:rgba(255,255,255,.45)}
+html.night tr:hover td{background:rgba(255,255,255,.04)}
+li.todo{list-style:none;margin-left:-22px}
+li.todo input{accent-color:var(--green);transform:scale(1.2);margin-right:6px}
+/* gallery cards */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin:16px 0 8px}
+.card{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(240,251,255,.78));border:1px solid #fff;box-shadow:0 8px 22px rgba(0,60,120,.14);transition:transform .18s,box-shadow .18s}
+html.night .card{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border-color:rgba(140,210,255,.22)}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,60,120,.24)}
+.shot{margin:0;position:relative;aspect-ratio:16/10;background:linear-gradient(180deg,#c9f0ff,#7fd0f5);overflow:hidden;border-bottom:1px solid rgba(255,255,255,.8)}
+html.night .shot{background:linear-gradient(180deg,#0b3f6b,#062a4d)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.shot .orb{display:none}
+.shot.noimg img{display:none}
+.shot.noimg .orb{display:grid;place-items:center;position:absolute;inset:0;margin:auto;width:76px;height:76px;border-radius:22px;font:800 34px var(--font);color:#fff;text-shadow:0 2px 3px rgba(0,60,120,.4);
+  background:linear-gradient(180deg,#9fe8ff,#0a84ff);box-shadow:0 10px 24px rgba(10,132,255,.35),inset 0 1px 0 rgba(255,255,255,.8)}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.card .body p{margin:0 0 12px;font-size:14.2px;line-height:1.5;color:var(--ink2);flex:1}
+.card h4 a{color:var(--ink)}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.pill{font:700 11.5px var(--font);padding:4px 10px;border-radius:999px;color:#0b3d17;background:linear-gradient(180deg,#d6ffce,#9be98c);border:1px solid #fff}
+html.night .pill{color:#d6ffce;background:rgba(91,227,125,.18);border-color:rgba(91,227,125,.35)}
+.stars{height:20px}
+.card.hide,.card.devhide{display:none}
+/* devices */
+.devtools{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:18px 0 6px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.75);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff;position:sticky;top:8px;z-index:5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+html.night .devtools{background:rgba(6,42,77,.85)}
+.sortlbl{font-weight:700;display:flex;align-items:center;gap:8px}
+.devtools select{font:600 14px var(--font);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);background:linear-gradient(180deg,#fff,#dff4ff);box-shadow:0 2px 8px rgba(0,60,120,.12)}
+html.night .devtools select{background:#0b3f6b;color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;cursor:pointer}
+.toggle input{accent-color:var(--green);transform:scale(1.25)}
+#devcount{font:600 13px var(--font);color:var(--ink2)}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+.chipbtn{cursor:pointer;font:700 12.5px var(--font);padding:6px 12px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);background:rgba(255,255,255,.75)}
+html.night .chipbtn{background:rgba(255,255,255,.08)}
+.chipbtn.on{color:#fff;background:linear-gradient(180deg,#7fe0ff,#0a84ff);text-shadow:0 1px 1px rgba(0,60,120,.35)}
+.dev-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 0}
+.dev-ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:linear-gradient(180deg,#e9f9ff,#9fdcf7);box-shadow:0 6px 14px rgba(10,132,255,.22),inset 0 1px 0 #fff}
+html.night .dev-ico{background:linear-gradient(180deg,#14507f,#0b3f6b)}
+.dev-price{font:800 18px var(--font);color:var(--accent)}
+.dev-meta{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.tag{font:700 11.5px var(--font);padding:3px 9px;border-radius:999px;background:rgba(10,132,255,.1);color:var(--ink);letter-spacing:.02em}
+.tag.s1{background:rgba(52,199,89,.18)}.tag.s2{background:rgba(255,204,0,.22)}.tag.s3{background:rgba(255,69,58,.16)}
+.via{font-size:13px;color:var(--ink2);margin-bottom:8px}
+.fit{font:600 13px var(--font);padding:6px 10px;border-radius:12px}
+.fit.f2{background:rgba(52,199,89,.14)}.fit.f1{background:rgba(255,204,0,.18)}.fit.f0{background:rgba(255,69,58,.13)}
+/* pager */
+.pager{display:flex;justify-content:space-between;gap:12px;margin:6px 0 26px;flex-wrap:wrap}
+.pager .gloss{font-size:15px;padding:12px 20px}
+#totop{position:fixed;right:22px;bottom:22px;z-index:20;width:52px;height:52px;border-radius:50%;padding:0;font-size:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+#totop.show{opacity:1;pointer-events:auto}
+footer{text-align:center;padding:4px 0 40px;color:var(--ink2);font-size:14px}
+.menu-btn{display:none}
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr;padding:12px}
+  nav.side{position:fixed;inset:12px auto 12px 12px;width:min(300px,86vw);z-index:40;transform:translateX(-110%);transition:transform .25s;max-height:none}
+  nav.side.open{transform:none}
+  .menu-btn{display:inline-block;position:fixed;left:14px;bottom:22px;z-index:41}
+  section.panel{padding:4px 16px 18px}
+  section.panel h2{margin:0 -16px 14px;padding:14px 16px;font-size:20px}
+  header.hero{padding:24px 18px}
+  .devtools{position:static}
+}
+</style>
+<script>try{if(localStorage.getItem('aero-night')==='1'||(!localStorage.getItem('aero-night')&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('night')}catch(e){}</script>
+</head>
+<body>
+<div id="progress"></div>
+<div class="shell">
+  <nav class="side glass" id="side" aria-label="Pages">
+    <a class="brand" href="index.html" aria-label="The Home Assistant Glow-Up Guide, home page"><span class="logo">🏠</span><span>HA Glow-Up<small>Home Assistant guide · 2026.11</small></span></a>
+    <a class="pg" href="index.html"><span class="pi">🏠</span>Home</a><a class="pg" href="setup.html"><span class="pi">🐳</span>Setup &amp; security</a><a class="pg" href="connect.html"><span class="pi">🔌</span>Marketplace &amp; integrations</a><a class="pg" href="dashboards.html"><span class="pi">🧩</span>Dashboards &amp; cards</a><a class="pg" href="themes.html"><span class="pi">🎨</span>Themes</a><a class="pg" href="showcase.html"><span class="pi">🏆</span>Showcase &amp; configs</a><a class="pg" href="devices.html"><span class="pi">🛒</span>Device shopping guide</a><a class="pg on" href="automations.html"><span class="pi">🍳</span>Automations &amp; workshops</a><div class="subs" id="toc"><a href="#11-automations-that-feel-like-magic"><span class="num">11</span>Automations that feel like magic</a><a href="#20-workshops-courses-the-automation-cookbook"><span class="num">20</span>Workshops, courses &amp; the automation cookbook</a></div><a class="pg" href="voice-ai.html"><span class="pi">🤖</span>Voice, AI &amp; cameras</a><a class="pg" href="cyber.html"><span class="pi">🛡️</span>Cyber corner</a><a class="pg" href="diy.html"><span class="pi">🛠️</span>DIY &amp; wall panels</a><a class="pg" href="resources.html"><span class="pi">📚</span>Free swaps &amp; resources</a>
+    <div class="side-tools">
+      <button class="gloss" id="night" type="button">🌙 Aero Night</button>
+      <a class="gloss green" href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+  <main>
+    <header class="hero glass small"><div class="crumbs"><a href="index.html">Home</a> › Automations &amp; workshops</div><h1><span class="hi">🍳</span>Automations &amp; workshops</h1><p class="lede">Automation recipes, the 36-idea cookbook, blueprints, workshops and events.</p></header>
+    <section class="panel"><h2 id="11-automations-that-feel-like-magic">11 · Automations that feel like magic</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> build these in the visual editor. The YAML below uses the 2024.10+ syntax (<code>triggers:</code> / <code>actions:</code>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>Uses</th>
+<th>Difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 Homelab down → lights pulse red + ntfy alert</td>
+<td>Uptime Kuma, Govee/Hue, ntfy</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🎬 Jellyfin starts playing → dim the lights, pause Echo music</td>
+<td>Jellyfin, Alexa Devices</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🚪 Ring doorbell → camera snapshot to your phone + "someone's at the door" on every Echo</td>
+<td>Ring, ntfy, Alexa Devices</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🌅 Sunrise alarm → lights fade up over 15 minutes</td>
+<td>Adaptive Lighting / light transitions</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🧺 Washing machine done (power drops) → announce it</td>
+<td>Kasa plug with power monitoring</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🎮 PC gaming → pause qBittorrent</td>
+<td>qBittorrent, HASS.Agent / System Monitor</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>🏠 Room-level presence → lights follow you</td>
+<td>Bermuda BLE + ESP32 proxies (<a class="sref" href="diy.html#15-diy-niche-weird-hardware">§15</a>)</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>📰 Morning brief → weather + calendar + RSS read out on the Echo</td>
+<td>n8n / Assist + TTS</td>
+<td>🧪</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-yaml"># Homelab down → red pulse + push notification
+alias: &quot;🔴 Homelab monitor down&quot;
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.jellyfin_status     # any Uptime Kuma monitor entity
+    to: &quot;off&quot;
+    for: &quot;00:02:00&quot;
+actions:
+  - action: light.turn_on
+    target: { entity_id: light.desk_lamp }
+    data: { color_name: red, flash: long }
+  - action: notify.send_message
+    target: { entity_id: notify.ntfy_homelab }   # your ntfy notify entity
+    data:
+      title: &quot;Homelab alert&quot;
+      message: &quot;{{ state_attr(trigger.entity_id, 'friendly_name') }} has been down for 2 minutes&quot;
+mode: single
+</code></pre>
+<blockquote>
+<p>🍳 <strong>Want more?</strong> <a class="sref" href="automations.html#20-workshops-courses-the-automation-cookbook">§20</a> has 36 more automations, the best blueprints and 5 weekend workshops.</p>
+<p>🧩 <strong>Blueprints</strong> turn this into one click: Settings → Automations → Blueprints → <em>Import</em>, then browse <a href="https://github.com/EPMatt/awesome-ha-blueprints" target="_blank" rel="noopener">awesome-ha-blueprints</a>.</p>
+</blockquote>
+
+</section><section class="panel"><h2 id="20-workshops-courses-the-automation-cookbook">20 · Workshops, courses &amp; the automation cookbook</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> meet the community in person through the <strong>Luma meetup calendar</strong>, learn from a handful of great YouTube channels, run the 5 weekend workshops below, then steal from the 36-automation cookbook.</p>
+<h3 id="events-meetups">🎪 Events &amp; meetups</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>When</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://www.openhomefoundation.org/community-day/" target="_blank" rel="noopener">Community Day</a></strong></td>
+<td>Yearly. The 2026 edition was <strong>Saturday, Nov 7</strong></td>
+<td>Worldwide meetups for Home Assistant, ESPHome and Music Assistant users. 2026 had <strong>97 meetups in 30+ countries</strong>, including a Brooklyn meetup in past years.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.home-assistant.io/community" target="_blank" rel="noopener">Home Assistant Meetups calendar (Luma)</a></strong></td>
+<td>All year</td>
+<td>Subscribe for meetups near you, or host your own (Philadelphia and State College are fair game).</td>
+</tr>
+<tr>
+<td><strong>Month of "What the Heck?!"</strong></td>
+<td>November 2026</td>
+<td>Share what annoys the <em>other people</em> in your home about HA on the forum. A great chance to hand your family the feedback form.</td>
+</tr>
+<tr>
+<td><strong>State of the Open Home</strong></td>
+<td>Yearly (Apr 8, 2026, Utrecht)</td>
+<td>The roadmap keynote. Watch the recordings on the Home Assistant YouTube channel.</td>
+</tr>
+<tr>
+<td><strong>Monthly release livestreams</strong></td>
+<td>Around the first Wednesday of each month</td>
+<td>The team demos each new release live, with community Q&amp;A.</td>
+</tr>
+<tr>
+<td><strong>DEF CON IoT Village</strong></td>
+<td>Every August</td>
+<td>🛡️ Hands-on IoT hacking talks and contests. The cyber-student crossover pick.</td>
+</tr>
+<tr>
+<td><strong>Penn State Maker Commons</strong></td>
+<td>Semester-round</td>
+<td>Campus makerspace: 3D-print sensor cases and solder ESP32 builds.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="learn-free">📺 Learn (free)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Everything Smart Home</strong> (YouTube)</td>
+<td>Beginner-friendly builds. Made by the creator of the Everything Presence sensors.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.smarthomejunkie.net/" target="_blank" rel="noopener">Smart Home Junkie</a></strong> (YouTube + blog)</td>
+<td>Dashboards, AWTRIX blueprints, release breakdowns.</td>
+</tr>
+<tr>
+<td><strong>BeardedTinker</strong> (YouTube)</td>
+<td>Deep, careful walkthroughs of advanced setups.</td>
+</tr>
+<tr>
+<td><strong>mostlychris</strong> (YouTube)</td>
+<td>Docker, ESPHome and practical automations.</td>
+</tr>
+<tr>
+<td><strong>Home Automation Guy</strong> (YouTube)</td>
+<td>Automation logic explained step by step.</td>
+</tr>
+<tr>
+<td><strong>Smart Home Solver</strong> (YouTube)</td>
+<td>Device reviews and clever automation ideas.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.simon42.com/" target="_blank" rel="noopener">simon42</a></strong> (German)</td>
+<td>The fastest coverage of every release.</td>
+</tr>
+<tr>
+<td><strong><a href="https://homeassistant.fm/" target="_blank" rel="noopener">Home Assistant Podcast</a></strong></td>
+<td>Weekly news and interviews to listen to on your commute.</td>
+</tr>
+<tr>
+<td><strong><a href="https://lazyadmin.nl/tag/home-assistant/" target="_blank" rel="noopener">LazyAdmin</a></strong> &amp; <strong><a href="https://smarthomescene.com/" target="_blank" rel="noopener">SmartHomeScene</a></strong></td>
+<td>Written guides, comparisons and theme and card roundups.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="5-weekend-workshops-do-them-in-order">🛠️ 5 weekend workshops (do them in order)</h3>
+<ol>
+<li><strong>Bluetooth proxy in 20 minutes</strong> 🟢: flash an ESP32 from the ESPHome web installer → add it by IP → watch BLE devices appear. (Fixes Docker Desktop's biggest gap.)</li>
+<li><strong>Homelab status wall</strong> 🟡: Uptime Kuma + Glances integrations → Mushroom chips + ApexCharts → the red-light alert from <a class="sref" href="automations.html#11-automations-that-feel-like-magic">§11</a>.</li>
+<li><strong>Zigbee without USB</strong> 🟡: SLZB-06 on Ethernet → Zigbee2MQTT container → pair 3 door sensors → "door left open" announcement on the Echo.</li>
+<li><strong>Local voice assistant</strong> 🧪: Whisper + Piper + openWakeWord containers → Ollama agent → "Okay Nabu, movie mode."</li>
+<li><strong>Doorbell that thinks</strong> 🧪: Reolink doorbell → Frigate → LLM Vision → a notification that says <em>who</em> is at the door.</li>
+</ol>
+<h3 id="the-best-blueprints-one-click-automations">🧩 The best blueprints (one-click automations)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Blueprint</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Motion-activated Light</strong> (built in)</td>
+<td>Light on with motion, off after X minutes of no motion.</td>
+</tr>
+<tr>
+<td><strong>Zone Notification</strong> (built in)</td>
+<td>Notifies you when someone leaves a zone.</td>
+</tr>
+<tr>
+<td><strong>Confirmable Notification</strong> (built-in script)</td>
+<td>An actionable "Do you want to…? Yes / No" phone notification.</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/SgtBatten/HA_blueprints" target="_blank" rel="noopener">Frigate Notifications (SgtBatten)</a></strong></td>
+<td>Rich camera alerts with snapshots, clips and cooldowns. One of the most popular Frigate blueprints.</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/EPMatt/awesome-ha-blueprints" target="_blank" rel="noopener">awesome-ha-blueprints</a></strong></td>
+<td>Controller blueprints for IKEA, Aqara, Philips and other remotes.</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/smarthomejunkie/Ulanzi-Awtrix-BluePrints" target="_blank" rel="noopener">Ulanzi AWTRIX blueprints</a></strong></td>
+<td>Weather, calendar, energy and notifications on your pixel clock.</td>
+</tr>
+<tr>
+<td><strong>Blueprints Exchange</strong> (<a href="https://community.home-assistant.io/" target="_blank" rel="noopener">HA forum</a>)</td>
+<td>Thousands more: low-battery roundups, appliance-done alerts and so on. Sort by <em>Top</em>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="the-automation-cookbook-36-ideas">🍳 The automation cookbook (36 ideas)</h3>
+<p>⚡ = quick win · 🟡 = some setup · 🧪 = project</p>
+<p><strong>🌅 Lighting &amp; comfort</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Motion lights that turn off after no motion</td>
+<td>Motion sensor + the built-in blueprint</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Lights follow the sun's color all day</td>
+<td>Adaptive Lighting</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Sunrise wake-up: 15-minute fade before your alarm</td>
+<td>Hue + phone's next-alarm sensor</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Jellyfin plays → dim the lights, restore them on pause</td>
+<td>Jellyfin + <code>scene.create</code> snapshot</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>"Goodnight" button: lights off, TV off, doors checked</td>
+<td>Aqara mini switch + a script</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Lights stay on while you sit still (no more arm-waving)</td>
+<td>mmWave presence (Everything Presence Lite)</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>TV backlight that matches the screen</td>
+<td>WLED + HyperHDR</td>
+<td>🧪</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>🛡️ Security &amp; safety</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leak detected → critical phone alert + Echo announcement</td>
+<td>Leak sensor + Alexa Devices</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Door open more than 5 minutes → announce it</td>
+<td>Door sensor</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Doorbell → snapshot + actionable notification</td>
+<td>Reolink/Ring + Frigate blueprint</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Smoke/CO alarm → all lights 100%, HVAC fan off, announcement</td>
+<td>Smoke sensor or listener</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Vacation mode: random lights in the evening</td>
+<td>Presence + a script</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Unknown device joins the LAN → alert</td>
+<td>Nmap Tracker or UniFi</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Failed HA login → ntfy (see <a class="sref" href="cyber.html#14-cyber-corner">§14</a>)</td>
+<td>Built-in</td>
+<td>⚡</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>🖥️ Homelab &amp; tech</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uptime Kuma monitor down → red pulse + ntfy (see <a class="sref" href="automations.html#11-automations-that-feel-like-magic">§11</a>)</td>
+<td>Uptime Kuma + a light</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Server closet over 30 °C → alert + turn on a fan plug</td>
+<td>Temperature sensor + plug</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Power outage → alert, pause torrents, shut down safely</td>
+<td>UPS + NUT + qBittorrent</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Gaming or 4K streaming → qBittorrent alt-speed on</td>
+<td>qBittorrent + System Monitor/Jellyfin</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>No backup in 3 days → alert</td>
+<td>Backup integration sensors</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Tailscale device offline for 24 hours → alert</td>
+<td>Tailscale integration</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Sunday "house health" report: updates, batteries, backups</td>
+<td>Template + notify</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>⚡ Energy &amp; appliances</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Washer/dryer finished (power drops below 5 W) → announce</td>
+<td>Energy-monitoring plug</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Kill standby power overnight (TV, consoles)</td>
+<td>Smart plug</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Space heater on for 2 hours or nobody home → off</td>
+<td>Plug + presence</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Daily energy cost summary notification</td>
+<td>Energy dashboard + template</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Run the dishwasher or charger in off-peak hours</td>
+<td>Plug + utility rate sensor</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>👨‍👩‍👧 Family &amp; daily life</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Welcome home: lights + music when your phone arrives</td>
+<td>Companion app zones</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Morning brief on the Echo: weather + calendar + commute</td>
+<td>Alexa Devices + templates (or n8n)</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Trash-day reminder the night before</td>
+<td>Calendar integration</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Weekly low-battery roundup</td>
+<td>Blueprint from the Exchange</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Plant is thirsty → notification</td>
+<td>PLT-1 or a BLE plant sensor</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Package detected at the door → notification</td>
+<td>Frigate (+ LLM Vision)</td>
+<td>🧪</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>🤖 AI &amp; fun</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Doorbell notification that says <em>who</em> is there</td>
+<td>LLM Vision + Ollama</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>"Anything unusual today?" daily summary from your LLM</td>
+<td>Ollama + logbook template</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>Pixel clock shows homelab status and your next event</td>
+<td>AWTRIX NG + blueprints</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>"Hey Jarvis, movie mode" by voice</td>
+<td>openWakeWord + Assist</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Holiday lighting: WLED presets switch by date</td>
+<td>WLED + calendar</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table></div>
+
+</section>
+    <nav class="pager" aria-label="Pages"><a class="gloss" href="devices.html">← 🛒 Device shopping guide</a><a class="gloss green" href="voice-ai.html">🤖 Voice, AI &amp; cameras →</a></nav>
+    <footer>Built from <a href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener">README.md</a> · GitHub star counts are live · Images belong to their projects' authors</footer>
+  </main>
+</div>
+<button class="gloss menu-btn" id="menu" type="button" aria-controls="side">☰ Pages</button>
+<button class="gloss" id="totop" type="button" aria-label="Back to top">↑</button>
+<script>
+(function(){
+  var d=document,root=d.documentElement;
+  // night toggle
+  var nb=d.getElementById('night');
+  function label(){nb.textContent=root.classList.contains('night')?'☀️ Aero Day':'🌙 Aero Night'}label();
+  nb.onclick=function(){root.classList.toggle('night');try{localStorage.setItem('aero-night',root.classList.contains('night')?'1':'0')}catch(e){}label()};
+  // mobile menu
+  var side=d.getElementById('side');d.getElementById('menu').onclick=function(){side.classList.toggle('open')};
+  side.addEventListener('click',function(e){if(e.target.closest('a'))side.classList.remove('open')});
+  // copy buttons
+  d.querySelectorAll('pre').forEach(function(p){var c=d.createElement('button');c.className='gloss copy';c.type='button';c.textContent='Copy';c.onclick=function(){var t=p.querySelector('code').innerText;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy'},1500)},function(){c.textContent='Select & copy'})};p.appendChild(c)});
+  // page search
+  var q=d.getElementById('q'),cards=[].slice.call(d.querySelectorAll('.card')),cnt=d.getElementById('count');
+  function filter(){if(!q)return;var v=q.value.trim().toLowerCase(),n=0;cards.forEach(function(c){var ok=!v||c.dataset.search.indexOf(v)>-1;c.classList.toggle('hide',!ok);if(ok)n++});cnt.textContent=v?(n+' of '+cards.length+' match'):(cards.length+' on this page')}
+  if(q){q.addEventListener('input',filter);filter()}
+  // device sorting + filters
+  var grid=d.getElementById('devgrid');
+  if(grid){
+    var devs=[].slice.call(grid.children),sel=d.getElementById('devsort'),fit=d.getElementById('devfit'),dc=d.getElementById('devcount'),cat='all';
+    function apply(){
+      var k=sel.value.split('-'),key=k[0],dir=k[1]==='desc'?-1:1;
+      devs.sort(function(a,b){if(key==='idx')return a.dataset.idx-b.dataset.idx;var x=+a.dataset[key],y=+b.dataset[key];return x===y?a.dataset.idx-b.dataset.idx:(x-y)*dir});
+      var n=0;devs.forEach(function(c){grid.appendChild(c);var ok=(cat==='all'||c.dataset.cat===cat)&&(!fit.checked||c.dataset.fit!=='0');c.classList.toggle('devhide',!ok);if(ok&&!c.classList.contains('hide'))n++});
+      dc.textContent=n+' of '+devs.length+' devices';
+    }
+    sel.onchange=apply;fit.onchange=apply;
+    d.getElementById('devcats').addEventListener('click',function(e){var b=e.target.closest('.chipbtn');if(!b)return;cat=b.dataset.cat;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});apply()});
+    if(q)q.addEventListener('input',apply);apply();
+  }
+  // progress, section highlight, back to top
+  var bar=d.getElementById('progress'),top=d.getElementById('totop'),links=[].slice.call(d.querySelectorAll('#toc a')),heads=links.map(function(a){return d.getElementById(a.getAttribute('href').slice(1))});
+  top.onclick=function(){scrollTo({top:0,behavior:'smooth'})};
+  function onScroll(){var h=root.scrollHeight-innerHeight;bar.style.width=(h>0?scrollY/h*100:0)+'%';top.classList.toggle('show',scrollY>900);
+    var cur=0;heads.forEach(function(el,i){if(el&&el.getBoundingClientRect().top<140)cur=i});links.forEach(function(a,i){a.classList.toggle('active',i===cur)})}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
