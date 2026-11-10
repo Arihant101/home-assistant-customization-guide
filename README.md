@@ -815,4 +815,4 @@ actions:
 - [Reolink PoE doorbell deals](https://www.dealnews.com/products/Reolink/Reolink-2-K-Po-E-Doorbell-Camera/498982.html)
 - [Home Assistant Cloud pricing (2026)](https://subger.com/en/service/home-assistant-cloud)
 
-*Made with 🫧 for a Frutiger Aero-loving cyber student. Free and open source only; paid things are marked 💸.*
+*Free and open source only; paid things are marked 💸.*
