@@ -676,7 +676,7 @@ actions:
 | **[Community Day](https://www.openhomefoundation.org/community-day/)** | Yearly. The 2026 edition was **Saturday, Nov 7** | Worldwide meetups for Home Assistant, ESPHome and Music Assistant users. 2026 had **97 meetups in 30+ countries**, including a Brooklyn meetup in past years. |
 | **[Home Assistant Meetups calendar (Luma)](https://www.home-assistant.io/community)** | All year | Subscribe for meetups near you, or host your own (Philadelphia and State College are fair game). |
 | **Month of "What the Heck?!"** | November 2026 | Share what annoys the *other people* in your home about HA on the forum. A great chance to hand your family the feedback form. |
-| **State of the Open Home** | Yearly (Apr 8, 2026, Utrecht) | The roadmap keynote. Watch the recordings on the Home Assistant YouTube channel. |
+| **State of the Open Home** | Yearly (Apr 8, 2026, Utrecht) | The roadmap keynote. Watch the recordings on the [Home Assistant YouTube channel](https://www.youtube.com/channel/UCbX3YkedQunLt7EQAdVxh7w). |
 | **Monthly release livestreams** | Around the first Wednesday of each month | The team demos each new release live, with community Q&A. |
 | **DEF CON IoT Village** | Every August | 🛡️ Hands-on IoT hacking talks and contests. The cyber-student crossover pick. |
 | **Penn State Maker Commons** | Semester-round | Campus makerspace: 3D-print sensor cases and solder ESP32 builds. |
@@ -685,13 +685,14 @@ actions:
 
 | Resource | Best for |
 |---|---|
-| **Everything Smart Home** (YouTube) | Beginner-friendly builds. Made by the creator of the Everything Presence sensors. |
-| **[Smart Home Junkie](https://www.smarthomejunkie.net/)** (YouTube + blog) | Dashboards, AWTRIX blueprints, release breakdowns. |
-| **BeardedTinker** (YouTube) | Deep, careful walkthroughs of advanced setups. |
-| **mostlychris** (YouTube) | Docker, ESPHome and practical automations. |
-| **Home Automation Guy** (YouTube) | Automation logic explained step by step. |
-| **Smart Home Solver** (YouTube) | Device reviews and clever automation ideas. |
-| **[simon42](https://www.simon42.com/)** (German) | The fastest coverage of every release. |
+| **[Everything Smart Home](https://www.youtube.com/c/EverythingSmartHome)** (YouTube) | Beginner-friendly builds. Made by the creator of the Everything Presence sensors. |
+| **[Smart Home Junkie](https://www.youtube.com/@smarthomejunkie)** (YouTube) + [blog](https://www.smarthomejunkie.net/) | Dashboards, AWTRIX blueprints, release breakdowns. |
+| **[BeardedTinker](https://www.youtube.com/channel/UCuqokNoK8ZFNQdXxvlE129g)** (YouTube) | Deep, careful walkthroughs of advanced setups. |
+| **[mostlychris](https://www.youtube.com/@mostlychris)** (YouTube) | Docker, ESPHome and practical automations. |
+| **[Home Automation Guy](https://www.youtube.com/@HomeAutomationGuy)** (YouTube) | Automation logic explained step by step. |
+| **[Smart Home Solver](https://www.youtube.com/c/SmartHomeSolver)** (YouTube) | Device reviews and clever automation ideas. |
+| **[simon42](https://www.youtube.com/@simon42)** (YouTube, German) + [blog](https://www.simon42.com/) | The fastest coverage of every release. |
+| **[Home Assistant (official)](https://www.youtube.com/channel/UCbX3YkedQunLt7EQAdVxh7w)** (YouTube) | Release livestreams, launches and State of the Open Home recordings. |
 | **[Home Assistant Podcast](https://homeassistant.fm/)** | Weekly news and interviews to listen to on your commute. |
 | **[LazyAdmin](https://lazyadmin.nl/tag/home-assistant/)** & **[SmartHomeScene](https://smarthomescene.com/)** | Written guides, comparisons and theme and card roundups. |
 
