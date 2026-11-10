@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Home Assistant Glow-Up Guide 🫧</title>
+<meta name="description" content="A huge, free and open-source Home Assistant customization guide: dashboards, cards, themes, Reddit showcases, GitHub configs, local AI, DIY hardware and security.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='g' cx='35%' cy='30%'><stop offset='0' stop-color='%23fff'/><stop offset='.35' stop-color='%23aee9ff'/><stop offset='1' stop-color='%230a84ff'/></radialGradient></defs><circle cx='50' cy='50' r='46' fill='url(%23g)'/><path d='M50 22 24 44v32h18V58h16v18h18V44z' fill='%23fff' opacity='.92'/></svg>">
+<style>
+:root{
+  --sky1:#2aa7ee;--sky2:#8fd8fa;--sky3:#dff6ff;--grass1:#8fdc78;--grass2:#3fae4a;
+  --ink:#06324d;--ink2:#2c6a8c;--accent:#0a84ff;--aqua:#1fc8e0;--green:#34c759;
+  --glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.38);--edge:rgba(255,255,255,.9);
+  --shadow:0 14px 40px rgba(0,60,120,.18);--code:#04223a;--codeink:#d8f3ff;
+  --font:"Segoe UI","Frutiger","Myriad Pro","Helvetica Neue",system-ui,-apple-system,sans-serif;
+  --mono:"Cascadia Code","JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+html.night{
+  --sky1:#020f22;--sky2:#062a4d;--sky3:#0a3b5e;--grass1:#0b4d3a;--grass2:#06301f;
+  --ink:#e6f6ff;--ink2:#9fd3ef;--accent:#4cc2ff;--aqua:#3fe0f0;--green:#5be37d;
+  --glass:rgba(10,40,70,.62);--glass2:rgba(10,40,70,.38);--edge:rgba(140,210,255,.28);
+  --shadow:0 14px 40px rgba(0,0,0,.45);--code:#010b16;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bubble{display:none}}
+body{margin:0;font:16px/1.65 var(--font);color:var(--ink);min-height:100vh;
+  background:
+   radial-gradient(ellipse 60% 40% at 15% -5%,rgba(255,255,255,.95),transparent 60%),
+   radial-gradient(ellipse 120% 35% at 50% 108%,var(--grass2) 0 40%,transparent 41%),
+   radial-gradient(ellipse 90% 30% at 10% 104%,var(--grass1) 0 45%,transparent 46%),
+   linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 45%,var(--sky3) 75%,var(--grass1) 100%);
+  background-attachment:fixed}
+html.night body{background:
+   radial-gradient(ellipse 50% 35% at 75% 0%,rgba(76,194,255,.28),transparent 60%),
+   radial-gradient(ellipse 40% 30% at 20% 10%,rgba(91,227,125,.14),transparent 60%),
+   linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 60%,var(--grass1) 100%);background-attachment:fixed}
+a{color:var(--accent);text-decoration:none;font-weight:600}
+a:hover{text-decoration:underline}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;z-index:50;background:linear-gradient(90deg,var(--aqua),var(--green));box-shadow:0 0 12px var(--aqua)}
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;bottom:-80px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.95) 0 8%,rgba(255,255,255,.25) 18%,rgba(180,235,255,.12) 55%,rgba(255,255,255,.45) 72%,transparent 74%);
+  border:1px solid rgba(255,255,255,.5);animation:rise linear infinite;opacity:.7}
+@keyframes rise{to{transform:translateY(-120vh) translateX(40px)}}
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:270px minmax(0,1fr);gap:26px;max-width:1360px;margin:0 auto;padding:22px}
+/* glass */
+.glass{background:linear-gradient(180deg,var(--glass) 0%,var(--glass2) 100%);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+/* sidebar */
+nav.side{position:sticky;top:22px;align-self:start;max-height:calc(100vh - 44px);overflow:auto;padding:16px 12px}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px;color:var(--ink);font-weight:800;letter-spacing:.01em}
+.brand:hover{text-decoration:none;filter:drop-shadow(0 0 8px rgba(31,200,224,.8))}
+.brand .logo{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:19px;
+  background:radial-gradient(circle at 35% 28%,#fff 0 10%,#aee9ff 32%,var(--accent) 100%);box-shadow:0 4px 12px rgba(10,132,255,.45),inset 0 -3px 6px rgba(0,0,0,.15)}
+.brand small{display:block;font-weight:600;color:var(--ink2);font-size:12px}
+nav.side a.toc{display:none}
+#toc a{display:flex;gap:9px;align-items:baseline;padding:6px 10px;border-radius:12px;color:var(--ink);font-weight:550;font-size:14px;line-height:1.35}
+#toc a:hover{background:rgba(255,255,255,.55);text-decoration:none}
+html.night #toc a:hover{background:rgba(255,255,255,.08)}
+#toc a.active{background:linear-gradient(180deg,#5fd3ff,#0a84ff);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 10px rgba(10,132,255,.35)}
+#toc .num{font:700 11px var(--mono);opacity:.7;min-width:18px}
+.side-tools{display:flex;gap:8px;padding:12px 6px 4px}
+/* buttons */
+.gloss{appearance:none;border:1px solid rgba(255,255,255,.85);cursor:pointer;font:700 13px var(--font);color:#fff;padding:9px 14px;border-radius:999px;
+  background:linear-gradient(180deg,#7fe0ff 0%,#22a6f2 48%,#0a84ff 52%,#1aa3ff 100%);box-shadow:0 4px 14px rgba(10,132,255,.35),inset 0 1px 0 rgba(255,255,255,.85);text-shadow:0 1px 1px rgba(0,60,120,.35)}
+.gloss.green{background:linear-gradient(180deg,#b8f5a0 0%,#5fd068 48%,#34b84a 52%,#4fd062 100%);box-shadow:0 4px 14px rgba(52,199,89,.35),inset 0 1px 0 rgba(255,255,255,.85)}
+.gloss:hover{filter:brightness(1.07)}
+/* hero */
+header.hero{padding:34px 34px 26px;margin-bottom:24px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;inset:0 0 55% 0;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none;border-radius:24px 24px 0 0}
+html.night header.hero::after{background:linear-gradient(180deg,rgba(255,255,255,.08),transparent)}
+.hero h1{margin:0 0 8px;font-size:clamp(30px,4.6vw,54px);line-height:1.05;letter-spacing:-.02em;font-weight:800;
+  background:linear-gradient(180deg,#0b5ea8 0%,#0a84ff 45%,#11b6d8 55%,#1d8f4a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 rgba(255,255,255,.8))}
+html.night .hero h1{background:linear-gradient(180deg,#e6f6ff 0%,#7fd6ff 50%,#5be37d 100%);-webkit-background-clip:text;background-clip:text;filter:none}
+.hero .intro p{margin:0 0 14px;font-size:17.5px;max-width:880px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.chip{font:700 12.5px var(--font);padding:6px 12px;border-radius:999px;color:var(--ink);background:rgba(255,255,255,.7);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff}
+html.night .chip{background:rgba(255,255,255,.08)}
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search input{flex:1;min-width:220px;font:16px var(--font);padding:12px 18px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(235,250,255,.85));box-shadow:inset 0 2px 6px rgba(0,60,120,.12)}
+html.night .search input{background:rgba(255,255,255,.08)}
+.search input:focus{outline:3px solid rgba(31,200,224,.5)}
+#count{font:600 13px var(--font);color:var(--ink2)}
+/* panels */
+main{min-width:0}
+section.panel{padding:6px 30px 26px;margin:0 0 26px;background:linear-gradient(180deg,var(--glass) 0%,var(--glass2) 100%);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+section.panel h2{margin:0 -30px 18px;padding:16px 30px;border-radius:24px 24px 0 0;color:#fff;font-size:24px;letter-spacing:-.01em;text-shadow:0 1px 2px rgba(0,50,100,.4);
+  background:linear-gradient(180deg,#7fdcff 0%,#2aa7ee 48%,#0a84ff 52%,#16a0f5 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(0,60,120,.2)}
+html.night section.panel h2{background:linear-gradient(180deg,#1b5c8f 0%,#0b3f6b 50%,#06304f 100%)}
+h3{font-size:19px;margin:26px 0 10px}
+h4{margin:0 0 6px;font-size:16px;line-height:1.3}
+p,li{max-width:980px}
+p.tldr{font-size:16.5px;padding:12px 16px;border-radius:16px;background:linear-gradient(180deg,rgba(214,255,206,.85),rgba(170,240,160,.55));border:1px solid rgba(255,255,255,.95);box-shadow:inset 0 1px 0 #fff;color:#0b3d17}
+html.night p.tldr{background:rgba(91,227,125,.13);color:var(--ink);border-color:rgba(91,227,125,.35)}
+blockquote{margin:16px 0;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.55);border:1px solid var(--edge);border-left:5px solid var(--aqua)}
+html.night blockquote{background:rgba(255,255,255,.06)}
+blockquote p{margin:4px 0}
+code{font:14px var(--mono);background:rgba(10,132,255,.1);padding:1px 6px;border-radius:6px}
+pre{position:relative;background:var(--code);color:var(--codeink);border-radius:16px;padding:18px 18px;overflow:auto;border:1px solid rgba(31,200,224,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 20px rgba(0,30,60,.25);font-size:13.5px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:10px;right:10px;padding:5px 11px;font-size:12px}
+.table-wrap{overflow-x:auto;margin:14px 0;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.55)}
+html.night .table-wrap{background:rgba(255,255,255,.04)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th{text-align:left;padding:10px 14px;color:#fff;background:linear-gradient(180deg,#56cdfb,#1696ec);white-space:nowrap}
+html.night th{background:#0b3f6b}
+td{padding:10px 14px;border-top:1px solid rgba(10,132,255,.12);vertical-align:top}
+tr:hover td{background:rgba(255,255,255,.45)}
+html.night tr:hover td{background:rgba(255,255,255,.04)}
+li.todo{list-style:none;margin-left:-22px}
+li.todo input{accent-color:var(--green);transform:scale(1.2);margin-right:6px}
+hr{display:none}
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin:16px 0 8px}
+.card{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(240,251,255,.78));border:1px solid #fff;box-shadow:0 8px 22px rgba(0,60,120,.14);transition:transform .18s,box-shadow .18s}
+html.night .card{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border-color:rgba(140,210,255,.22)}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,60,120,.24)}
+.shot{margin:0;position:relative;aspect-ratio:16/10;background:linear-gradient(180deg,#c9f0ff,#7fd0f5);overflow:hidden;border-bottom:1px solid rgba(255,255,255,.8)}
+html.night .shot{background:linear-gradient(180deg,#0b3f6b,#062a4d)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.shot .orb{display:none}
+.shot.noimg img{display:none}
+.shot.noimg .orb{display:grid;place-items:center;position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;font:800 36px var(--font);color:#fff;text-shadow:0 2px 3px rgba(0,60,120,.4);
+  background:radial-gradient(circle at 33% 28%,#fff 0 9%,#b5ecff 26%,#2aa7ee 70%,#0a84ff 100%);box-shadow:0 10px 24px rgba(10,132,255,.4),inset 0 -6px 12px rgba(0,40,90,.25)}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.card .body p{margin:0 0 12px;font-size:14.2px;line-height:1.5;color:var(--ink2);flex:1}
+.card h4 a{color:var(--ink)}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.pill{font:700 11.5px var(--font);padding:4px 10px;border-radius:999px;color:#0b3d17;background:linear-gradient(180deg,#d6ffce,#9be98c);border:1px solid #fff}
+html.night .pill{color:#d6ffce;background:rgba(91,227,125,.18);border-color:rgba(91,227,125,.35)}
+.stars{height:20px}
+.card.hide{display:none}
+#totop{position:fixed;right:22px;bottom:22px;z-index:20;width:52px;height:52px;border-radius:50%;padding:0;font-size:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+#totop.show{opacity:1;pointer-events:auto}
+footer{text-align:center;padding:10px 0 40px;color:var(--ink2);font-size:14px}
+.menu-btn{display:none}
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr;padding:12px}
+  nav.side{position:fixed;inset:12px auto 12px 12px;width:min(300px,86vw);z-index:40;transform:translateX(-110%);transition:transform .25s;max-height:none}
+  nav.side.open{transform:none}
+  .menu-btn{display:inline-block;position:fixed;left:14px;bottom:22px;z-index:41}
+  section.panel{padding:4px 16px 18px}
+  section.panel h2{margin:0 -16px 14px;padding:14px 16px;font-size:20px}
+  header.hero{padding:24px 18px}
+}
+</style>
+<script>try{if(localStorage.getItem('aero-night')==='1'||(!localStorage.getItem('aero-night')&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('night')}catch(e){}</script>
+</head>
+<body>
+<div id="progress"></div>
+<div class="bubbles" aria-hidden="true" id="bubbles"></div>
+<div class="shell">
+  <nav class="side glass" id="side" aria-label="Sections">
+    <a class="brand" href="/" aria-label="The Home Assistant Glow-Up Guide, back to top"><span class="logo">🏠</span><span>HA Glow-Up<small>Home Assistant guide · 2026.11</small></span></a>
+    <div id="toc"><a href="#00-tldr-the-60-minute-glow-up"><span class="num">00</span>TL;DR: the 60-minute glow-up</a><a href="#01-what-changed-in-2026-old-guides-are-now-wrong"><span class="num">01</span>What changed in 2026 (old guides are now wrong)</a><a href="#02-your-setup-ha-container-on-docker-desktop"><span class="num">02</span>Your setup: HA Container on Docker Desktop</a><a href="#03-remote-access-hardening"><span class="num">03</span>Remote access &amp; hardening</a><a href="#04-marketplace-starter-pack"><span class="num">04</span>Marketplace starter pack</a><a href="#05-connect-your-stuff"><span class="num">05</span>Connect your stuff</a><a href="#06-dashboards-from-default-to-drop-dead"><span class="num">06</span>Dashboards: from default to drop-dead</a><a href="#07-the-card-gallery"><span class="num">07</span>The card gallery</a><a href="#08-themes-and-a-diy-frutiger-aero-theme"><span class="num">08</span>Themes (and a DIY Frutiger Aero theme)</a><a href="#09-hall-of-fame-dashboards-from-reddit-github"><span class="num">09</span>Hall of fame: dashboards from Reddit &amp; GitHub</a><a href="#10-github-configs-worth-studying"><span class="num">10</span>GitHub configs worth studying</a><a href="#11-automations-that-feel-like-magic"><span class="num">11</span>Automations that feel like magic</a><a href="#12-voice-local-ai-your-ollama-finally-gets-a-job"><span class="num">12</span>Voice &amp; local AI (your Ollama finally gets a job)</a><a href="#13-cameras-nvr"><span class="num">13</span>Cameras &amp; NVR</a><a href="#14-cyber-corner"><span class="num">14</span>🛡️ Cyber corner</a><a href="#15-diy-niche-weird-hardware"><span class="num">15</span>DIY, niche &amp; weird hardware 🧪</a><a href="#16-wall-panels-kiosks"><span class="num">16</span>Wall panels &amp; kiosks</a><a href="#17-paid-free-swaps"><span class="num">17</span>💸 Paid → free swaps</a><a href="#18-keep-learning"><span class="num">18</span>Keep learning</a><a href="#sources"><span class="num">★</span>Sources</a></div>
+    <div class="side-tools">
+      <button class="gloss" id="night" type="button">🌙 Aero Night</button>
+      <a class="gloss green" href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener" style="text-decoration:none">GitHub</a>
+    </div>
+  </nav>
+  <main>
+    <header class="hero glass">
+      <h1>The Home Assistant Glow-Up Guide 🫧</h1>
+      <div class="intro"><p><strong>Make your Home Assistant look amazing and do more, using only free and open-source tools.</strong> Written for Home Assistant <strong>2026.11</strong>, running as <strong>Container on Docker Desktop (Windows 11)</strong> behind Tailscale. Everything here was checked in November 2026, and every GitHub link was confirmed to exist.</p></div>
+      <div class="chips"><span class="chip">🏠 HA 2026.11</span><span class="chip">🐳 Docker Desktop · Windows 11</span><span class="chip">🔒 Tailscale-only</span><span class="chip">🆓 FOSS-first</span><span class="chip">🖼️ 100+ projects</span><span class="chip">🫧 Frutiger Aero edition</span></div>
+      <div class="search"><input id="q" type="search" placeholder="Filter cards, themes and projects… (try “glass”, “energy”, “reddit”)" aria-label="Filter cards"><span id="count"></span></div>
+    </header>
+    <blockquote>
+<p><strong>How to read this:</strong> every section opens with a 🎯 <strong>TL;DR</strong>. ⚡ marks a quick win (under 10 minutes), 🧪 marks an advanced project, and 💸 marks something paid, with a free alternative listed next to it.</p>
+</blockquote>
+<hr />
+<section class="panel"><h2 id="00-tldr-the-60-minute-glow-up">00 · TL;DR: the 60-minute glow-up</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> follow these 8 steps in order. Each one makes a visible difference.</p>
+<ol>
+<li>⚡ <strong>Make a backup first.</strong> Go to Settings → System → Backups → <em>Backup now</em>, then copy the file off the server. Syncthing works well for this (see §02).</li>
+<li>⚡ <strong>Open the Marketplace</strong> (Settings → Marketplace). HACS is now built in, so there's nothing to install manually (§01).</li>
+<li>⚡ <strong>Install 4 basics:</strong> Mushroom, Bubble Card, card-mod (or UIX), and Frosted Glass Themes (§04).</li>
+<li>⚡ <strong>Turn on themes:</strong> add <code>frontend: themes: !include_dir_merge_named themes</code> to <code>configuration.yaml</code>, then restart.</li>
+<li><strong>Build one new dashboard:</strong> use the <em>Sections</em> view with Mushroom chips at the top and Bubble Card pop-ups for each room (§06).</li>
+<li>⚡ <strong>Connect your homelab:</strong> Uptime Kuma, Jellyfin, Immich, Seerr, ntfy and Ollama all have <strong>official</strong> integrations now (§05).</li>
+<li><strong>Add one automation that feels like magic:</strong> if the homelab goes down, the lights flash red and your phone gets an ntfy alert (§11).</li>
+<li>🧪 <strong>Pick a "signature" project:</strong> a pixel clock (AWTRIX NG), a 3D floorplan, or a fully local voice assistant built on your Ollama (§12–§15).</li>
+</ol>
+<hr />
+</section><section class="panel"><h2 id="01-what-changed-in-2026-old-guides-are-now-wrong">01 · What changed in 2026 (old guides are now wrong)</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> HACS is now the built-in <strong>Marketplace</strong>, add-ons are now called <strong>Apps</strong>, and the old Core and Supervised install methods are no longer supported. Ignore YouTube tutorials that tell you to <code>wget get.hacs.xyz</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Release</th>
+<th>What changed</th>
+<th>Why you care</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2026.11</strong> (Nov 4)</td>
+<td>HACS became the built-in <strong>Marketplace</strong> under Settings → Marketplace. It works on every install type, Container included, with no manual downloads.</td>
+<td>Existing HACS installs migrate automatically. The HACS installer stops at 2026.11.</td>
+</tr>
+<tr>
+<td>2026.11</td>
+<td>Installing from the Marketplace <strong>no longer needs a restart</strong> (updates still do). Updates show up under Settings → Updates.</td>
+<td>Experimenting with cards is much faster now.</td>
+</tr>
+<tr>
+<td>2026.11</td>
+<td>Entities are now named from their <strong>device + area</strong> context. Renaming a device renames its entities, and entity IDs stay the same.</td>
+<td>Some dashboard labels may look different after the update. Fix them by setting a card name.</td>
+</tr>
+<tr>
+<td>2026.11</td>
+<td>Copy, cut and paste <strong>sections</strong>. Auto-sections, Date/Alert/Sensor card options, hue sliders on light tiles, and automation <strong>exclusions</strong>.</td>
+<td>Building dashboards takes fewer clicks.</td>
+</tr>
+<tr>
+<td>2026.6</td>
+<td>Weather forecast features on the tile card.</td>
+<td>You may not need a custom weather card.</td>
+</tr>
+<tr>
+<td>2026.4</td>
+<td><strong>Native infrared</strong> control and BLE e-paper (OpenDisplay).</td>
+<td>Control your TV and AC with an IR blaster.</td>
+</tr>
+<tr>
+<td><strong>2026.2</strong></td>
+<td><strong>Add-ons were renamed to Apps.</strong> Quick search opens with <strong>Ctrl+K</strong>. The new <strong>Home dashboard</strong> is the default Overview.</td>
+<td>Apps need Home Assistant OS. On Container you run them as extra containers instead (§02).</td>
+</tr>
+<tr>
+<td>2025.12</td>
+<td>Support ended for the <strong>Core and Supervised</strong> install methods. Only <strong>OS</strong> and <strong>Container</strong> remain.</td>
+<td>Your Container setup is officially supported. 👍</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>Marketplace safety notice:</strong> before you install anything, HA asks you to accept that community projects are <em>not tested, audited, or supported</em> by the Home Assistant project, and that they run <em>inside your system</em>. Treat every custom card or integration like code you're running as root on your network (§14).</p>
+</blockquote>
+<hr />
+</section><section class="panel"><h2 id="02-your-setup-ha-container-on-docker-desktop">02 · Your setup: HA Container on Docker Desktop</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> your setup is supported, but Docker Desktop runs containers inside a hidden VM. That means <strong>automatic discovery (mDNS/multicast), Bluetooth and USB don't reach Home Assistant</strong>. Add devices by IP address, use network-based radios instead of USB ones, and run the old "Apps" as extra containers.</p>
+<h3 id="what-works-and-what-doesnt-on-docker-desktop">What works and what doesn't on Docker Desktop</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Status</th>
+<th>Workaround</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cloud integrations (Ring, Tuya, Alexa Devices)</td>
+<td>✅ Works</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Integrations you add by IP (Hue, TP-Link Kasa, LG/Samsung TVs, Android TV Remote, Jellyfin, Immich…)</td>
+<td>✅ Works</td>
+<td>Add them manually with their IP address.</td>
+</tr>
+<tr>
+<td>Google Cast discovery</td>
+<td>⚠️ Usually not found automatically</td>
+<td>In the Cast integration's options, set <strong>Known hosts</strong> to your Chromecasts' IP addresses.</td>
+</tr>
+<tr>
+<td>Zeroconf/mDNS auto-discovery in general</td>
+<td>❌ Mostly broken</td>
+<td>Docker's host networking only works on Linux hosts. On Docker Desktop it's an opt-in feature (4.34+) that runs inside the VM, so it isn't true LAN host networking.</td>
+</tr>
+<tr>
+<td>Govee <em>local</em> (LAN API uses multicast)</td>
+<td>⚠️ Expect trouble</td>
+<td>Use Govee BLE through an ESPHome Bluetooth proxy (§15), or try the integration and see.</td>
+</tr>
+<tr>
+<td>USB Zigbee/Thread dongles</td>
+<td>❌ No simple passthrough</td>
+<td>Use a <strong>network coordinator</strong> (Ethernet/PoE Zigbee, for example SMLIGHT SLZB-06) that Zigbee2MQTT/ZHA reach over TCP.</td>
+</tr>
+<tr>
+<td>Bluetooth</td>
+<td>❌</td>
+<td>Use <strong>ESPHome Bluetooth proxies</strong>: cheap ESP32 boards that relay BLE over Wi-Fi.</td>
+</tr>
+<tr>
+<td>Matter / Thread</td>
+<td>❌ Needs real host networking and IPv6</td>
+<td>Use one of the "level up" options below.</td>
+</tr>
+<tr>
+<td>Apps (formerly add-ons)</td>
+<td>❌ Only on HA OS</td>
+<td>Run them as <strong>sidecar containers</strong> (see the compose file below).</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="level-up-optional-get-real-host-networking">Level up (optional): get real host networking</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Effort</th>
+<th>What you gain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Stay on Docker Desktop</strong></td>
+<td>None</td>
+<td>Fine for cloud and IP-based devices. Skip Matter.</td>
+</tr>
+<tr>
+<td><strong>B. Docker Engine inside a WSL2 distro with mirrored networking</strong></td>
+<td>🧪 Medium</td>
+<td>Windows 11 22H2+ supports <code>networkingMode=mirrored</code> in <code>.wslconfig</code>, which mirrors the Windows network interfaces into Linux and supports multicast. Docker Desktop itself <strong>doesn't use</strong> mirrored mode, so you run plain Docker Engine inside Ubuntu-on-WSL instead. A community guide recommends this exact setup ("don't use Docker Desktop for HA"). Your <code>/config</code> folder moves over unchanged.</td>
+</tr>
+<tr>
+<td><strong>C. Move HA to your Arduino UNO Q</strong></td>
+<td>Medium</td>
+<td>It runs Debian Linux with Docker, so <code>--network=host</code> really works, and a published tutorial runs HA Container on it. It also has 4 GB RAM and a built-in microcontroller you can control over MQTT.</td>
+</tr>
+<tr>
+<td><strong>D. Buy a dedicated box</strong> (HA Green, N100 mini PC)</td>
+<td>💸 Low</td>
+<td>Full HA OS with Apps.</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-ini"># Option B: C:\Users\&lt;you&gt;\.wslconfig   (then run: wsl --shutdown)
+[wsl2]
+networkingMode=mirrored
+</code></pre>
+<h3 id="apps-sidecar-containers-add-these-to-your-compose-file">"Apps" → sidecar containers (add these to your compose file)</h3>
+<pre><code class="language-yaml"># docker-compose.yml: add these next to your existing homeassistant service
+services:
+  mosquitto:            # MQTT broker (replaces the Mosquitto App)
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports: [&quot;1883:1883&quot;]
+    volumes:
+      - ./mosquitto/config:/mosquitto/config   # add mosquitto.conf with listener + password_file
+      - ./mosquitto/data:/mosquitto/data
+
+  zigbee2mqtt:          # Zigbee without USB: point it at a network coordinator
+    image: ghcr.io/koenkk/zigbee2mqtt
+    restart: unless-stopped
+    ports: [&quot;8080:8080&quot;]
+    volumes: [&quot;./z2m:/app/data&quot;]   # in configuration.yaml: serial.port: tcp://&lt;coordinator-ip&gt;:6638
+
+  esphome:              # DIY firmware dashboard
+    image: ghcr.io/esphome/esphome
+    restart: unless-stopped
+    ports: [&quot;6052:6052&quot;]
+    environment: [ESPHOME_DASHBOARD_USE_PING=true]   # mDNS is broken on Docker Desktop, so check online status by ping
+    volumes: [&quot;./esphome:/config&quot;]
+
+  whisper:              # local speech-to-text (Wyoming)
+    image: rhasspy/wyoming-whisper
+    command: --model tiny-int8 --language en
+    restart: unless-stopped
+    volumes: [&quot;./whisper:/data&quot;]
+
+  piper:                # local text-to-speech (Wyoming)
+    image: rhasspy/wyoming-piper
+    command: --voice en_US-lessac-medium
+    restart: unless-stopped
+    volumes: [&quot;./piper:/data&quot;]
+
+  openwakeword:         # &quot;Okay Nabu&quot; style wake words
+    image: rhasspy/wyoming-openwakeword
+    restart: unless-stopped
+
+  nodered:              # visual automations (optional)
+    image: nodered/node-red
+    restart: unless-stopped
+    ports: [&quot;1880:1880&quot;]
+    volumes: [&quot;./nodered:/data&quot;]
+</code></pre>
+<ul>
+<li><strong>Adding Wyoming services:</strong> go to Settings → Devices &amp; services → <em>Wyoming Protocol</em>. Use host <code>whisper</code> (port 10300), <code>piper</code> (10200) or <code>openwakeword</code> (10400). Service names resolve because they're in the same compose project.</li>
+<li><strong>Replacing the File editor App:</strong> open the bind-mounted <code>config</code> folder in VS Code on Windows.</li>
+<li>⚡ <strong>Backups:</strong> the built-in backup works on Container. Point <strong>Syncthing</strong> (which you already run) at the <code>config/backups</code> folder so every backup is copied to another device automatically.</li>
+</ul>
+<hr />
+</section><section class="panel"><h2 id="03-remote-access-hardening">03 · Remote access &amp; hardening</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> you already have the best free remote access: <strong>Tailscale</strong>. Don't port-forward 8123. Turn on MFA, give family members non-admin accounts, and <strong>check which IP failed logins come from before you enable <code>ip_ban</code></strong> (on Docker Desktop it might be the Docker gateway, and then you'd ban everyone).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Price</th>
+<th>FOSS?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tailscale</strong> (you have it)</td>
+<td>Free personal plan</td>
+<td>Clients are open source, the coordination server isn't</td>
+<td>The Companion app works over your tailnet. There's also an official <strong>Tailscale integration</strong> that shows device status.</td>
+</tr>
+<tr>
+<td><strong>Headscale</strong></td>
+<td>Free</td>
+<td>✅</td>
+<td>Self-hosted Tailscale control server, for full FOSS.</td>
+</tr>
+<tr>
+<td><strong>WireGuard</strong></td>
+<td>Free</td>
+<td>✅</td>
+<td>Plain VPN. Needs a forwarded UDP port.</td>
+</tr>
+<tr>
+<td><strong>Cloudflare Tunnel</strong></td>
+<td>Free</td>
+<td>❌</td>
+<td>Public HTTPS without opening ports.</td>
+</tr>
+<tr>
+<td><strong>Homeway</strong></td>
+<td>Free tier, $3.49/mo supporter tier</td>
+<td>❌</td>
+<td>Remote access, free Alexa/Google bridging and a cloud MCP server.</td>
+</tr>
+<tr>
+<td>💸 <strong>Home Assistant Cloud (Nabu Casa)</strong></td>
+<td>~$6.50/mo or $65/yr</td>
+<td>—</td>
+<td>The easiest option, and the money <strong>funds Home Assistant development</strong>. Worth it if you want to support the project.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="hardening-checklist">Hardening checklist ✅</h3>
+<ul>
+<li class="todo"><input type="checkbox"> <strong>MFA:</strong> go to your Profile → Security → enable a TOTP authenticator (an app like 2FAS or Aegis works).</li>
+<li class="todo"><input type="checkbox"> <strong>Separate accounts:</strong> your admin account for you, and <strong>non-admin</strong> users for family (they can still use dashboards).</li>
+<li class="todo"><input type="checkbox"> <strong>No port forwarding.</strong> Reach HA only through Tailscale.</li>
+<li class="todo"><input type="checkbox"> <strong>Reverse proxy (Nginx Proxy Manager)?</strong> Add <code>trusted_proxies</code>, or HA will reject the proxied requests:</li>
+</ul>
+<pre><code class="language-yaml"># configuration.yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.16.0.0/12      # Docker networks: narrow this to NPM's actual subnet
+    - 127.0.0.1
+  # Turn these on only AFTER checking that failed-login notifications show the real client IP
+  # (on Docker Desktop they may all show the same gateway IP, and then you'd lock yourself out):
+  # ip_ban_enabled: true
+  # login_attempts_threshold: 5
+</code></pre>
+<ul>
+<li class="todo"><input type="checkbox"> <strong>Secrets:</strong> keep passwords and tokens in <code>secrets.yaml</code>, and add it to <code>.gitignore</code> before you push your config to GitHub. Run <strong>gitleaks</strong> on the repo first.</li>
+<li class="todo"><input type="checkbox"> <strong>Tokens:</strong> each long-lived access token (Homepage, n8n, Matter Hub, ha-fusion) gets its <strong>own</strong> name, so you can revoke one without breaking the others.</li>
+<li class="todo"><input type="checkbox"> <strong>Future IoT VLAN:</strong> when the Ubiquiti gear arrives, put IoT devices on their own VLAN and allow only HA → IoT traffic.</li>
+</ul>
+<hr />
+</section><section class="panel"><h2 id="04-marketplace-starter-pack">04 · Marketplace starter pack</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> install these first. Everything else in this guide builds on them.</p>
+<div class="gallery"><article class="card" data-search="  mushroom   clean, rounded cards and chips with a visual editor. the classic first upgrade. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/5878303/152332130-760cf616-5c40-4825-a482-bb8f1f0f5251.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/piitaya/lovelace-mushroom" target="_blank" rel="noopener">Mushroom</a></strong></h4><p>Clean, rounded cards and chips with a visual editor. The classic first upgrade.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/piitaya/lovelace-mushroom?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  bubble card   pop-ups that slide up from the bottom, sliders and separators, so your dashboard feels like a native app. huge on reddit. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/Clooos/Bubble-Card/main/.github/bubble-card.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/Clooos/Bubble-Card" target="_blank" rel="noopener">Bubble Card</a></strong></h4><p>Pop-ups that slide up from the bottom, sliders and separators, so your dashboard feels like a native app. Huge on Reddit.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Clooos/Bubble-Card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  card-mod   apply css to any card. needed for blur, glow and glass effects. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/1299821/109144175-23239680-7761-11eb-8c1c-1e33139aa582.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/thomasloven/lovelace-card-mod" target="_blank" rel="noopener">card-mod</a></strong></h4><p>Apply CSS to any card. Needed for blur, glow and glass effects.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/thomasloven/lovelace-card-mod?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  uix (ui extension)   built on card-mod&#x27;s ideas, it styles (nearly) any frontend element and adds templating (&quot;forge&quot;) and event wiring (&quot;broker&quot;). marketplace"><figure class="shot noimg"><span class="orb">U</span></figure><div class="body"><h4><strong><a href="https://github.com/Lint-Free-Technology/uix" target="_blank" rel="noopener">UIX (UI eXtension)</a></strong></h4><p>Built on card-mod's ideas, it styles (nearly) any frontend element and adds templating ("Forge") and event wiring ("Broker").</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Lint-Free-Technology/uix?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  button-card   the most flexible card there is. behind most &quot;how did they make that?!&quot; dashboards. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/custom-cards/button-card/HEAD/examples/all.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/custom-cards/button-card" target="_blank" rel="noopener">button-card</a></strong></h4><p>The most flexible card there is. Behind most "how did they make that?!" dashboards.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/custom-cards/button-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  layout-card   grid and masonry layouts with breakpoints for tablet, phone and desktop. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/1299821/111066590-11abef80-84c0-11eb-809b-2843fd8610d8.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">L</span></figure><div class="body"><h4><strong><a href="https://github.com/thomasloven/lovelace-layout-card" target="_blank" rel="noopener">layout-card</a></strong></h4><p>Grid and masonry layouts with breakpoints for tablet, phone and desktop.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/thomasloven/lovelace-layout-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  browser_mod   treat each browser or tablet as a device: pop-ups, navigation and kiosk control. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/1299821/188604118-ed2ad79c-0286-4392-b7be-cbc9c3f2ffd8.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/thomasloven/hass-browser_mod" target="_blank" rel="noopener">browser_mod</a></strong></h4><p>Treat each browser or tablet as a device: pop-ups, navigation and kiosk control.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/thomasloven/hass-browser_mod?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  auto-entities   cards that fill themselves from filters (for example, &quot;every light that&#x27;s on&quot;). marketplace"><figure class="shot noimg"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/thomasloven/lovelace-auto-entities" target="_blank" rel="noopener">auto-entities</a></strong></h4><p>Cards that fill themselves from filters (for example, "every light that's on").</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/thomasloven/lovelace-auto-entities?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  spook 👻   extra actions plus  repairs  that find broken entity references after you rename things. marketplace"><figure class="shot noimg"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/frenck/spook" target="_blank" rel="noopener">Spook 👻</a></strong></h4><p>Extra actions plus <em>repairs</em> that find broken entity references after you rename things.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/frenck/spook?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  adaptive lighting   lights change color temperature with the sun all day. set it once and forget it. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/2219836/228949675-f9699624-8abc-466c-bb04-250ce0f495b8.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/basnijholt/adaptive-lighting" target="_blank" rel="noopener">Adaptive Lighting</a></strong></h4><p>Lights change color temperature with the sun all day. Set it once and forget it.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/basnijholt/adaptive-lighting?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  powercalc   estimates power use for devices that have no meter, so your energy dashboard works without smart plugs. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/bramstroker/homeassistant-powercalc/master/docs/source/img/preview.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://github.com/bramstroker/homeassistant-powercalc" target="_blank" rel="noopener">Powercalc</a></strong></h4><p>Estimates power use for devices that have no meter, so your energy dashboard works without smart plugs.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/bramstroker/homeassistant-powercalc?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  watchman   reports missing entities and actions in your yaml, like a linter for your config. marketplace"><figure class="shot noimg"><span class="orb">W</span></figure><div class="body"><h4><strong><a href="https://github.com/dummylabs/thewatchman" target="_blank" rel="noopener">Watchman</a></strong></h4><p>Reports missing entities and actions in your YAML, like a linter for your config.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dummylabs/thewatchman?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+<hr />
+</section><section class="panel"><h2 id="05-connect-your-stuff">05 · Connect your stuff</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> nearly everything you own has an <strong>official</strong> integration. Cloud ones work on Docker Desktop as they are, and local ones need an IP address.</p>
+<h3 id="your-devices">Your devices</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Integration</th>
+<th>Type</th>
+<th>Docker Desktop note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Echo / Alexa</td>
+<td><strong>Alexa Devices</strong> (official since 2025.6): announcements, TTS, DND, sensors</td>
+<td>Cloud</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Echo (advanced)</td>
+<td><a href="https://github.com/alandtse/alexa_media_player" target="_blank" rel="noopener">Alexa Media Player</a> (Marketplace)</td>
+<td>Cloud</td>
+<td>✅ Only if you need features the official one lacks</td>
+</tr>
+<tr>
+<td>Ring</td>
+<td><strong>Ring</strong> (official) + <a href="https://github.com/tsightler/ring-mqtt" target="_blank" rel="noopener">ring-mqtt</a> for extras</td>
+<td>Cloud</td>
+<td>✅ Read the 2026.11 breaking-change notes for Ring</td>
+</tr>
+<tr>
+<td>Chromecast / Google speakers</td>
+<td><strong>Google Cast</strong> + <strong>Google Assistant SDK</strong> (broadcasts)</td>
+<td>Local / Cloud</td>
+<td>⚠️ Set <em>Known hosts</em></td>
+</tr>
+<tr>
+<td>Philips Hue</td>
+<td><strong>Philips Hue</strong></td>
+<td>Local push</td>
+<td>✅ Add the bridge by IP</td>
+</tr>
+<tr>
+<td>Kasa / TP-Link</td>
+<td><strong>TP-Link Smart Home</strong></td>
+<td>Local</td>
+<td>✅ Add by IP</td>
+</tr>
+<tr>
+<td>Govee</td>
+<td><strong>Govee lights local</strong> / <strong>Govee Bluetooth</strong></td>
+<td>Local</td>
+<td>⚠️ Multicast; BLE needs a proxy</td>
+</tr>
+<tr>
+<td>Tuya</td>
+<td><strong>Tuya</strong> (official, cloud) or <a href="https://github.com/make-all/tuya-local" target="_blank" rel="noopener">tuya-local</a> / <a href="https://github.com/xZetsubou/hass-localtuya" target="_blank" rel="noopener">LocalTuya</a></td>
+<td>Cloud / Local</td>
+<td>✅ / ✅ by IP</td>
+</tr>
+<tr>
+<td>Smart TV</td>
+<td><strong>LG webOS</strong>, <strong>Samsung Smart TV</strong>, <strong>Android TV Remote</strong></td>
+<td>Local</td>
+<td>✅ Add by IP</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="your-homelab-inside-home-assistant">Your homelab, inside Home Assistant 🧪</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Integration</th>
+<th>Cool idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uptime Kuma</td>
+<td><strong>Uptime Kuma</strong> (official)</td>
+<td>If a monitor goes down: lights flash red and an ntfy alert goes out (§11)</td>
+</tr>
+<tr>
+<td>Jellyfin</td>
+<td><strong>Jellyfin</strong> (official)</td>
+<td>"Movie mode": when playback starts, dim the lights and close the blinds</td>
+</tr>
+<tr>
+<td>Immich</td>
+<td><strong>Immich</strong> (official)</td>
+<td>Photo slideshow on a wall tablet, plus storage stats</td>
+</tr>
+<tr>
+<td>Seerr</td>
+<td><strong>Seerr</strong> (official, formerly Overseerr)</td>
+<td>Announce on the Echo when a requested movie is ready</td>
+</tr>
+<tr>
+<td>Sonarr / Radarr / qBittorrent</td>
+<td>official</td>
+<td>Pause torrents automatically when you start gaming</td>
+</tr>
+<tr>
+<td>Syncthing</td>
+<td>official</td>
+<td>Alert when a folder stops syncing</td>
+</tr>
+<tr>
+<td>ntfy</td>
+<td><strong>ntfy</strong> (official)</td>
+<td>Your main notification channel, no Google needed</td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td><strong>Ollama</strong> (official)</td>
+<td>A local LLM brain for voice (§12)</td>
+</tr>
+<tr>
+<td>Tailscale</td>
+<td><strong>Tailscale</strong> (official)</td>
+<td>Alert when a device has been offline for 24 hours</td>
+</tr>
+<tr>
+<td>n8n</td>
+<td>n8n's Home Assistant node + HA webhooks</td>
+<td>Complex workflows (RSS → TTS morning brief)</td>
+</tr>
+<tr>
+<td>Claude / AI agents</td>
+<td><strong>Model Context Protocol Server</strong> (official)</td>
+<td>Let an MCP client control the home entities you choose</td>
+</tr>
+<tr>
+<td>Homepage</td>
+<td>Homepage's Home Assistant widget</td>
+<td>Show HA stats on your Homepage dashboard</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="control-ha-from-alexa-or-google-for-free-no-nabu-casa">Control HA <em>from</em> Alexa or Google for free (no Nabu Casa)</h3>
+<ul>
+<li><strong><a href="https://github.com/RiDDiX/home-assistant-matter-hub" target="_blank" rel="noopener">Home-Assistant-Matter-Hub</a></strong> (RiDDiX fork). Publishes HA entities as Matter devices to Alexa, Google Home or Apple Home, locally. The original t0bst4r project ended in <strong>January 2026</strong>, so use this maintained fork. Docker image: <code>ghcr.io/riddix/home-assistant-matter-hub</code>. ⚠️ Matter needs mDNS, so expect to need option B or C from §02.</li>
+<li><strong>Emulated Hue</strong> (built in): pretends to be a Hue bridge for basic on/off control with Alexa.</li>
+<li><strong>Manual Alexa Smart Home skill:</strong> free, but expect 1–2 hours of AWS console setup.</li>
+</ul>
+<hr />
+</section><section class="panel"><h2 id="06-dashboards-from-default-to-drop-dead">06 · Dashboards: from default to drop-dead</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> start with the built-in <strong>Sections</strong> view and <strong>tile cards</strong> (they've improved a lot). Add Mushroom and Bubble Card on top. When you're bored, try a whole <em>framework</em> or a standalone dashboard app.</p>
+<h3 id="the-5-step-recipe">The 5-step recipe</h3>
+<ol>
+<li><strong>New dashboard:</strong> Settings → Dashboards → <em>Add</em> → <strong>Sections</strong>.</li>
+<li><strong>Header row:</strong> Mushroom <em>chips</em> for weather, who's home, alarm state and server status.</li>
+<li><strong>Room sections:</strong> one per room, with up to 4 tile or Mushroom cards each (matt8707's rule of thumb is to keep groups even).</li>
+<li><strong>Details go in pop-ups:</strong> a Bubble Card pop-up per room keeps the main view clean.</li>
+<li><strong>Theme + background:</strong> Frosted Glass or the DIY <em>Aero Glass</em> theme (§08) over a sky gradient.</li>
+</ol>
+<h3 id="frameworks-dashboard-apps">Frameworks &amp; dashboard apps</h3>
+<div class="gallery"><article class="card" data-search="  fluvy   redesigns all of ha: 52 styled cards, 5 automatic dashboards, 15 palettes. needs ha 2026.9+. marketplace custom repo (integration)"><figure class="shot"><img src="https://raw.githubusercontent.com/acosta290/fluvy/main/docs/images/readme/hero.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">F</span></figure><div class="body"><h4><strong><a href="https://github.com/acosta290/fluvy" target="_blank" rel="noopener">Fluvy</a></strong></h4><p>Redesigns all of HA: 52 styled cards, 5 automatic dashboards, 15 palettes. Needs HA 2026.9+.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo (Integration)</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/acosta290/fluvy?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  dashhaus   two complete looks (&quot;orb&quot; round and soft, &quot;field&quot; hardware-panel style) with no yaml. first shown on reddit. marketplace custom repo (dashboard)"><figure class="shot"><img src="https://raw.githubusercontent.com/Krystosterone/dashhaus/HEAD/docs/src/assets/skins/phone-orb-light.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">D</span></figure><div class="body"><h4><strong><a href="https://github.com/Krystosterone/dashhaus" target="_blank" rel="noopener">Dashhaus</a></strong></h4><p>Two complete looks ("Orb" round and soft, "Field" hardware-panel style) with no YAML. First shown on Reddit.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo (Dashboard)</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Krystosterone/dashhaus?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ui lovelace minimalist   the famous rounded minimalist card framework. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/UI-Lovelace-Minimalist/UI/main/docs/assets/img/example_home.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">U</span></figure><div class="body"><h4><strong><a href="https://github.com/UI-Lovelace-Minimalist/UI" target="_blank" rel="noopener">UI Lovelace Minimalist</a></strong></h4><p>The famous rounded minimalist card framework.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/UI-Lovelace-Minimalist/UI?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  dwains dashboard next   builds dashboards automatically from your areas. (dd3 is being phased out, so use next.) marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/dwainscheeren/dwains-dashboard-next/HEAD/docs/media/dd-next-1.11-home-areas.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">D</span></figure><div class="body"><h4><strong><a href="https://github.com/dwainscheeren/dwains-dashboard-next" target="_blank" rel="noopener">Dwains Dashboard Next</a></strong></h4><p>Builds dashboards automatically from your areas. (DD3 is being phased out, so use Next.)</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dwainscheeren/dwains-dashboard-next?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  simon42 dashboard strategy   a dashboard  strategy  that creates itself from your rooms. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/TheRealSimon42/simon42-dashboard-strategy/main/assets/Screenshot-simon42-strategy.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/TheRealSimon42/simon42-dashboard-strategy" target="_blank" rel="noopener">simon42 Dashboard Strategy</a></strong></h4><p>A dashboard <em>strategy</em> that creates itself from your rooms.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/TheRealSimon42/simon42-dashboard-strategy?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ha-fusion   a separate sveltekit app with drag-and-drop editing and slide-to-dim. this is the maintained fork of matt8707&#x27;s original. docker container"><figure class="shot"><img src="https://raw.githubusercontent.com/knowald/ha-fusion/HEAD/static/preview.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/knowald/ha-fusion" target="_blank" rel="noopener">ha-fusion</a></strong></h4><p>A separate SvelteKit app with drag-and-drop editing and slide-to-dim. This is the maintained fork of matt8707's original.</p><div class="meta"><span class="pill" title="Get it">Docker container</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/knowald/ha-fusion?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  tunet   react dashboard with a drag-and-drop grid and energy views.  docker compose up -d . docker container"><figure class="shot"><img src="https://raw.githubusercontent.com/oyvhov/tunet/HEAD/public/Main.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">T</span></figure><div class="body"><h4><strong><a href="https://github.com/oyvhov/tunet" target="_blank" rel="noopener">Tunet</a></strong></h4><p>React dashboard with a drag-and-drop grid and energy views. <code>docker compose up -d</code>.</p><div class="meta"><span class="pill" title="Get it">Docker container</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/oyvhov/tunet?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  homie dashboard   touch-first wall-tablet app with full-screen music, calendar, camera and solar modes. ⚠️ stores a token in plain text, so give it its own user. marketplace custom repo"><figure class="shot noimg"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/Big-Edge2297/homie-dashboard" target="_blank" rel="noopener">Homie Dashboard</a></strong></h4><p>Touch-first wall-tablet app with full-screen music, calendar, camera and solar modes. ⚠️ Stores a token in plain text, so give it its own user.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Big-Edge2297/homie-dashboard?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  hemma   mobile-first yaml dashboard inspired by homio. manual yaml"><figure class="shot"><img src="https://raw.githubusercontent.com/willsanderson/Hemma/HEAD/docs/images/hero-light.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/willsanderson/Hemma" target="_blank" rel="noopener">Hemma</a></strong></h4><p>Mobile-first YAML dashboard inspired by Homio.</p><div class="meta"><span class="pill" title="Get it">Manual YAML</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/willsanderson/Hemma?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+<hr />
+</section><section class="panel"><h2 id="07-the-card-gallery">07 · The card gallery</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> browse, install from the Marketplace, and add with the card picker. Use the search box at the top of the site to filter.</p>
+<div class="gallery"><article class="card" data-search="  clock weather card   big clock, animated weather icons and a forecast bar. perfect for a wall tablet. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/pkissling/clock-weather-card/HEAD/docs/previews/hero.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/pkissling/clock-weather-card" target="_blank" rel="noopener">Clock Weather Card</a></strong></h4><p>Big clock, animated weather icons and a forecast bar. Perfect for a wall tablet.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/pkissling/clock-weather-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mini-graph-card   small, smooth sensor graphs. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/457678/52977264-edf34980-33cc-11e9-903b-cee43b307ed8.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/kalkih/mini-graph-card" target="_blank" rel="noopener">mini-graph-card</a></strong></h4><p>Small, smooth sensor graphs.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/kalkih/mini-graph-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  apexcharts card   serious charts: multiple y axes, data transforms, &quot;now&quot; markers. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/RomRider/apexcharts-card/master/docs/Header.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/RomRider/apexcharts-card" target="_blank" rel="noopener">ApexCharts Card</a></strong></h4><p>Serious charts: multiple Y axes, data transforms, "now" markers.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/RomRider/apexcharts-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  plotly graph card   zoomable, pannable, interactive history. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/dbuezas/lovelace-plotly-graph-card/HEAD/docs/resources/example1.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://github.com/dbuezas/lovelace-plotly-graph-card" target="_blank" rel="noopener">Plotly Graph Card</a></strong></h4><p>Zoomable, pannable, interactive history.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dbuezas/lovelace-plotly-graph-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  power flow card plus   animated energy flow between grid, solar, battery and home. marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/61006057/227771568-78497ecc-e863-46f2-b29e-e15c7c20a154.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://github.com/flixlix/power-flow-card-plus" target="_blank" rel="noopener">Power Flow Card Plus</a></strong></h4><p>Animated energy flow between grid, solar, battery and home.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/flixlix/power-flow-card-plus?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  sankey chart   where your watts go, room by room, as a sankey diagram. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/MindFreeze/ha-sankey-chart/HEAD/img/example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/MindFreeze/ha-sankey-chart" target="_blank" rel="noopener">Sankey Chart</a></strong></h4><p>Where your watts go, room by room, as a sankey diagram.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/MindFreeze/ha-sankey-chart?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mini media player   compact media controls with artwork backgrounds (great with jellyfin). marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/457678/47517460-9282d600-d888-11e8-9705-cf9ec3698c3c.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/kalkih/mini-media-player" target="_blank" rel="noopener">Mini Media Player</a></strong></h4><p>Compact media controls with artwork backgrounds (great with Jellyfin).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/kalkih/mini-media-player?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  universal remote card   build a tv remote with a touchpad, d-pad and app shortcuts. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/Nerwyn/universal-remote-card/main/assets/screenshot.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">U</span></figure><div class="body"><h4><strong><a href="https://github.com/Nerwyn/universal-remote-card" target="_blank" rel="noopener">Universal Remote Card</a></strong></h4><p>Build a TV remote with a touchpad, D-pad and app shortcuts.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Nerwyn/universal-remote-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  horizon card   sun (and moon) arc across the sky with rise and set times. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/rejuvenate/lovelace-horizon-card/main/images/full-dark.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/rejuvenate/lovelace-horizon-card" target="_blank" rel="noopener">Horizon Card</a></strong></h4><p>Sun (and moon) arc across the sky with rise and set times.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/rejuvenate/lovelace-horizon-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  big slider card   a whole-card brightness slider: swipe to dim. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/assets/preview-default-light.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/nicufarmache/lovelace-big-slider-card" target="_blank" rel="noopener">Big Slider Card</a></strong></h4><p>A whole-card brightness slider: swipe to dim.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/nicufarmache/lovelace-big-slider-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  atomic calendar revive   a much nicer calendar card. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/totaldebug/atomic-calendar-revive/master/.github/img/atomic_calendar_revive.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/totaldebug/atomic-calendar-revive" target="_blank" rel="noopener">Atomic Calendar Revive</a></strong></h4><p>A much nicer calendar card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/totaldebug/atomic-calendar-revive?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  scheduler card   +  component  schedules your family can edit, without writing automations. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/nielsfaber/scheduler-card/main/screenshots/Demonstration.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/nielsfaber/scheduler-card" target="_blank" rel="noopener">Scheduler Card</a></strong> + <a href="https://github.com/nielsfaber/scheduler-component" target="_blank" rel="noopener">component</a></h4><p>Schedules your family can edit, without writing automations.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/nielsfaber/scheduler-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  kiosk mode   hides the header and sidebar for wall tablets. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/NemesisRE/kiosk-mode/HEAD/example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">K</span></figure><div class="body"><h4><strong><a href="https://github.com/NemesisRE/kiosk-mode" target="_blank" rel="noopener">Kiosk Mode</a></strong></h4><p>Hides the header and sidebar for wall tablets.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/NemesisRE/kiosk-mode?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  navbar card   app-style bottom navigation bar. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/joseluis9595/lovelace-navbar-card/HEAD/docs/content/img/navbar-card-hero-rounded.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">N</span></figure><div class="body"><h4><strong><a href="https://github.com/joseluis9595/lovelace-navbar-card" target="_blank" rel="noopener">Navbar Card</a></strong></h4><p>App-style bottom navigation bar.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/joseluis9595/lovelace-navbar-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  streamline card   reusable card templates, so you stop copy-pasting yaml. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/brunosabot/streamline-card/HEAD/images/hero.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/brunosabot/streamline-card" target="_blank" rel="noopener">Streamline Card</a></strong></h4><p>Reusable card templates, so you stop copy-pasting YAML.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/brunosabot/streamline-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  stack in card   merges several cards into one seamless card. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/custom-cards/stack-in-card/HEAD/docs/Example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/custom-cards/stack-in-card" target="_blank" rel="noopener">Stack In Card</a></strong></h4><p>Merges several cards into one seamless card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/custom-cards/stack-in-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  custom card features   adds custom buttons, sliders and selectors to the  native  tile card. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/Nerwyn/custom-card-features/main/assets/example_tile.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/Nerwyn/custom-card-features" target="_blank" rel="noopener">Custom Card Features</a></strong></h4><p>Adds custom buttons, sliders and selectors to the <em>native</em> tile card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Nerwyn/custom-card-features?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  multiple entity row   several values on one entity row. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/benct/lovelace-multiple-entity-row/master/example.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/benct/lovelace-multiple-entity-row" target="_blank" rel="noopener">Multiple Entity Row</a></strong></h4><p>Several values on one entity row.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/benct/lovelace-multiple-entity-row?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  swiss army knife card   svg-based gauges and widgets you design yourself. very niche, very pretty. marketplace"><figure class="shot noimg"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/AmoebeLabs/swiss-army-knife-card" target="_blank" rel="noopener">Swiss Army Knife Card</a></strong></h4><p>SVG-based gauges and widgets you design yourself. Very niche, very pretty.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/AmoebeLabs/swiss-army-knife-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ha-floorplan   interactive svg floorplans (rooms light up when lights are on). marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/3549445/293683009-196cd771-7d29-4975-a741-0a5c8a76e095.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/ExperienceLovelace/ha-floorplan" target="_blank" rel="noopener">ha-floorplan</a></strong></h4><p>Interactive SVG floorplans (rooms light up when lights are on).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/ExperienceLovelace/ha-floorplan?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  xiaomi vacuum map card   live vacuum map with zone cleaning (works with many brands). marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card/master/docs/media/tiles.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">X</span></figure><div class="body"><h4><strong><a href="https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card" target="_blank" rel="noopener">Xiaomi Vacuum Map Card</a></strong></h4><p>Live vacuum map with zone cleaning (works with many brands).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/PiotrMachowski/lovelace-xiaomi-vacuum-map-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  advanced camera card   camera views with a timeline, clips and ptz (formerly the frigate card). marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/dermotduffy/advanced-camera-card/main/docs/images/advanced-camera-card.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://github.com/dermotduffy/advanced-camera-card" target="_blank" rel="noopener">Advanced Camera Card</a></strong></h4><p>Camera views with a timeline, clips and PTZ (formerly the Frigate card).</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dermotduffy/advanced-camera-card?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+<hr />
+</section><section class="panel"><h2 id="08-themes-and-a-diy-frutiger-aero-theme">08 · Themes (and a DIY Frutiger Aero theme)</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> <strong>Frosted Glass</strong> is the closest ready-made match to a Frutiger Aero look. For the full glossy-sky-and-grass vibe, paste the <strong>Aero Glass</strong> theme below.</p>
+<p><strong>Setup once:</strong> add this to <code>configuration.yaml</code>, create <code>/config/themes</code>, then restart:</p>
+<pre><code class="language-yaml">frontend:
+  themes: !include_dir_merge_named themes
+</code></pre>
+<p>Pick a theme under <strong>Profile → Theme</strong> and set the mode to <em>Auto</em> for themes with light and dark variants.</p>
+<div class="gallery"><article class="card" data-search="  frosted glass   transparent, blurred cards over a background image. light, dark and &quot;lite&quot; (no blur, for old tablets). needs card-mod or uix. marketplace"><figure class="shot noimg"><span class="orb">F</span></figure><div class="body"><h4><strong><a href="https://github.com/wessamlauf/homeassistant-frosted-glass-themes" target="_blank" rel="noopener">Frosted Glass</a></strong></h4><p>Transparent, blurred cards over a background image. Light, dark and "Lite" (no blur, for old tablets). Needs card-mod or UIX.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/wessamlauf/homeassistant-frosted-glass-themes?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  simple dreams   a layered landscape illustration with glass cards at the top. tablet-first. manual"><figure class="shot noimg"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/dizzydnallov/simple_dreams" target="_blank" rel="noopener">Simple Dreams</a></strong></h4><p>A layered landscape illustration with glass cards at the top. Tablet-first.</p><div class="meta"><span class="pill" title="Get it">Manual</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/dizzydnallov/simple_dreams?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  catppuccin   pastel palettes (latte, frappé, macchiato, mocha) that even style the code editors. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/catppuccin/home-assistant/HEAD/assets/preview.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/catppuccin/home-assistant" target="_blank" rel="noopener">Catppuccin</a></strong></h4><p>Pastel palettes (Latte, Frappé, Macchiato, Mocha) that even style the code editors.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/catppuccin/home-assistant?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ios themes   apple home look, 28 variants with wallpapers. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/basnijholt/lovelace-ios-themes/media/screenshots/overview.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">I</span></figure><div class="body"><h4><strong><a href="https://github.com/basnijholt/lovelace-ios-themes" target="_blank" rel="noopener">iOS Themes</a></strong></h4><p>Apple Home look, 28 variants with wallpapers.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/basnijholt/lovelace-ios-themes?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  graphite   calm and minimal, with  e-ink  variants for e-paper screens. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/screenshot/dark.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">G</span></figure><div class="body"><h4><strong><a href="https://github.com/TilmanGriesel/graphite" target="_blank" rel="noopener">Graphite</a></strong></h4><p>Calm and minimal, with <strong>E-Ink</strong> variants for e-paper screens.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/TilmanGriesel/graphite?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  noctis   the classic dark-blue theme. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/aFFekopp/noctis/master/docs/screenshots/pc/1.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">N</span></figure><div class="body"><h4><strong><a href="https://github.com/aFFekopp/noctis" target="_blank" rel="noopener">Noctis</a></strong></h4><p>The classic dark-blue theme.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/aFFekopp/noctis?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  material you   material design 3 expressive, with colors generated from a seed color. matches your android phone. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/Nerwyn/material-you-utilities/main/assets/headline.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/Nerwyn/material-you-utilities" target="_blank" rel="noopener">Material You</a></strong></h4><p>Material Design 3 Expressive, with colors generated from a seed color. Matches your Android phone.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Nerwyn/material-you-utilities?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  ha-lcars   star trek lcars. your house becomes a starship. 🖖 marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/38670315/210792537-f25c740d-1ad3-4ac7-8a31-59ad04cf38fb.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/th3jesta/ha-lcars" target="_blank" rel="noopener">HA-LCARS</a></strong></h4><p>Star Trek LCARS. Your house becomes a starship. 🖖</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/th3jesta/ha-lcars?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  cyberpunk 2077   neon hud look. load the rajdhani font to complete it. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/flejz/hass-cyberpunk-2077-theme/master/docs/theme-overview.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">C</span></figure><div class="body"><h4><strong><a href="https://github.com/flejz/hass-cyberpunk-2077-theme" target="_blank" rel="noopener">Cyberpunk 2077</a></strong></h4><p>Neon HUD look. Load the Rajdhani font to complete it.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/flejz/hass-cyberpunk-2077-theme?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  synthwave   neon pink and purple, &#x27;80s retro. marketplace"><figure class="shot"><img src="https://i.imgur.com/DHbESc9.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">S</span></figure><div class="body"><h4><strong><a href="https://github.com/bbbenji/synthwave-hass" target="_blank" rel="noopener">Synthwave</a></strong></h4><p>Neon pink and purple, '80s retro.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/bbbenji/synthwave-hass?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  dark theme pack   modern dark themes in 6 accent colors. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/awolkers/home-assistant-themes/master/docs/dark_turqoise.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">D</span></figure><div class="body"><h4><strong><a href="https://github.com/awolkers/home-assistant-themes" target="_blank" rel="noopener">Dark Theme Pack</a></strong></h4><p>Modern dark themes in 6 accent colors.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/awolkers/home-assistant-themes?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  neumorphism   soft, raised &quot;neumorphic&quot; ui, mobile-first. manual"><figure class="shot"><img src="https://raw.githubusercontent.com/VonWelter/neumorphism/HEAD/themes.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">N</span></figure><div class="body"><h4><strong><a href="https://github.com/VonWelter/neumorphism" target="_blank" rel="noopener">Neumorphism</a></strong></h4><p>Soft, raised "neumorphic" UI, mobile-first.</p><div class="meta"><span class="pill" title="Get it">Manual</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/VonWelter/neumorphism?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  google dark   google home app vibes. marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/JuanMTech/google_dark_theme/master/images/Google%20Dark%20Mode%201.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">G</span></figure><div class="body"><h4><strong><a href="https://github.com/JuanMTech/google_dark_theme" target="_blank" rel="noopener">Google Dark</a></strong></h4><p>Google Home app vibes.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/JuanMTech/google_dark_theme?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  gruvbox   warm, earthy retro palette with matching mushroom colors. marketplace"><figure class="shot noimg"><span class="orb">G</span></figure><div class="body"><h4><strong><a href="https://github.com/kizza/homeassistant-gruvbox-theme" target="_blank" rel="noopener">Gruvbox</a></strong></h4><p>Warm, earthy retro palette with matching Mushroom colors.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/kizza/homeassistant-gruvbox-theme?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mnml   minimal card set and theme; color only where it needs attention. marketplace custom repo"><figure class="shot noimg"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/bfmatei/ha-mnml" target="_blank" rel="noopener">MNML</a></strong></h4><p>Minimal card set and theme; color only where it needs attention.</p><div class="meta"><span class="pill" title="Get it">Marketplace custom repo</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/bfmatei/ha-mnml?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mushroom themes   themes tuned for mushroom (try &quot;mushroom shadow&quot;). marketplace"><figure class="shot"><img src="https://user-images.githubusercontent.com/5878303/152695688-9d705231-500c-49e7-82f5-69e206da95db.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/piitaya/lovelace-mushroom-themes" target="_blank" rel="noopener">Mushroom Themes</a></strong></h4><p>Themes tuned for Mushroom (try "Mushroom Shadow").</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/piitaya/lovelace-mushroom-themes?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+<h3 id="diy-the-aero-glass-theme-frutiger-aero-vibes">🫧 DIY: the "Aero Glass" theme (Frutiger Aero vibes)</h3>
+<p>Glossy sky-blue glass, aqua highlights and a grass-green accent, with <strong>no background image needed</strong> (the sky-to-grass gradient is pure CSS). It requires <strong>card-mod</strong> (for the blur). Save as <code>/config/themes/aero_glass.yaml</code>, then run the action <code>frontend.reload_themes</code>.</p>
+<pre><code class="language-yaml">Aero Glass:
+  card-mod-theme: Aero Glass
+  modes:
+    light:
+      primary-color: &quot;#0a84ff&quot;
+      accent-color: &quot;#34c759&quot;
+      primary-text-color: &quot;#05314f&quot;
+      secondary-text-color: &quot;#2c6a8c&quot;
+      lovelace-background: &gt;-
+        radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.9) 0%, transparent 45%),
+        linear-gradient(180deg, #3fb6f2 0%, #9fdcf7 42%, #d9f5ff 62%, #8fdc78 82%, #3fae4a 100%)
+      ha-card-background: &quot;linear-gradient(180deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.42) 52%, rgba(225,246,255,.55) 100%)&quot;
+      ha-card-border-radius: &quot;22px&quot;
+      ha-card-border-color: &quot;rgba(255,255,255,.9)&quot;
+      ha-card-box-shadow: &quot;0 10px 28px rgba(0,70,130,.20), inset 0 1px 0 rgba(255,255,255,.95)&quot;
+      app-header-background-color: &quot;rgba(10,120,215,.55)&quot;
+      app-header-text-color: &quot;#ffffff&quot;
+      sidebar-background-color: &quot;rgba(255,255,255,.55)&quot;
+      state-icon-color: &quot;#0a84ff&quot;
+    dark:
+      primary-color: &quot;#4cc2ff&quot;
+      accent-color: &quot;#5be37d&quot;
+      primary-text-color: &quot;#e8f7ff&quot;
+      secondary-text-color: &quot;#9fd3ef&quot;
+      lovelace-background: &gt;-
+        radial-gradient(ellipse at 70% 0%, rgba(76,194,255,.35) 0%, transparent 50%),
+        linear-gradient(180deg, #021a33 0%, #063a63 55%, #0b4d3a 100%)
+      ha-card-background: &quot;linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.06) 100%)&quot;
+      ha-card-border-radius: &quot;22px&quot;
+      ha-card-border-color: &quot;rgba(160,220,255,.35)&quot;
+      ha-card-box-shadow: &quot;0 10px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.25)&quot;
+      app-header-background-color: &quot;rgba(2,26,51,.6)&quot;
+      sidebar-background-color: &quot;rgba(2,26,51,.55)&quot;
+  card-mod-card: |
+    ha-card {
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+    }
+</code></pre>
+<blockquote>
+<p>💡 For extra gloss, add a soft white "shine" stripe across the top of each card with <code>ha-card::before</code> in <code>card-mod-card</code>, then pair the theme with a <strong>Bubble Card</strong> pop-up per room.</p>
+</blockquote>
+<hr />
+</section><section class="panel"><h2 id="09-hall-of-fame-dashboards-from-reddit-github">09 · Hall of fame: dashboards from Reddit &amp; GitHub</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> these are the setups people keep copying. Steal ideas freely, and give credit if you share your result.</p>
+<div class="gallery"><article class="card" data-search="  madelena&#x27;s &quot;hass-config-public&quot;   the isometric wireframe-floorplan look that inspired a generation of reddit dashboards. github"><figure class="shot"><img src="https://user-images.githubusercontent.com/4341881/173772319-907d6821-b96c-4d07-96d0-c0fd02efe2b6.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/Madelena/hass-config-public" target="_blank" rel="noopener">Madelena's "hass-config-public"</a></strong></h4><p>The isometric wireframe-floorplan look that inspired a generation of Reddit dashboards.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Madelena/hass-config-public?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  matt8707/hass-config   iconic wall-tablet design built with button-card and layout-card. no longer maintained, but still a goldmine to learn from. github"><figure class="shot"><img src="https://raw.githubusercontent.com/matt8707/hass-config/master/www/img/dash.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/matt8707/hass-config" target="_blank" rel="noopener">matt8707/hass-config</a></strong></h4><p>Iconic wall-tablet design built with button-card and layout-card. No longer maintained, but still a goldmine to learn from.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/matt8707/hass-config?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  homio: &quot;the wife approved the dashboard&quot;   a calm, room-render wall tablet layout that also works on phones. started as a reddit post. github + reddit"><figure class="shot noimg"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/iamtherufus/Homio" target="_blank" rel="noopener">Homio: "The wife approved the dashboard"</a></strong></h4><p>A calm, room-render wall tablet layout that also works on phones. Started as a Reddit post.</p><div class="meta"><span class="pill" title="Source">GitHub + Reddit</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/iamtherufus/Homio?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  rounded-bubble (jlnbln)   bubble card rooms, a per-user layout and a custom music assistant player. github"><figure class="shot"><img src="https://raw.githubusercontent.com/jlnbln/My-HA-Dashboard/main/images/home_desktop.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">R</span></figure><div class="body"><h4><strong><a href="https://github.com/jlnbln/My-HA-Dashboard" target="_blank" rel="noopener">Rounded-Bubble (jlnbln)</a></strong></h4><p>Bubble Card rooms, a per-user layout and a custom Music Assistant player.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/jlnbln/My-HA-Dashboard?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  mobile-first (clooos)   the phone-app-style dashboard that led to bubble card. (archived, so use bubble card today.) github"><figure class="shot"><img src="https://raw.githubusercontent.com/clooos/Home-Assistant-Mobile-First/master/www/images/Home%20Assistant%20-%20UI%20V4%20-%20Main%20dashboard.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">M</span></figure><div class="body"><h4><strong><a href="https://github.com/Clooos/Home-Assistant-Mobile-First" target="_blank" rel="noopener">Mobile-First (Clooos)</a></strong></h4><p>The phone-app-style dashboard that led to Bubble Card. (Archived, so use Bubble Card today.)</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Clooos/Home-Assistant-Mobile-First?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  flux ui   material 3 look: room cards change color with temperature, live radar. started on  reddit . github + reddit"><figure class="shot noimg"><span class="orb">F</span></figure><div class="body"><h4><strong><a href="https://github.com/ElementZoom/Flux-UI-Home-Assistant-Dashboard" target="_blank" rel="noopener">Flux UI</a></strong></h4><p>Material 3 look: room cards change color with temperature, live radar. Started on <a href="https://www.reddit.com/r/homeassistant/comments/1um2c41/comment/p6r2v9p/?context=3" target="_blank" rel="noopener">Reddit</a>.</p><div class="meta"><span class="pill" title="Source">GitHub + Reddit</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/ElementZoom/Flux-UI-Home-Assistant-Dashboard?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  lazyadmin wall display   square tiles with a header image that changes between day and night. entity ids are placeholders, so you can fork it. github"><figure class="shot"><img src="https://raw.githubusercontent.com/ruudmens/home-assistant-dashboard/HEAD/images/home-dashboard.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">L</span></figure><div class="body"><h4><strong><a href="https://github.com/ruudmens/home-assistant-dashboard" target="_blank" rel="noopener">LazyAdmin wall display</a></strong></h4><p>Square tiles with a header image that changes between day and night. Entity IDs are placeholders, so you can fork it.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/ruudmens/home-assistant-dashboard?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  petro31   from one of the top template experts on the ha forum. amazing remote cards. github"><figure class="shot"><img src="https://raw.githubusercontent.com/Petro31/home-assistant-config/master/www/images/github_images/overview.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://github.com/Petro31/home-assistant-config" target="_blank" rel="noopener">Petro31</a></strong></h4><p>From one of the top template experts on the HA forum. Amazing remote cards.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Petro31/home-assistant-config?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  jazzyisj   a huge, well-documented config with a clean browser ui. github"><figure class="shot"><img src="https://raw.githubusercontent.com/jazzyisj/home-assistant-config/master/www/screenshots/browser_home.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">J</span></figure><div class="body"><h4><strong><a href="https://github.com/jazzyisj/home-assistant-config" target="_blank" rel="noopener">jazzyisj</a></strong></h4><p>A huge, well-documented config with a clean browser UI.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/jazzyisj/home-assistant-config?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  e-ink remote   a  physical  handheld remote with an e-paper screen.  reddit post . github + reddit"><figure class="shot"><img src="https://raw.githubusercontent.com/ugomeda/home-assistant-epaper-remote/HEAD/preview.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">E</span></figure><div class="body"><h4><strong><a href="https://github.com/ugomeda/home-assistant-epaper-remote" target="_blank" rel="noopener">E-ink remote</a></strong></h4><p>A <em>physical</em> handheld remote with an e-paper screen. <a href="https://www.reddit.com/r/homeassistant/comments/1qs0q11/eink_remote_for_home_assistant/" target="_blank" rel="noopener">Reddit post</a>.</p><div class="meta"><span class="pill" title="Source">GitHub + Reddit</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/ugomeda/home-assistant-epaper-remote?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  pokémon-style floorplan   a home redrawn as a classic pokémon map, with day and night versions. built with  picture-elements . reddit"><figure class="shot noimg"><span class="orb">P</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1hrkku1/pokemon_style_floorplan/" target="_blank" rel="noopener">Pokémon-style floorplan</a></strong></h4><p>A home redrawn as a classic Pokémon map, with day and night versions. Built with <code>picture-elements</code>.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  illustrated animated floorplan   a commissioned hand-drawn floorplan with day/night animations, running on a wall tv. reddit"><figure class="shot noimg"><span class="orb">I</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1w65sse/illustrated_floorplan_dashboard_with_animation/" target="_blank" rel="noopener">Illustrated animated floorplan</a></strong></h4><p>A commissioned hand-drawn floorplan with day/night animations, running on a wall TV.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  lit floor map (ha-floorplan)   dark and lit renders, and each light glows according to its brightness. reddit"><figure class="shot noimg"><span class="orb">L</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1tdaqrh/floor_map_is_amazing/" target="_blank" rel="noopener">Lit floor map (ha-floorplan)</a></strong></h4><p>Dark and lit renders, and each light glows according to its brightness.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  live 3d floorplan that &quot;got out of hand&quot;   blender scene with live weather, real lamp colors, tv ambilight and an animated cat. reddit"><figure class="shot noimg"><span class="orb">L</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1wzc637/my_floorplan_dashboard_got_out_of_hand_live/" target="_blank" rel="noopener">Live 3D floorplan that "got out of hand"</a></strong></h4><p>Blender scene with live weather, real lamp colors, TV Ambilight and an animated cat.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  ai-built energy page   a self-contained html/js page served from  /local/ , written with an ai coding agent. reddit"><figure class="shot noimg"><span class="orb">A</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1wt5qii/claude_opus_is_a_game_changer/" target="_blank" rel="noopener">AI-built energy page</a></strong></h4><p>A self-contained HTML/JS page served from <code>/local/</code>, written with an AI coding agent.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  wall tablet dashboard (932 upvotes)   a simple, beautiful wall-tablet layout. read the comments for the yaml. reddit"><figure class="shot noimg"><span class="orb">W</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1glcfmu/my_workinprogress_simple_wall_tablet_dashboard/" target="_blank" rel="noopener">Wall tablet dashboard (932 upvotes)</a></strong></h4><p>A simple, beautiful wall-tablet layout. Read the comments for the YAML.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  graphite theme launch   where the graphite theme was first shown. reddit"><figure class="shot noimg"><span class="orb">G</span></figure><div class="body"><h4><strong><a href="https://www.reddit.com/r/homeassistant/comments/1hpmrsm/graphite_theme/" target="_blank" rel="noopener">Graphite theme launch</a></strong></h4><p>Where the Graphite theme was first shown.</p><div class="meta"><span class="pill" title="Source">Reddit</span></div></div></article><article class="card" data-search="  burningstone91/smart-home-setup   documented like an infrastructure project, with network and system diagrams. great reading for a cyber student. github"><figure class="shot"><img src="https://raw.githubusercontent.com/Burningstone91/smart-home-setup/master/git-pictures/smart_home_diagram.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/Burningstone91/smart-home-setup" target="_blank" rel="noopener">Burningstone91/smart-home-setup</a></strong></h4><p>Documented like an infrastructure project, with network and system diagrams. Great reading for a cyber student.</p><div class="meta"><span class="pill" title="Source">GitHub</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Burningstone91/smart-home-setup?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article></div>
+<blockquote>
+<p>🔎 <strong>Find more:</strong> on <a href="https://www.reddit.com/r/homeassistant/" target="_blank" rel="noopener">r/homeassistant</a>, sort by <strong>Top → All time</strong> and filter by the <em>Personal Setup</em> flair. People usually post their YAML in the comments when asked.</p>
+</blockquote>
+<hr />
+</section><section class="panel"><h2 id="10-github-configs-worth-studying">10 · GitHub configs worth studying</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> read real configs to learn structure (packages, blueprints, secrets). Don't copy them whole.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Known for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/frenck/home-assistant-config" target="_blank" rel="noopener">frenck/home-assistant-config</a></td>
+<td>Config of HA's lead developer. Very clean structure.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/CCOSTAN/Home-AssistantConfig" target="_blank" rel="noopener">CCOSTAN/Home-AssistantConfig</a></td>
+<td>"Bear Stone" smart home, one of the longest-running public configs.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/basnijholt/home-assistant-config" target="_blank" rel="noopener">basnijholt/home-assistant-config</a></td>
+<td>From the author of Adaptive Lighting and iOS Themes.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Petro31/home-assistant-config" target="_blank" rel="noopener">Petro31/home-assistant-config</a></td>
+<td>Template wizardry.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/thejeffreystone/home-assistant-configuration" target="_blank" rel="noopener">thejeffreystone/home-assistant-configuration</a></td>
+<td>Announcement and TTS automations with personality.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/geekofweek/homeassistant" target="_blank" rel="noopener">geekofweek/homeassistant</a></td>
+<td>Huge, well-organized automation library.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/arsaboo/homeassistant-config" target="_blank" rel="noopener">arsaboo/homeassistant-config</a></td>
+<td>Long-running config with many integrations.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/skalavala/mysmarthome" target="_blank" rel="noopener">skalavala/mysmarthome</a></td>
+<td>Jinja and template recipes.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/frenck/awesome-home-assistant" target="_blank" rel="noopener">frenck/awesome-home-assistant</a></td>
+<td>⭐ The master "awesome list."</td>
+</tr>
+<tr>
+<td><a href="https://github.com/EPMatt/awesome-ha-blueprints" target="_blank" rel="noopener">EPMatt/awesome-ha-blueprints</a></td>
+<td>Ready-made blueprints for remotes and buttons.</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+</section><section class="panel"><h2 id="11-automations-that-feel-like-magic">11 · Automations that feel like magic</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> build these in the visual editor. The YAML below uses the 2024.10+ syntax (<code>triggers:</code> / <code>actions:</code>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>Uses</th>
+<th>Difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 Homelab down → lights pulse red + ntfy alert</td>
+<td>Uptime Kuma, Govee/Hue, ntfy</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🎬 Jellyfin starts playing → dim the lights, pause Echo music</td>
+<td>Jellyfin, Alexa Devices</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🚪 Ring doorbell → camera snapshot to your phone + "someone's at the door" on every Echo</td>
+<td>Ring, ntfy, Alexa Devices</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🌅 Sunrise alarm → lights fade up over 15 minutes</td>
+<td>Adaptive Lighting / light transitions</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🧺 Washing machine done (power drops) → announce it</td>
+<td>Kasa plug with power monitoring</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>🎮 PC gaming → pause qBittorrent</td>
+<td>qBittorrent, HASS.Agent / System Monitor</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>🏠 Room-level presence → lights follow you</td>
+<td>Bermuda BLE + ESP32 proxies (§15)</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>📰 Morning brief → weather + calendar + RSS read out on the Echo</td>
+<td>n8n / Assist + TTS</td>
+<td>🧪</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-yaml"># Homelab down → red pulse + push notification
+alias: &quot;🔴 Homelab monitor down&quot;
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.jellyfin_status     # any Uptime Kuma monitor entity
+    to: &quot;off&quot;
+    for: &quot;00:02:00&quot;
+actions:
+  - action: light.turn_on
+    target: { entity_id: light.desk_lamp }
+    data: { color_name: red, flash: long }
+  - action: notify.send_message
+    target: { entity_id: notify.ntfy_homelab }   # your ntfy notify entity
+    data:
+      title: &quot;Homelab alert&quot;
+      message: &quot;{{ state_attr(trigger.entity_id, 'friendly_name') }} has been down for 2 minutes&quot;
+mode: single
+</code></pre>
+<blockquote>
+<p>🧩 <strong>Blueprints</strong> turn this into one click: Settings → Automations → Blueprints → <em>Import</em>, then browse <a href="https://github.com/EPMatt/awesome-ha-blueprints" target="_blank" rel="noopener">awesome-ha-blueprints</a>.</p>
+</blockquote>
+<hr />
+</section><section class="panel"><h2 id="12-voice-local-ai-your-ollama-finally-gets-a-job">12 · Voice &amp; local AI (your Ollama finally gets a job)</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> <strong>Whisper</strong> (speech-to-text) → <strong>Ollama</strong> (thinking) → <strong>Piper</strong> (speech) is a free voice assistant that runs entirely on your hardware. On Container, Whisper, Piper and openWakeWord run as the sidecar containers from §02.</p>
+<ol>
+<li>Add the <strong>Wyoming Protocol</strong> integration for whisper, piper and openwakeword (§02).</li>
+<li>Add the <strong>Ollama</strong> integration and point it at your Ollama server (a tool-capable model is needed to control devices).</li>
+<li>Settings → Voice assistants → <em>Add</em> → conversation agent <strong>Ollama</strong>, STT <strong>faster-whisper</strong>, TTS <strong>piper</strong>.</li>
+<li>Talk to it from the Companion app, or 💸 buy a <strong>Home Assistant Voice Preview Edition</strong> (~$69, physical mic mute switch), or DIY an ESP32 satellite.</li>
+<li>🧪 Expose only a short list of entities to the LLM. The docs suggest staying <strong>under ~25</strong> for Ollama.</li>
+</ol>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Extra</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://github.com/valentinfrlch/ha-llmvision" target="_blank" rel="noopener">LLM Vision</a></strong></td>
+<td>AI descriptions of camera snapshots ("a delivery driver left a box")</td>
+</tr>
+<tr>
+<td><strong>Model Context Protocol Server</strong> (official)</td>
+<td>Lets MCP clients (Claude Desktop and others) control the entities you choose</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/acon96/home-llm" target="_blank" rel="noopener">home-llm</a></strong></td>
+<td>Small local models fine-tuned specifically for home control</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/jekalmin/extended_openai_conversation" target="_blank" rel="noopener">Extended OpenAI Conversation</a></strong></td>
+<td>Function calling for any OpenAI-compatible API (Ollama exposes one)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+</section><section class="panel"><h2 id="13-cameras-nvr">13 · Cameras &amp; NVR</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> <strong>Frigate</strong> is the free answer to cloud camera subscriptions: local recording plus AI object detection.</p>
+<div class="gallery"><article class="card" data-search="  frigate   +  integration  local nvr with person and car detection. send events to ha, then snapshot → ntfy. docker + marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/blakeblackshear/frigate-hass-integration/master/images/lovelace-card.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">F</span></figure><div class="body"><h4><strong><a href="https://github.com/blakeblackshear/frigate" target="_blank" rel="noopener">Frigate</a></strong> + <a href="https://github.com/blakeblackshear/frigate-hass-integration" target="_blank" rel="noopener">integration</a></h4><p>Local NVR with person and car detection. Send events to HA, then snapshot → ntfy.</p><div class="meta"><span class="pill" title="Get it">Docker + Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/blakeblackshear/frigate?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  go2rtc   universal camera restreamer (rtsp → webrtc) for instant live view. docker"><figure class="shot"><img src="https://raw.githubusercontent.com/AlexxIT/go2rtc/HEAD/website/images/webui-net.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">G</span></figure><div class="body"><h4><strong><a href="https://github.com/AlexxIT/go2rtc" target="_blank" rel="noopener">go2rtc</a></strong></h4><p>Universal camera restreamer (RTSP → WebRTC) for instant live view.</p><div class="meta"><span class="pill" title="Get it">Docker</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/AlexxIT/go2rtc?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  webrtc camera   near-zero-latency camera card. marketplace"><figure class="shot noimg"><span class="orb">W</span></figure><div class="body"><h4><strong><a href="https://github.com/AlexxIT/WebRTC" target="_blank" rel="noopener">WebRTC Camera</a></strong></h4><p>Near-zero-latency camera card.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/AlexxIT/WebRTC?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search=" matter cameras  (2026.11) matter 1.5 cameras with webrtc live video. two-way audio is a labs preview and needs https. built in"><figure class="shot noimg"><span class="orb">M</span></figure><div class="body"><h4><strong>Matter cameras</strong> (2026.11)</h4><p>Matter 1.5 cameras with WebRTC live video. Two-way audio is a Labs preview and needs HTTPS.</p><div class="meta"><span class="pill" title="Get it">Built in</span></div></div></article></div>
+<hr />
+</section><section class="panel"><h2 id="14-cyber-corner">14 · 🛡️ Cyber corner</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> treat HA as an attack surface and as a security monitoring tool.</p>
+<h3 id="war-story-one-hacs-bug-admin-access">War story: one HACS bug = admin access</h3>
+<p>HACS versions <strong>before 1.10.0</strong> had a <strong>path traversal</strong> bug in the <code>/hacsfiles/</code> endpoint. It let <strong>unauthenticated</strong> attackers read <code>.storage/auth</code>, which holds credentials and refresh tokens, and then forge valid tokens for <strong>admin access</strong> (CVSS 7.5, catalogued as CVE-2021-47942). It was fixed in 2021, but it shows why you should <strong>keep everything updated and never expose HA directly to the internet</strong>. Another 2026 advisory showed how a malicious <strong>entity name</strong> from an integration could trigger XSS in the Statistics Graph card.</p>
+<h3 id="build-a-security-dashboard">Build a security dashboard</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Integration</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pi-hole</strong> / <strong>AdGuard Home</strong></td>
+<td>Blocked queries, toggle blocking</td>
+</tr>
+<tr>
+<td><strong>Nmap Tracker</strong></td>
+<td>Which devices are on your LAN. Alert on <strong>new unknown devices</strong> 🚨</td>
+</tr>
+<tr>
+<td><strong>UniFi Network</strong> (when the UDM arrives)</td>
+<td>Clients, firewall events, presence</td>
+</tr>
+<tr>
+<td><strong>Uptime Kuma</strong></td>
+<td>Service health</td>
+</tr>
+<tr>
+<td><strong>Glances</strong> / <strong>System monitor</strong></td>
+<td>CPU, RAM and disk for your server</td>
+</tr>
+<tr>
+<td><strong>Certificate Expiry</strong></td>
+<td>Alerts before your HTTPS certificates expire</td>
+</tr>
+<tr>
+<td><strong>Speedtest.net</strong></td>
+<td>ISP performance history</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-yaml"># Alert on every failed HA login (then check which IP it shows; see §03)
+alias: &quot;🚨 Failed login attempt&quot;
+triggers:
+  - trigger: persistent_notification
+    update_type: added
+    notification_id: http-login
+actions:
+  - action: notify.send_message
+    target: { entity_id: notify.ntfy_homelab }
+    data:
+      title: &quot;HA login failed&quot;
+      message: &quot;{{ trigger.notification.message }}&quot;
+</code></pre>
+<h3 id="hacker-aesthetic-ideas">Hacker-aesthetic ideas 🕶️</h3>
+<ul>
+<li><strong>LCARS</strong> or <strong>Cyberpunk 2077</strong> theme on a spare tablet → a "SOC wall" view of your network.</li>
+<li>Graph Pi-hole queries over time with ApexCharts, like a mini SIEM.</li>
+<li>Store your config in a <strong>private</strong> Git repo, run <strong>gitleaks</strong> in a pre-commit hook, and enable branch protection.</li>
+<li>Use Wireshark on a mirrored port to see which IoT devices phone home, then block them with Pi-hole.</li>
+</ul>
+<hr />
+</section><section class="panel"><h2 id="15-diy-niche-weird-hardware">15 · DIY, niche &amp; weird hardware 🧪</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> ESP32 boards ($5–10) plus <strong>ESPHome</strong> let you build almost anything. These are the coolest projects.</p>
+<div class="gallery"><article class="card" data-search=" ulanzi tc001 +  awtrix ng   a ~$50 pixel clock that shows notifications, homelab stats and weather over mqtt. awtrix 3 has ended, and its repo now points to the  awtrix ng  rewrite. matching  blueprints . flash in the browser"><figure class="shot"><img src="https://raw.githubusercontent.com/smarthomejunkie/Ulanzi-Awtrix-BluePrints/HEAD/images/ulanzi-tc001.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">U</span></figure><div class="body"><h4><strong>Ulanzi TC001 + <a href="https://github.com/Blueforcer/awtrix3" target="_blank" rel="noopener">AWTRIX NG</a></strong></h4><p>A ~$50 pixel clock that shows notifications, homelab stats and weather over MQTT. AWTRIX 3 has ended, and its repo now points to the <strong>AWTRIX NG</strong> rewrite. Matching <a href="https://github.com/smarthomejunkie/Ulanzi-Awtrix-BluePrints" target="_blank" rel="noopener">blueprints</a>.</p><div class="meta"><span class="pill" title="Get it">Flash in the browser</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Blueforcer/awtrix3?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  esphome   yaml → firmware for esp32 sensors, displays and led controllers. runs in your compose stack. docker"><figure class="shot noimg"><span class="orb">E</span></figure><div class="body"><h4><strong><a href="https://github.com/esphome/esphome" target="_blank" rel="noopener">ESPHome</a></strong></h4><p>YAML → firmware for ESP32 sensors, displays and LED controllers. Runs in your compose stack.</p><div class="meta"><span class="pill" title="Get it">Docker</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/esphome/esphome?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  bermuda ble trilateration   room-level presence from your phone or watch using esphome bluetooth proxies. this also  fixes docker desktop&#x27;s lack of bluetooth . marketplace"><figure class="shot"><img src="https://raw.githubusercontent.com/agittins/bermuda/HEAD/img/screenshots/person-tracker.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">B</span></figure><div class="body"><h4><strong><a href="https://github.com/agittins/bermuda" target="_blank" rel="noopener">Bermuda BLE Trilateration</a></strong></h4><p>Room-level presence from your phone or watch using ESPHome Bluetooth proxies. This also <strong>fixes Docker Desktop's lack of Bluetooth</strong>.</p><div class="meta"><span class="pill" title="Get it">Marketplace</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/agittins/bermuda?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  espresense   an alternative room-presence firmware for esp32 (mqtt). flash"><figure class="shot noimg"><span class="orb">E</span></figure><div class="body"><h4><strong><a href="https://github.com/ESPresense/ESPresense" target="_blank" rel="noopener">ESPresense</a></strong></h4><p>An alternative room-presence firmware for ESP32 (MQTT).</p><div class="meta"><span class="pill" title="Get it">Flash</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/ESPresense/ESPresense?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  home assistant glow   read your electric meter&#x27;s pulse led → live energy data. esphome"><figure class="shot"><img src="https://raw.githubusercontent.com/klaasnicolaas/home-assistant-glow/HEAD/docs/static/img/home-assistant-glow.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">H</span></figure><div class="body"><h4><strong><a href="https://github.com/klaasnicolaas/home-assistant-glow" target="_blank" rel="noopener">Home Assistant Glow</a></strong></h4><p>Read your electric meter's pulse LED → live energy data.</p><div class="meta"><span class="pill" title="Get it">ESPHome</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/klaasnicolaas/home-assistant-glow?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  openhasp   turns cheap esp32 touchscreens into custom wall panels. flash"><figure class="shot noimg"><span class="orb">O</span></figure><div class="body"><h4><strong><a href="https://github.com/HASwitchPlate/openHASP" target="_blank" rel="noopener">openHASP</a></strong></h4><p>Turns cheap ESP32 touchscreens into custom wall panels.</p><div class="meta"><span class="pill" title="Get it">Flash</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/HASwitchPlate/openHASP?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  valetudo   cloud-free firmware for supported robot vacuums. fully local, with a  map card . root + flash"><figure class="shot"><img src="https://raw.githubusercontent.com/Hypfer/valetudo/master/docs/pages/general/img/operation_principle.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">V</span></figure><div class="body"><h4><strong><a href="https://github.com/Hypfer/Valetudo" target="_blank" rel="noopener">Valetudo</a></strong></h4><p>Cloud-free firmware for supported robot vacuums. Fully local, with a <a href="https://github.com/Hypfer/lovelace-valetudo-map-card" target="_blank" rel="noopener">map card</a>.</p><div class="meta"><span class="pill" title="Get it">Root + flash</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Hypfer/Valetudo?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  kindle dashboard   an old kindle becomes an e-ink ha display (pair it with the graphite e-ink theme). docker"><figure class="shot"><img src="https://raw.githubusercontent.com/sibbl/hass-lovelace-kindle-screensaver/main/assets/sample.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">K</span></figure><div class="body"><h4><strong><a href="https://github.com/sibbl/hass-lovelace-kindle-screensaver" target="_blank" rel="noopener">Kindle dashboard</a></strong></h4><p>An old Kindle becomes an e-ink HA display (pair it with the Graphite E-Ink theme).</p><div class="meta"><span class="pill" title="Get it">Docker</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/sibbl/hass-lovelace-kindle-screensaver?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search="  zigbee2mqtt   run zigbee without vendor hubs. pair it with a  network  coordinator on docker desktop. docker"><figure class="shot"><img src="https://raw.githubusercontent.com/Koenkk/zigbee2mqtt/HEAD/images/architecture-new.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('noimg')"><span class="orb">Z</span></figure><div class="body"><h4><strong><a href="https://github.com/Koenkk/zigbee2mqtt" target="_blank" rel="noopener">Zigbee2MQTT</a></strong></h4><p>Run Zigbee without vendor hubs. Pair it with a <strong>network</strong> coordinator on Docker Desktop.</p><div class="meta"><span class="pill" title="Get it">Docker</span><img class="stars" alt="GitHub stars" loading="lazy" src="https://img.shields.io/github/stars/Koenkk/zigbee2mqtt?style=flat-square&amp;label=%E2%98%85&amp;color=0a84ff" onerror="this.remove()"></div></div></article><article class="card" data-search=" arduino uno q ↔ ha via mqtt  your uno q&#x27;s linux side runs ha or a python bridge, and its stm32 microcontroller drives pins or relays. a published tutorial toggles the onboard led from an ha dashboard. diy"><figure class="shot noimg"><span class="orb">A</span></figure><div class="body"><h4><strong>Arduino UNO Q ↔ HA via MQTT</strong></h4><p>Your UNO Q's Linux side runs HA or a Python bridge, and its STM32 microcontroller drives pins or relays. A published tutorial toggles the onboard LED from an HA dashboard.</p><div class="meta"><span class="pill" title="Get it">DIY</span></div></div></article><article class="card" data-search=" native ir  (2026.4) +  lorawan  (2026.11) control ir devices, and long-range low-power sensors through chirpstack or the things network. built in"><figure class="shot noimg"><span class="orb">N</span></figure><div class="body"><h4><strong>Native IR</strong> (2026.4) + <strong>LoRaWAN</strong> (2026.11)</h4><p>Control IR devices, and long-range low-power sensors through ChirpStack or The Things Network.</p><div class="meta"><span class="pill" title="Get it">Built in</span></div></div></article><article class="card" data-search=" zigbee green power  (2026.11) batteryless kinetic switches (like friends of hue) in zha. built in"><figure class="shot noimg"><span class="orb">Z</span></figure><div class="body"><h4><strong>Zigbee Green Power</strong> (2026.11)</h4><p>Batteryless kinetic switches (like Friends of Hue) in ZHA.</p><div class="meta"><span class="pill" title="Get it">Built in</span></div></div></article></div>
+<hr />
+</section><section class="panel"><h2 id="16-wall-panels-kiosks">16 · Wall panels &amp; kiosks</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> an old Android tablet + the HA Companion app + <strong>Kiosk Mode</strong> is the free wall panel. 💸 Fully Kiosk Browser's PLUS license is paid, and <strong>WallPanel</strong> is the FOSS alternative.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Cost</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Old tablet + Companion app + <a href="https://github.com/NemesisRE/kiosk-mode" target="_blank" rel="noopener">Kiosk Mode</a></td>
+<td>Free</td>
+<td>Easiest. Use <a href="https://github.com/thomasloven/hass-browser_mod" target="_blank" rel="noopener">browser_mod</a> to control it remotely.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/WallPanel-Project/wallpanel-android" target="_blank" rel="noopener">WallPanel</a></td>
+<td>Free, FOSS</td>
+<td>Android kiosk app with camera motion wake and MQTT.</td>
+</tr>
+<tr>
+<td>Raspberry Pi + Chromium <code>--kiosk</code></td>
+<td>Cheap</td>
+<td>A dedicated screen that boots straight into a dashboard.</td>
+</tr>
+<tr>
+<td>Kindle e-ink</td>
+<td>Free</td>
+<td>§15.</td>
+</tr>
+<tr>
+<td>openHASP ESP32 touchscreen</td>
+<td>~$20–40</td>
+<td>Fully custom, no tablet needed.</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+</section><section class="panel"><h2 id="17-paid-free-swaps">17 · 💸 Paid → free swaps</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Paid thing</th>
+<th>Free / FOSS alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nabu Casa remote access</td>
+<td>Tailscale (you have it), Headscale, WireGuard</td>
+</tr>
+<tr>
+<td>Nabu Casa Alexa/Google link</td>
+<td>Home-Assistant-Matter-Hub (RiDDiX), Emulated Hue, manual skill</td>
+</tr>
+<tr>
+<td>Cloud voice (Alexa/Google)</td>
+<td>Whisper + Ollama + Piper (§12)</td>
+</tr>
+<tr>
+<td>Fully Kiosk PLUS</td>
+<td>WallPanel, Companion app + Kiosk Mode</td>
+</tr>
+<tr>
+<td>LaMetric Time</td>
+<td>Ulanzi TC001 + AWTRIX NG</td>
+</tr>
+<tr>
+<td>Ring Protect / Nest Aware</td>
+<td>Frigate + local cameras</td>
+</tr>
+<tr>
+<td>Hue Bridge / vendor hubs</td>
+<td>Zigbee2MQTT or ZHA + a coordinator</td>
+</tr>
+<tr>
+<td>Robot-vacuum cloud</td>
+<td>Valetudo</td>
+</tr>
+<tr>
+<td>IFTTT Pro</td>
+<td>HA automations, Node-RED, n8n</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+</section><section class="panel"><h2 id="18-keep-learning">18 · Keep learning</h2>
+<ul>
+<li><strong><a href="https://www.reddit.com/r/homeassistant/" target="_blank" rel="noopener">r/homeassistant</a>:</strong> dashboards, help, inspiration.</li>
+<li><strong><a href="https://community.home-assistant.io/" target="_blank" rel="noopener">Home Assistant Community forum</a>:</strong> the "Share your projects" and themes categories.</li>
+<li><strong><a href="https://lazyadmin.nl/tag/home-assistant/" target="_blank" rel="noopener">LazyAdmin</a></strong>, <strong><a href="https://smarthomescene.com/" target="_blank" rel="noopener">SmartHomeScene</a></strong>, <strong><a href="https://www.smarthomejunkie.net/" target="_blank" rel="noopener">Smart Home Junkie</a></strong>, <strong><a href="https://www.simon42.com/" target="_blank" rel="noopener">simon42</a></strong> (German): up-to-date guides and release breakdowns.</li>
+<li><strong><a href="https://www.home-assistant.io/blog/categories/release-notes/" target="_blank" rel="noopener">Home Assistant release notes</a>:</strong> read them before every update, especially the <em>Backward-incompatible changes</em> section.</li>
+</ul>
+<hr />
+</section><section class="panel"><h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.home-assistant.io/blog/2026/11/04/release-202611/" target="_blank" rel="noopener">Home Assistant 2026.11 release notes (Marketplace, naming, Matter cameras)</a></li>
+<li><a href="https://www.home-assistant.io/blog/2026/02/04/release-20262/" target="_blank" rel="noopener">Home Assistant 2026.2 release notes (Apps rename, Quick search, Home dashboard)</a></li>
+<li><a href="https://home-assistant.io/blog/2025/05/22/deprecating-core-and-supervised-installation-methods-and-32-bit-systems/" target="_blank" rel="noopener">Deprecating Core &amp; Supervised installs (2025)</a></li>
+<li><a href="https://docs.docker.com/engine/network/drivers/host/" target="_blank" rel="noopener">Docker host network driver docs (Docker Desktop 4.34+)</a></li>
+<li><a href="https://forums.docker.com/t/host-networking-not-working-on-docker-desktop-in-wsl2-with-mirrored-mode/147994" target="_blank" rel="noopener">Docker forum: Docker Desktop doesn't use WSL mirrored mode</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/wsl/networking" target="_blank" rel="noopener">Microsoft: WSL mirrored mode networking</a></li>
+<li><a href="https://community.home-assistant.io/t/mini-pc-windows-wsl2-docker-homeassistant/769603" target="_blank" rel="noopener">HA Community: Mini PC + Windows + WSL2 + Docker</a></li>
+<li><a href="https://www.hackster.io/tech_nickk/run-home-assistant-on-the-arduino-uno-q-docker-mqtt-setup-8a3b0a" target="_blank" rel="noopener">Run Home Assistant on the Arduino UNO Q (Hackster)</a></li>
+<li><a href="https://www.home-assistant.io/integrations/alexa_devices" target="_blank" rel="noopener">Alexa Devices integration docs</a></li>
+<li><a href="https://riddix.github.io/home-assistant-matter-hub/" target="_blank" rel="noopener">Home-Assistant-Matter-Hub (RiDDiX fork) docs</a></li>
+<li><a href="https://lazyadmin.nl/smart-home/best-home-assistant-themes/" target="_blank" rel="noopener">LazyAdmin: Best Home Assistant themes 2026</a></li>
+<li><a href="https://lazyadmin.nl/smart-home/home-assistant-dashboard-examples/" target="_blank" rel="noopener">LazyAdmin: 14 dashboard examples</a></li>
+<li><a href="https://www.cnx-software.com/2025/11/20/home-assistant-connect-zbt-2-zigbee-thread-usb-adapter/" target="_blank" rel="noopener">CNX Software: Connect ZBT-2</a></li>
+<li><a href="https://feed.craftedsignal.io/briefs/2026-05-hacs-path-traversal/" target="_blank" rel="noopener">HACS path traversal advisory (CVE-2021-47942)</a></li>
+<li><a href="https://neilturner.me.uk/2025/02/23/" target="_blank" rel="noopener">Homeway pricing comparison</a></li>
+<li><a href="https://subger.com/en/service/home-assistant-cloud" target="_blank" rel="noopener">Home Assistant Cloud pricing (2026)</a></li>
+</ul>
+<p><em>Made with 🫧 for a Frutiger Aero-loving cyber student. Free and open source only; paid things are marked 💸.</em></p></section>
+    <footer>Built from <a href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener">README.md</a> · GitHub star counts are live · Images belong to their projects' authors</footer>
+  </main>
+</div>
+<button class="gloss menu-btn" id="menu" type="button" aria-controls="side">☰ Sections</button>
+<button class="gloss" id="totop" type="button" aria-label="Back to top">↑</button>
+<script>
+(function(){
+  var d=document,root=d.documentElement;
+  // bubbles
+  var b=d.getElementById('bubbles');
+  for(var i=0;i<16;i++){var s=d.createElement('span'),z=14+Math.random()*46;s.className='bubble';s.style.width=s.style.height=z+'px';s.style.left=(Math.random()*100)+'%';s.style.animationDuration=(18+Math.random()*26)+'s';s.style.animationDelay=(-Math.random()*40)+'s';b.appendChild(s)}
+  // night toggle
+  var nb=d.getElementById('night');
+  function label(){nb.textContent=root.classList.contains('night')?'☀️ Aero Day':'🌙 Aero Night'}label();
+  nb.onclick=function(){root.classList.toggle('night');try{localStorage.setItem('aero-night',root.classList.contains('night')?'1':'0')}catch(e){}label()};
+  // menu
+  var side=d.getElementById('side');d.getElementById('menu').onclick=function(){side.classList.toggle('open')};
+  side.addEventListener('click',function(e){if(e.target.closest('#toc a'))side.classList.remove('open')});
+  // copy buttons
+  d.querySelectorAll('pre').forEach(function(p){var c=d.createElement('button');c.className='gloss copy';c.type='button';c.textContent='Copy';c.onclick=function(){var t=p.querySelector('code').innerText;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy'},1500)},function(){c.textContent='Select & copy'})};p.appendChild(c)});
+  // search
+  var q=d.getElementById('q'),cards=[].slice.call(d.querySelectorAll('.card')),cnt=d.getElementById('count');
+  function filter(){var v=q.value.trim().toLowerCase(),n=0;cards.forEach(function(c){var ok=!v||c.dataset.search.indexOf(v)>-1;c.classList.toggle('hide',!ok);if(ok)n++});cnt.textContent=v?(n+' of '+cards.length+' match'):(cards.length+' projects in galleries')}
+  q.addEventListener('input',filter);filter();
+  // progress + active toc + to top
+  var bar=d.getElementById('progress'),top=d.getElementById('totop'),links=[].slice.call(d.querySelectorAll('#toc a')),heads=links.map(function(a){return d.getElementById(a.getAttribute('href').slice(1))});
+  top.onclick=function(){scrollTo({top:0,behavior:'smooth'})};
+  function onScroll(){var h=root.scrollHeight-innerHeight;bar.style.width=(h>0?scrollY/h*100:0)+'%';top.classList.toggle('show',scrollY>900);
+    var cur=0;heads.forEach(function(el,i){if(el&&el.getBoundingClientRect().top<140)cur=i});links.forEach(function(a,i){a.classList.toggle('active',i===cur)})}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
