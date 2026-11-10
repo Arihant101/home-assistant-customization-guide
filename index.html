@@ -131,7 +131,29 @@ html.night .shot{background:linear-gradient(180deg,#0b3f6b,#062a4d)}
 .pill{font:700 11.5px var(--font);padding:4px 10px;border-radius:999px;color:#0b3d17;background:linear-gradient(180deg,#d6ffce,#9be98c);border:1px solid #fff}
 html.night .pill{color:#d6ffce;background:rgba(91,227,125,.18);border-color:rgba(91,227,125,.35)}
 .stars{height:20px}
-.card.hide{display:none}
+.card.hide,.card.devhide{display:none}
+/* devices */
+.devtools{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:18px 0 6px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.6);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff;position:sticky;top:8px;z-index:5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+html.night .devtools{background:rgba(6,42,77,.75)}
+.sortlbl{font-weight:700;display:flex;align-items:center;gap:8px}
+.devtools select{font:600 14px var(--font);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);background:linear-gradient(180deg,#fff,#dff4ff);box-shadow:0 2px 8px rgba(0,60,120,.12)}
+html.night .devtools select{background:#0b3f6b;color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;cursor:pointer}
+.toggle input{accent-color:var(--green);transform:scale(1.25)}
+#devcount{font:600 13px var(--font);color:var(--ink2)}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+.chipbtn{cursor:pointer;font:700 12.5px var(--font);padding:6px 12px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);background:rgba(255,255,255,.75)}
+html.night .chipbtn{background:rgba(255,255,255,.08)}
+.chipbtn.on{color:#fff;background:linear-gradient(180deg,#7fe0ff,#0a84ff);text-shadow:0 1px 1px rgba(0,60,120,.35)}
+.dev-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 0}
+.dev-ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:radial-gradient(circle at 33% 28%,#fff 0 12%,#c9f0ff 35%,#5cc6f5 100%);box-shadow:0 6px 14px rgba(10,132,255,.3),inset 0 -4px 8px rgba(0,40,90,.15)}
+.dev-price{font:800 18px var(--font);color:var(--accent)}
+.dev-meta{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.tag{font:700 11.5px var(--font);padding:3px 9px;border-radius:999px;background:rgba(10,132,255,.1);color:var(--ink);letter-spacing:.02em}
+.tag.s1{background:rgba(52,199,89,.18)}.tag.s2{background:rgba(255,204,0,.22)}.tag.s3{background:rgba(255,69,58,.16)}
+.via{font-size:13px;color:var(--ink2);margin-bottom:8px}
+.fit{font:600 13px var(--font);padding:6px 10px;border-radius:12px}
+.fit.f2{background:rgba(52,199,89,.14)}.fit.f1{background:rgba(255,204,0,.18)}.fit.f0{background:rgba(255,69,58,.13)}
 #totop{position:fixed;right:22px;bottom:22px;z-index:20;width:52px;height:52px;border-radius:50%;padding:0;font-size:20px;opacity:0;pointer-events:none;transition:opacity .2s}
 #totop.show{opacity:1;pointer-events:auto}
 footer{text-align:center;padding:10px 0 40px;color:var(--ink2);font-size:14px}
@@ -154,7 +176,7 @@ footer{text-align:center;padding:10px 0 40px;color:var(--ink2);font-size:14px}
 <div class="shell">
   <nav class="side glass" id="side" aria-label="Sections">
     <a class="brand" href="/" aria-label="The Home Assistant Glow-Up Guide, back to top"><span class="logo">🏠</span><span>HA Glow-Up<small>Home Assistant guide · 2026.11</small></span></a>
-    <div id="toc"><a href="#00-tldr-the-60-minute-glow-up"><span class="num">00</span>TL;DR: the 60-minute glow-up</a><a href="#01-what-changed-in-2026-old-guides-are-now-wrong"><span class="num">01</span>What changed in 2026 (old guides are now wrong)</a><a href="#02-your-setup-ha-container-on-docker-desktop"><span class="num">02</span>Your setup: HA Container on Docker Desktop</a><a href="#03-remote-access-hardening"><span class="num">03</span>Remote access &amp; hardening</a><a href="#04-marketplace-starter-pack"><span class="num">04</span>Marketplace starter pack</a><a href="#05-connect-your-stuff"><span class="num">05</span>Connect your stuff</a><a href="#06-dashboards-from-default-to-drop-dead"><span class="num">06</span>Dashboards: from default to drop-dead</a><a href="#07-the-card-gallery"><span class="num">07</span>The card gallery</a><a href="#08-themes-and-a-diy-frutiger-aero-theme"><span class="num">08</span>Themes (and a DIY Frutiger Aero theme)</a><a href="#09-hall-of-fame-dashboards-from-reddit-github"><span class="num">09</span>Hall of fame: dashboards from Reddit &amp; GitHub</a><a href="#10-github-configs-worth-studying"><span class="num">10</span>GitHub configs worth studying</a><a href="#11-automations-that-feel-like-magic"><span class="num">11</span>Automations that feel like magic</a><a href="#12-voice-local-ai-your-ollama-finally-gets-a-job"><span class="num">12</span>Voice &amp; local AI (your Ollama finally gets a job)</a><a href="#13-cameras-nvr"><span class="num">13</span>Cameras &amp; NVR</a><a href="#14-cyber-corner"><span class="num">14</span>🛡️ Cyber corner</a><a href="#15-diy-niche-weird-hardware"><span class="num">15</span>DIY, niche &amp; weird hardware 🧪</a><a href="#16-wall-panels-kiosks"><span class="num">16</span>Wall panels &amp; kiosks</a><a href="#17-paid-free-swaps"><span class="num">17</span>💸 Paid → free swaps</a><a href="#18-keep-learning"><span class="num">18</span>Keep learning</a><a href="#sources"><span class="num">★</span>Sources</a></div>
+    <div id="toc"><a href="#00-tldr-the-60-minute-glow-up"><span class="num">00</span>TL;DR: the 60-minute glow-up</a><a href="#01-what-changed-in-2026-old-guides-are-now-wrong"><span class="num">01</span>What changed in 2026 (old guides are now wrong)</a><a href="#02-your-setup-ha-container-on-docker-desktop"><span class="num">02</span>Your setup: HA Container on Docker Desktop</a><a href="#03-remote-access-hardening"><span class="num">03</span>Remote access &amp; hardening</a><a href="#04-marketplace-starter-pack"><span class="num">04</span>Marketplace starter pack</a><a href="#05-connect-your-stuff"><span class="num">05</span>Connect your stuff</a><a href="#06-dashboards-from-default-to-drop-dead"><span class="num">06</span>Dashboards: from default to drop-dead</a><a href="#07-the-card-gallery"><span class="num">07</span>The card gallery</a><a href="#08-themes-and-a-diy-frutiger-aero-theme"><span class="num">08</span>Themes (and a DIY Frutiger Aero theme)</a><a href="#09-hall-of-fame-dashboards-from-reddit-github"><span class="num">09</span>Hall of fame: dashboards from Reddit &amp; GitHub</a><a href="#10-github-configs-worth-studying"><span class="num">10</span>GitHub configs worth studying</a><a href="#11-automations-that-feel-like-magic"><span class="num">11</span>Automations that feel like magic</a><a href="#12-voice-local-ai-your-ollama-finally-gets-a-job"><span class="num">12</span>Voice &amp; local AI (your Ollama finally gets a job)</a><a href="#13-cameras-nvr"><span class="num">13</span>Cameras &amp; NVR</a><a href="#14-cyber-corner"><span class="num">14</span>🛡️ Cyber corner</a><a href="#15-diy-niche-weird-hardware"><span class="num">15</span>DIY, niche &amp; weird hardware 🧪</a><a href="#16-wall-panels-kiosks"><span class="num">16</span>Wall panels &amp; kiosks</a><a href="#17-paid-free-swaps"><span class="num">17</span>💸 Paid → free swaps</a><a href="#18-keep-learning"><span class="num">18</span>Keep learning</a><a href="#19-device-shopping-guide-whats-worth-buying"><span class="num">19</span>Device shopping guide: what's worth buying</a><a href="#20-workshops-courses-the-automation-cookbook"><span class="num">20</span>Workshops, courses &amp; the automation cookbook</a><a href="#sources"><span class="num">★</span>Sources</a></div>
     <div class="side-tools">
       <button class="gloss" id="night" type="button">🌙 Aero Night</button>
       <a class="gloss green" href="https://github.com/Arihant101/home-assistant-customization-guide" target="_blank" rel="noopener" style="text-decoration:none">GitHub</a>
@@ -164,7 +186,7 @@ footer{text-align:center;padding:10px 0 40px;color:var(--ink2);font-size:14px}
     <header class="hero glass">
       <h1>The Home Assistant Glow-Up Guide 🫧</h1>
       <div class="intro"><p><strong>Make your Home Assistant look amazing and do more, using only free and open-source tools.</strong> Written for Home Assistant <strong>2026.11</strong>, running as <strong>Container on Docker Desktop (Windows 11)</strong> behind Tailscale. Everything here was checked in November 2026, and every GitHub link was confirmed to exist.</p></div>
-      <div class="chips"><span class="chip">🏠 HA 2026.11</span><span class="chip">🐳 Docker Desktop · Windows 11</span><span class="chip">🔒 Tailscale-only</span><span class="chip">🆓 FOSS-first</span><span class="chip">🖼️ 100+ projects</span><span class="chip">🫧 Frutiger Aero edition</span></div>
+      <div class="chips"><span class="chip">🏠 HA 2026.11</span><span class="chip">🐳 Docker Desktop · Windows 11</span><span class="chip">🔒 Tailscale-only</span><span class="chip">🆓 FOSS-first</span><span class="chip">🖼️ 100+ projects</span><span class="chip">🛒 Sortable device guide</span><span class="chip">🍳 36 automations</span><span class="chip">🫧 Frutiger Aero edition</span></div>
       <div class="search"><input id="q" type="search" placeholder="Filter cards, themes and projects… (try “glass”, “energy”, “reddit”)" aria-label="Filter cards"><span id="count"></span></div>
     </header>
     <blockquote>
@@ -182,6 +204,7 @@ footer{text-align:center;padding:10px 0 40px;color:var(--ink2);font-size:14px}
 <li>⚡ <strong>Connect your homelab:</strong> Uptime Kuma, Jellyfin, Immich, Seerr, ntfy and Ollama all have <strong>official</strong> integrations now (§05).</li>
 <li><strong>Add one automation that feels like magic:</strong> if the homelab goes down, the lights flash red and your phone gets an ntfy alert (§11).</li>
 <li>🧪 <strong>Pick a "signature" project:</strong> a pixel clock (AWTRIX NG), a 3D floorplan, or a fully local voice assistant built on your Ollama (§12–§15).</li>
+<li>🛒 <strong>Shopping?</strong> The sortable device guide is in §19, and the 36-idea automation cookbook and weekend workshops are in §20.</li>
 </ol>
 <hr />
 </section><section class="panel"><h2 id="01-what-changed-in-2026-old-guides-are-now-wrong">01 · What changed in 2026 (old guides are now wrong)</h2>
@@ -816,6 +839,7 @@ actions:
 mode: single
 </code></pre>
 <blockquote>
+<p>🍳 <strong>Want more?</strong> §20 has 36 more automations, the best blueprints and 5 weekend workshops.</p>
 <p>🧩 <strong>Blueprints</strong> turn this into one click: Settings → Automations → Blueprints → <em>Import</em>, then browse <a href="https://github.com/EPMatt/awesome-ha-blueprints" target="_blank" rel="noopener">awesome-ha-blueprints</a>.</p>
 </blockquote>
 <hr />
@@ -1022,6 +1046,421 @@ actions:
 <li><strong><a href="https://www.home-assistant.io/blog/categories/release-notes/" target="_blank" rel="noopener">Home Assistant release notes</a>:</strong> read them before every update, especially the <em>Backward-incompatible changes</em> section.</li>
 </ul>
 <hr />
+</section><section class="panel"><h2 id="19-device-shopping-guide-whats-worth-buying">19 · Device shopping guide: what's worth buying</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> on Docker Desktop, favor devices that talk <strong>Wi-Fi/Ethernet (ESPHome, Shelly, Reolink, WLED)</strong> or <strong>Zigbee through a network coordinator</strong>. Skip anything that needs USB, Bluetooth or Thread until you move HA to the UNO Q or a mini PC. <strong>On the website you can sort this list</strong> by price, setup difficulty, popularity and how common it is, filter by category, and hide what won't work on your setup.</p>
+<p><strong>How to read the ratings:</strong>
+- <strong>Price:</strong> typical US street price seen in Oct–Nov 2026. Prices move, so check before you buy.
+- <strong>Setup:</strong> 🟢 plug &amp; play · 🟡 some setup (flashing, an app, adding by IP) · 🔴 tinkerer (wiring, mains power, or flashing firmware). Hire an electrician for anything in your breaker panel.
+- <strong>Popularity:</strong> how often r/homeassistant and the HA forum <em>recommend</em> it (★1–5). This is a judgment from community threads and reviews.
+- <strong>Common:</strong> how likely you'll find it in an average HA home (●1–5), meaning mass-market reach rather than enthusiasm.</p>
+<div class="devtools"><label class="sortlbl">Sort by <select id="devsort"><option value="idx">Recommended order</option><option value="price-asc">Price: low → high</option><option value="price-desc">Price: high → low</option><option value="setup-asc">Setup: easiest first</option><option value="setup-desc">Setup: hardest first</option><option value="pop-desc">Popularity: most → least</option><option value="common-desc">Most common → least common</option><option value="common-asc">Least common → most common (niche picks)</option></select></label><label class="toggle"><input type="checkbox" id="devfit"> Only what works on my Docker Desktop setup</label><span id="devcount"></span><div class="chiprow" id="devcats"><button type="button" class="chipbtn on" data-cat="all">All</button><button type="button" class="chipbtn" data-cat="Hubs &amp; radios">📡 Hubs &amp; radios</button><button type="button" class="chipbtn" data-cat="Lighting">💡 Lighting</button><button type="button" class="chipbtn" data-cat="Sensors">🛡️ Sensors</button><button type="button" class="chipbtn" data-cat="Plugs &amp; energy">⚡ Plugs &amp; energy</button><button type="button" class="chipbtn" data-cat="Climate">🌡️ Climate</button><button type="button" class="chipbtn" data-cat="Security">🎥 Security</button><button type="button" class="chipbtn" data-cat="Displays &amp; media">🖥️ Displays &amp; media</button><button type="button" class="chipbtn" data-cat="Cleaning &amp; comfort">🏠 Cleaning &amp; comfort</button><button type="button" class="chipbtn" data-cat="Network &amp; power">🌐 Network &amp; power</button></div></div><div class="gallery devgrid" id="devgrid"><article class="card dev" data-idx="0" data-search="  smlight slzb-06u / 06mg24u   📡 hubs &amp;amp; radios zha / zigbee2mqtt over tcp ✅ best zigbee pick for docker desktop a zigbee coordinator on ethernet/poe, so you never need usb passthrough. put it in the middle of the house for the best range." data-cat="Hubs &amp; radios" data-price="50" data-setup="2" data-pop="5" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">📡</span><span class="dev-price">$40–60</span></div><div class="body"><h4><strong><a href="https://smlight.tech/products/slzb-06mg24u" target="_blank" rel="noopener">SMLIGHT SLZB-06U / 06Mg24U</a></strong></h4><p>A Zigbee coordinator on Ethernet/PoE, so you never need USB passthrough. Put it in the middle of the house for the best range.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT over TCP</div><div class="fit f2">✅ Best Zigbee pick for Docker Desktop</div></div></article><article class="card dev" data-idx="1" data-search=" home assistant connect zbt-2  📡 hubs &amp;amp; radios zha / zigbee2mqtt / thread ❌ usb: works once ha is on linux (uno q, mini pc) official adapter with plug-and-play migration. it runs zigbee  or  thread, not both at once." data-cat="Hubs &amp; radios" data-price="49" data-setup="1" data-pop="5" data-common="4" data-fit="0"><div class="dev-top"><span class="dev-ico">📡</span><span class="dev-price">$49</span></div><div class="body"><h4><strong>Home Assistant Connect ZBT-2</strong></h4><p>Official adapter with plug-and-play migration. It runs Zigbee <strong>or</strong> Thread, not both at once.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT / Thread</div><div class="fit f0">❌ USB: works once HA is on Linux (UNO Q, mini PC)</div></div></article><article class="card dev" data-idx="2" data-search=" home assistant connect zwa-2  📡 hubs &amp;amp; radios z-wave js ❌ usb z-wave with long range support. only needed if you buy z-wave locks or switches." data-cat="Hubs &amp; radios" data-price="69" data-setup="1" data-pop="3" data-common="2" data-fit="0"><div class="dev-top"><span class="dev-ico">📡</span><span class="dev-price">$69</span></div><div class="body"><h4><strong>Home Assistant Connect ZWA-2</strong></h4><p>Z-Wave with Long Range support. Only needed if you buy Z-Wave locks or switches.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★☆☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Z-Wave JS</div><div class="fit f0">❌ USB</div></div></article><article class="card dev" data-idx="3" data-search=" esp32 bluetooth proxy (atom lite or any esp32)  📡 hubs &amp;amp; radios esphome (wi-fi) ✅ fixes &quot;no bluetooth&quot; on docker desktop flash it from the browser and it relays ble devices (govee ble, switchbot, plant sensors, room presence) to ha over wi-fi." data-cat="Hubs &amp; radios" data-price="12" data-setup="2" data-pop="5" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">📡</span><span class="dev-price">$8–15</span></div><div class="body"><h4><strong>ESP32 Bluetooth proxy (Atom Lite or any ESP32)</strong></h4><p>Flash it from the browser and it relays BLE devices (Govee BLE, SwitchBot, plant sensors, room presence) to HA over Wi-Fi.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> ESPHome (Wi-Fi)</div><div class="fit f2">✅ Fixes "no Bluetooth" on Docker Desktop</div></div></article><article class="card dev" data-idx="4" data-search=" home assistant voice preview edition  📡 hubs &amp;amp; radios esphome + assist ✅ add by ip a local smart speaker for assist, with a physical mic mute. pairs with your ollama (§12)." data-cat="Hubs &amp; radios" data-price="64" data-setup="1" data-pop="4" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">📡</span><span class="dev-price">$59–69</span></div><div class="body"><h4><strong>Home Assistant Voice Preview Edition</strong></h4><p>A local smart speaker for Assist, with a physical mic mute. Pairs with your Ollama (§12).</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> ESPHome + Assist</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="5" data-search=" home assistant green  📡 hubs &amp;amp; radios home assistant os ✅ would replace docker desktop entirely the official box: full apps, real host networking and usb. its price has gone up since launch." data-cat="Hubs &amp; radios" data-price="179" data-setup="1" data-pop="4" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">📡</span><span class="dev-price">$159–199</span></div><div class="body"><h4><strong>Home Assistant Green</strong></h4><p>The official box: full Apps, real host networking and USB. Its price has gone up since launch.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> Home Assistant OS</div><div class="fit f2">✅ Would replace Docker Desktop entirely</div></div></article><article class="card dev" data-idx="6" data-search=" philips hue bulbs  💡 lighting philips hue (local) ✅ you already own the bridge the most reliable color bulbs. just add more to your existing bridge." data-cat="Lighting" data-price="32" data-setup="1" data-pop="5" data-common="5" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$15–50</span></div><div class="body"><h4><strong>Philips Hue bulbs</strong></h4><p>The most reliable color bulbs. Just add more to your existing bridge.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●●</span></div><div class="via"><b>Works via:</b> Philips Hue (local)</div><div class="fit f2">✅ You already own the bridge</div></div></article><article class="card dev" data-idx="7" data-search=" ikea smart bulbs (zigbee)  💡 lighting zha / zigbee2mqtt ✅ with a network coordinator (newer matter models need thread ❌) the cheapest decent smart bulbs, and they strengthen your zigbee mesh." data-cat="Lighting" data-price="15" data-setup="1" data-pop="4" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$10–20</span></div><div class="body"><h4><strong>IKEA smart bulbs (Zigbee)</strong></h4><p>The cheapest decent smart bulbs, and they strengthen your Zigbee mesh.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator (newer Matter models need Thread ❌)</div></div></article><article class="card dev" data-idx="8" data-search=" wled led strip controller  💡 lighting wled (local) ✅ add by ip addressable led strips with 100+ effects, music sync and segments. peak frutiger aero desk glow." data-cat="Lighting" data-price="30" data-setup="2" data-pop="5" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$20–40</span></div><div class="body"><h4><strong>WLED LED strip controller</strong></h4><p>Addressable LED strips with 100+ effects, music sync and segments. Peak Frutiger Aero desk glow.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> WLED (local)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="9" data-search=" lutron caséta dimmer (+ smart hub)  💡 lighting lutron caséta (local) ✅ add the hub by ip rock-solid wall dimmers,  no neutral wire needed . pico remotes are great for family members." data-cat="Lighting" data-price="65" data-setup="3" data-pop="5" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$60–70</span></div><div class="body"><h4><strong>Lutron Caséta dimmer (+ Smart Hub)</strong></h4><p>Rock-solid wall dimmers, <strong>no neutral wire needed</strong>. Pico remotes are great for family members.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> Lutron Caséta (local)</div><div class="fit f2">✅ Add the hub by IP</div></div></article><article class="card dev" data-idx="10" data-search=" inovelli blue series 2-1 switch  💡 lighting zigbee (zha / z2m) ✅ with a network coordinator a switch with an led bar you can use for notifications (&quot;washer done&quot; turns it blue). has energy monitoring too." data-cat="Lighting" data-price="60" data-setup="3" data-pop="4" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$55–65</span></div><div class="body"><h4><strong>Inovelli Blue Series 2-1 switch</strong></h4><p>A switch with an LED bar you can use for notifications ("washer done" turns it blue). Has energy monitoring too.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Zigbee (ZHA / Z2M)</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="11" data-search=" shelly 1 mini gen4 / 1pm gen4 relay  💡 lighting shelly (local) ✅ add by ip hides behind your existing switch to make any light, fan or garage door smart." data-cat="Lighting" data-price="22" data-setup="3" data-pop="5" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$17–28</span></div><div class="body"><h4><strong>Shelly 1 Mini Gen4 / 1PM Gen4 relay</strong></h4><p>Hides behind your existing switch to make any light, fan or garage door smart.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> Shelly (local)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="12" data-search=" aqara wireless mini switch  💡 lighting zha / zigbee2mqtt ✅ with a network coordinator a stick-anywhere button: single press, double press and hold give you 3 automations." data-cat="Lighting" data-price="20" data-setup="1" data-pop="4" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">💡</span><span class="dev-price">$20</span></div><div class="body"><h4><strong>Aqara Wireless Mini Switch</strong></h4><p>A stick-anywhere button: single press, double press and hold give you 3 automations.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="13" data-search=" aqara door &amp;amp; window sensor  🛡️ sensors zha / zigbee2mqtt ✅ with a network coordinator tiny, cheap, and the battery lasts years. the building block of security automations." data-cat="Sensors" data-price="18" data-setup="1" data-pop="5" data-common="5" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$15–20</span></div><div class="body"><h4><strong>Aqara Door &amp; Window Sensor</strong></h4><p>Tiny, cheap, and the battery lasts years. The building block of security automations.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●●</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="14" data-search=" aqara temperature &amp;amp; humidity sensor  🛡️ sensors zha / zigbee2mqtt ✅ with a network coordinator a temperature reading in every room. watch your server closet with it." data-cat="Sensors" data-price="22" data-setup="1" data-pop="5" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$22</span></div><div class="body"><h4><strong>Aqara Temperature &amp; Humidity Sensor</strong></h4><p>A temperature reading in every room. Watch your server closet with it.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="15" data-search=" aqara water leak sensor  🛡️ sensors zha / zigbee2mqtt ✅ with a network coordinator the cheapest insurance in the house. put one under the water heater, washer and sinks." data-cat="Sensors" data-price="21" data-setup="1" data-pop="5" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$21</span></div><div class="body"><h4><strong>Aqara Water Leak Sensor</strong></h4><p>The cheapest insurance in the house. Put one under the water heater, washer and sinks.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="16" data-search=" sonoff snzb sensors (budget zigbee)  🛡️ sensors zha / zigbee2mqtt ✅ with a network coordinator budget door, motion and temperature sensors when you need lots of them." data-cat="Sensors" data-price="12" data-setup="1" data-pop="4" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$8–15</span></div><div class="body"><h4><strong>Sonoff SNZB sensors (budget Zigbee)</strong></h4><p>Budget door, motion and temperature sensors when you need lots of them.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="17" data-search="  everything presence lite   🛡️ sensors esphome (wi-fi) ✅ add by ip, and it doubles as a bluetooth proxy mmwave presence: lights stay on while you sit still. tracks up to 3 people in zones." data-cat="Sensors" data-price="39" data-setup="2" data-pop="5" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$39</span></div><div class="body"><h4><strong><a href="https://shop.everythingsmart.io/products/everything-presence-lite" target="_blank" rel="noopener">Everything Presence Lite</a></strong></h4><p>mmWave presence: lights stay on while you sit still. Tracks up to 3 people in zones.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> ESPHome (Wi-Fi)</div><div class="fit f2">✅ Add by IP, and it doubles as a Bluetooth proxy</div></div></article><article class="card dev" data-idx="18" data-search="  apollo msr-2 / mtr-1   🛡️ sensors esphome (wi-fi) ✅ add by ip pre-flashed mmwave + light + temperature multisensors that are fully local." data-cat="Sensors" data-price="38" data-setup="2" data-pop="4" data-common="1" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$32–43</span></div><div class="body"><h4><strong><a href="https://ameridroid.com/collections/apollo" target="_blank" rel="noopener">Apollo MSR-2 / MTR-1</a></strong></h4><p>Pre-flashed mmWave + light + temperature multisensors that are fully local.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●○○○○</span></div><div class="via"><b>Works via:</b> ESPHome (Wi-Fi)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="19" data-search=" aqara presence sensor fp300  🛡️ sensors zigbee or thread ✅ in zigbee mode (thread mode ❌) battery-powered 5-in-1 presence sensor: no cable to hide." data-cat="Sensors" data-price="50" data-setup="1" data-pop="4" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$50</span></div><div class="body"><h4><strong>Aqara Presence Sensor FP300</strong></h4><p>Battery-powered 5-in-1 presence sensor: no cable to hide.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Zigbee or Thread</div><div class="fit f2">✅ In Zigbee mode (Thread mode ❌)</div></div></article><article class="card dev" data-idx="20" data-search="  apollo air-1   🛡️ sensors esphome (wi-fi) ✅ add by ip co₂, voc and particulates. get an &quot;open a window&quot; alert when the room gets stuffy." data-cat="Sensors" data-price="116" data-setup="2" data-pop="3" data-common="1" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$110–123</span></div><div class="body"><h4><strong><a href="https://ameridroid.com/collections/apollo" target="_blank" rel="noopener">Apollo AIR-1</a></strong></h4><p>CO₂, VOC and particulates. Get an "open a window" alert when the room gets stuffy.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★☆☆</span><span class="tag" title="How common it is in HA homes">●○○○○</span></div><div class="via"><b>Works via:</b> ESPHome (Wi-Fi)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="21" data-search=" apollo plt-1 plant sensor  🛡️ sensors esphome (wi-fi) ✅ add by ip soil moisture and light. your plants send you push notifications." data-cat="Sensors" data-price="32" data-setup="2" data-pop="3" data-common="1" data-fit="2"><div class="dev-top"><span class="dev-ico">🛡️</span><span class="dev-price">$32</span></div><div class="body"><h4><strong>Apollo PLT-1 plant sensor</strong></h4><p>Soil moisture and light. Your plants send you push notifications.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★☆☆</span><span class="tag" title="How common it is in HA homes">●○○○○</span></div><div class="via"><b>Works via:</b> ESPHome (Wi-Fi)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="22" data-search=" kasa / tapo energy-monitoring plug  ⚡ plugs &amp;amp; energy tp-link smart home (local) ✅ you already use kasa power readings make &quot;washer done&quot; and standby-killer automations possible." data-cat="Plugs &amp; energy" data-price="18" data-setup="1" data-pop="5" data-common="5" data-fit="2"><div class="dev-top"><span class="dev-ico">⚡</span><span class="dev-price">$10–25</span></div><div class="body"><h4><strong>Kasa / Tapo energy-monitoring plug</strong></h4><p>Power readings make "washer done" and standby-killer automations possible.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●●</span></div><div class="via"><b>Works via:</b> TP-Link Smart Home (local)</div><div class="fit f2">✅ You already use Kasa</div></div></article><article class="card dev" data-idx="23" data-search=" shelly plug us gen4  ⚡ plugs &amp;amp; energy shelly (local) ✅ add by ip a fully local plug with metering and no cloud account needed." data-cat="Plugs &amp; energy" data-price="23" data-setup="1" data-pop="4" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">⚡</span><span class="dev-price">$23</span></div><div class="body"><h4><strong>Shelly Plug US Gen4</strong></h4><p>A fully local plug with metering and no cloud account needed.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> Shelly (local)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="24" data-search=" third reality zigbee smart plug  ⚡ plugs &amp;amp; energy zha / zigbee2mqtt ✅ with a network coordinator cheap, and each one is a  zigbee router  that extends your mesh." data-cat="Plugs &amp; energy" data-price="14" data-setup="1" data-pop="4" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">⚡</span><span class="dev-price">$12–15</span></div><div class="body"><h4><strong>Third Reality Zigbee smart plug</strong></h4><p>Cheap, and each one is a <strong>Zigbee router</strong> that extends your mesh.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="25" data-search=" emporia vue 3 energy monitor  ⚡ plugs &amp;amp; energy cloud integration, or esphome reflash ✅ works as-is clamps in your breaker panel to show whole-home and per-circuit power.  hire an electrician  for this one." data-cat="Plugs &amp; energy" data-price="125" data-setup="3" data-pop="4" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">⚡</span><span class="dev-price">$100–150</span></div><div class="body"><h4><strong>Emporia Vue 3 energy monitor</strong></h4><p>Clamps in your breaker panel to show whole-home and per-circuit power. <strong>Hire an electrician</strong> for this one.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Cloud integration, or ESPHome reflash</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="26" data-search=" home assistant glow (diy)  ⚡ plugs &amp;amp; energy esphome (wi-fi) ✅ add by ip reads your electric meter&#x27;s blinking led for live usage. a fun first esphome build (§15)." data-cat="Plugs &amp; energy" data-price="15" data-setup="3" data-pop="3" data-common="1" data-fit="2"><div class="dev-top"><span class="dev-ico">⚡</span><span class="dev-price">$15</span></div><div class="body"><h4><strong>Home Assistant Glow (DIY)</strong></h4><p>Reads your electric meter's blinking LED for live usage. A fun first ESPHome build (§15).</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★☆☆</span><span class="tag" title="How common it is in HA homes">●○○○○</span></div><div class="via"><b>Works via:</b> ESPHome (Wi-Fi)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="27" data-search=" ecobee smart thermostat  🌡️ climate homekit device (local) or ecobee ⚠️ local homekit pairing needs discovery, so the cloud integration is easier room sensors and eco schedules. pairs nicely with your temperature sensors." data-cat="Climate" data-price="210" data-setup="2" data-pop="5" data-common="4" data-fit="1"><div class="dev-top"><span class="dev-ico">🌡️</span><span class="dev-price">$170–250</span></div><div class="body"><h4><strong>ecobee smart thermostat</strong></h4><p>Room sensors and eco schedules. Pairs nicely with your temperature sensors.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> HomeKit Device (local) or ecobee</div><div class="fit f1">⚠️ Local HomeKit pairing needs discovery, so the cloud integration is easier</div></div></article><article class="card dev" data-idx="28" data-search=" ir blaster (broadlink rm4 mini)  🌡️ climate broadlink (local) ✅ add by ip makes old acs, fans and tvs smart. ha 2026.4 added native ir support too." data-cat="Climate" data-price="30" data-setup="1" data-pop="4" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">🌡️</span><span class="dev-price">$25–35</span></div><div class="body"><h4><strong>IR blaster (Broadlink RM4 mini)</strong></h4><p>Makes old ACs, fans and TVs smart. HA 2026.4 added native IR support too.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> Broadlink (local)</div><div class="fit f2">✅ Add by IP</div></div></article><article class="card dev" data-idx="29" data-search=" reolink poe camera (e.g. rlc-510a)  🎥 security reolink (local) + frigate ✅ ⭐ on your wishlist rtsp/onvif, no subscription. the frigate community&#x27;s favorite camera brand." data-cat="Security" data-price="65" data-setup="2" data-pop="5" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">🎥</span><span class="dev-price">$50–80</span></div><div class="body"><h4><strong>Reolink PoE camera (e.g. RLC-510A)</strong></h4><p>RTSP/ONVIF, no subscription. The Frigate community's favorite camera brand.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> Reolink (local) + Frigate</div><div class="fit f2">✅ ⭐ On your wishlist</div></div></article><article class="card dev" data-idx="30" data-search=" reolink video doorbell poe  🎥 security reolink (local) ✅ works as-is a local doorbell with no monthly fee. it can replace a ring protect subscription." data-cat="Security" data-price="95" data-setup="2" data-pop="5" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">🎥</span><span class="dev-price">$80–110</span></div><div class="body"><h4><strong>Reolink Video Doorbell PoE</strong></h4><p>A local doorbell with no monthly fee. It can replace a Ring Protect subscription.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> Reolink (local)</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="31" data-search="  ratgdo32 / ratgdo32 disco   🎥 security esphome (local) ⚠️ add by ip (auto-adoption needs mdns) local garage door control for chamberlain/liftmaster openers after myq blocked ha. the disco version also detects whether a car is parked." data-cat="Security" data-price="78" data-setup="3" data-pop="5" data-common="2" data-fit="1"><div class="dev-top"><span class="dev-ico">🎥</span><span class="dev-price">$62–94</span></div><div class="body"><h4><strong><a href="https://ratcloud.llc/products/ratgdo32" target="_blank" rel="noopener">ratgdo32 / ratgdo32 disco</a></strong></h4><p>Local garage door control for Chamberlain/LiftMaster openers after myQ blocked HA. The disco version also detects whether a car is parked.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> ESPHome (local)</div><div class="fit f1">⚠️ Add by IP (auto-adoption needs mDNS)</div></div></article><article class="card dev" data-idx="32" data-search=" smart lock (yale assure 2 / aqara u200)  🎥 security z-wave, zigbee or matter (model-dependent) ⚠️ pick a zigbee or wi-fi model auto-lock at night, &quot;door unlocked for 10 minutes&quot; alerts, guest codes." data-cat="Security" data-price="215" data-setup="3" data-pop="4" data-common="3" data-fit="1"><div class="dev-top"><span class="dev-ico">🎥</span><span class="dev-price">$150–280</span></div><div class="body"><h4><strong>Smart lock (Yale Assure 2 / Aqara U200)</strong></h4><p>Auto-lock at night, "door unlocked for 10 minutes" alerts, guest codes.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> Z-Wave, Zigbee or Matter (model-dependent)</div><div class="fit f1">⚠️ Pick a Zigbee or Wi-Fi model</div></div></article><article class="card dev" data-idx="33" data-search=" ulanzi tc001 pixel clock  🖥️ displays &amp;amp; media mqtt (awtrix ng) ✅ works as-is notifications, homelab stats and weather on a pixel display. everyone who visits asks about it (§15)." data-cat="Displays &amp; media" data-price="50" data-setup="2" data-pop="5" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">🖥️</span><span class="dev-price">$50</span></div><div class="body"><h4><strong>Ulanzi TC001 pixel clock</strong></h4><p>Notifications, homelab stats and weather on a pixel display. Everyone who visits asks about it (§15).</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> MQTT (AWTRIX NG)</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="34" data-search=" old tablet / lenovo tab m11 wall panel  🖥️ displays &amp;amp; media companion app + kiosk mode ✅ works as-is a family-friendly control panel. a drawer tablet costs nothing (§16)." data-cat="Displays &amp; media" data-price="125" data-setup="1" data-pop="5" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">🖥️</span><span class="dev-price">$0–250</span></div><div class="body"><h4><strong>Old tablet / Lenovo Tab M11 wall panel</strong></h4><p>A family-friendly control panel. A drawer tablet costs nothing (§16).</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> Companion app + Kiosk Mode</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="35" data-search=" sonoff nspanel pro  🖥️ displays &amp;amp; media companion app / zigbee ✅ works as-is a purpose-built wall panel that replaces a light switch." data-cat="Displays &amp; media" data-price="110" data-setup="2" data-pop="3" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">🖥️</span><span class="dev-price">~$110</span></div><div class="body"><h4><strong>Sonoff NSPanel Pro</strong></h4><p>A purpose-built wall panel that replaces a light switch.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★☆☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Companion app / Zigbee</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="36" data-search=" used kindle (e-ink dashboard)  🖥️ displays &amp;amp; media kindle screensaver project ✅ works as-is an always-on e-ink status screen that sips power. pair it with the graphite e-ink theme." data-cat="Displays &amp; media" data-price="30" data-setup="3" data-pop="3" data-common="1" data-fit="2"><div class="dev-top"><span class="dev-ico">🖥️</span><span class="dev-price">$20–40</span></div><div class="body"><h4><strong>Used Kindle (e-ink dashboard)</strong></h4><p>An always-on e-ink status screen that sips power. Pair it with the Graphite E-Ink theme.</p><div class="dev-meta"><span class="tag s3" title="Setup difficulty">🔴 Tinkerer</span><span class="tag" title="Popularity: how often the community recommends it">★★★☆☆</span><span class="tag" title="How common it is in HA homes">●○○○○</span></div><div class="via"><b>Works via:</b> Kindle screensaver project</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="37" data-search=" sonos speakers  🖥️ displays &amp;amp; media sonos (local) + music assistant ⚠️ add by ip multi-room audio, tts announcements, doorbell chimes through the house." data-cat="Displays &amp; media" data-price="200" data-setup="1" data-pop="4" data-common="4" data-fit="1"><div class="dev-top"><span class="dev-ico">🖥️</span><span class="dev-price">$200+</span></div><div class="body"><h4><strong>Sonos speakers</strong></h4><p>Multi-room audio, TTS announcements, doorbell chimes through the house.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> Sonos (local) + Music Assistant</div><div class="fit f1">⚠️ Add by IP</div></div></article><article class="card dev" data-idx="38" data-search=" roborock robot vacuum  🏠 cleaning &amp;amp; comfort roborock, or valetudo on supported models ✅ works as-is clean when everyone leaves, and room-by-room cleaning from a map card." data-cat="Cleaning &amp; comfort" data-price="550" data-setup="1" data-pop="5" data-common="4" data-fit="2"><div class="dev-top"><span class="dev-ico">🏠</span><span class="dev-price">$300–800</span></div><div class="body"><h4><strong>Roborock robot vacuum</strong></h4><p>Clean when everyone leaves, and room-by-room cleaning from a map card.</p><div class="dev-meta"><span class="tag s1" title="Setup difficulty">🟢 Plug &amp; play</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●●○</span></div><div class="via"><b>Works via:</b> Roborock, or Valetudo on supported models</div><div class="fit f2">✅ Works as-is</div></div></article><article class="card dev" data-idx="39" data-search=" ikea smart blinds (zigbee)  🏠 cleaning &amp;amp; comfort zha / zigbee2mqtt ✅ with a network coordinator blinds open at sunrise and close when a movie starts." data-cat="Cleaning &amp; comfort" data-price="165" data-setup="2" data-pop="4" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">🏠</span><span class="dev-price">$130–200</span></div><div class="body"><h4><strong>IKEA smart blinds (Zigbee)</strong></h4><p>Blinds open at sunrise and close when a movie starts.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> ZHA / Zigbee2MQTT</div><div class="fit f2">✅ With a network coordinator</div></div></article><article class="card dev" data-idx="40" data-search=" unifi cloud gateway / dream machine  🌐 network &amp;amp; power unifi network (local) ✅ ⭐ on your wishlist wi-fi presence detection, client lists and firewall data, perfect for the security dashboard (§14)." data-cat="Network &amp; power" data-price="350" data-setup="2" data-pop="5" data-common="3" data-fit="2"><div class="dev-top"><span class="dev-ico">🌐</span><span class="dev-price">$200–500</span></div><div class="body"><h4><strong>UniFi Cloud Gateway / Dream Machine</strong></h4><p>Wi-Fi presence detection, client lists and firewall data, perfect for the security dashboard (§14).</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★★</span><span class="tag" title="How common it is in HA homes">●●●○○</span></div><div class="via"><b>Works via:</b> UniFi Network (local)</div><div class="fit f2">✅ ⭐ On your wishlist</div></div></article><article class="card dev" data-idx="41" data-search=" poe switch  🌐 network &amp;amp; power powers slzb-06, cameras and doorbell ✅ ⭐ on your wishlist one cable per device for both power and data, with no adapters behind the tv." data-cat="Network &amp; power" data-price="130" data-setup="2" data-pop="4" data-common="2" data-fit="2"><div class="dev-top"><span class="dev-ico">🌐</span><span class="dev-price">$60–200</span></div><div class="body"><h4><strong>PoE switch</strong></h4><p>One cable per device for both power and data, with no adapters behind the TV.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Powers SLZB-06, cameras and doorbell</div><div class="fit f2">✅ ⭐ On your wishlist</div></div></article><article class="card dev" data-idx="42" data-search=" ups with usb (cyberpower / apc) + nut  🌐 network &amp;amp; power network ups tools (nut) ⚠️ run the nut server on the uno q or a pi power-outage alerts and a graceful shutdown before the battery dies. ⭐ on your wishlist." data-cat="Network &amp; power" data-price="145" data-setup="2" data-pop="4" data-common="2" data-fit="1"><div class="dev-top"><span class="dev-ico">🌐</span><span class="dev-price">$90–200</span></div><div class="body"><h4><strong>UPS with USB (CyberPower / APC) + NUT</strong></h4><p>Power-outage alerts and a graceful shutdown before the battery dies. ⭐ On your wishlist.</p><div class="dev-meta"><span class="tag s2" title="Setup difficulty">🟡 Some setup</span><span class="tag" title="Popularity: how often the community recommends it">★★★★☆</span><span class="tag" title="How common it is in HA homes">●●○○○</span></div><div class="via"><b>Works via:</b> Network UPS Tools (NUT)</div><div class="fit f1">⚠️ Run the NUT server on the UNO Q or a Pi</div></div></article></div>
+<blockquote>
+<p>🛒 <strong>Starter bundle for your setup (~$150):</strong> SLZB-06U ($40) + 3 Aqara door sensors (~$50) + 2 leak sensors (~$42) + an ESP32 Bluetooth proxy ($10). That's a solid security base with no USB at all.</p>
+</blockquote>
+<hr />
+</section><section class="panel"><h2 id="20-workshops-courses-the-automation-cookbook">20 · Workshops, courses &amp; the automation cookbook</h2>
+<p class="tldr">🎯 <strong>TL;DR:</strong> meet the community in person through the <strong>Luma meetup calendar</strong>, learn from a handful of great YouTube channels, run the 5 weekend workshops below, then steal from the 36-automation cookbook.</p>
+<h3 id="events-meetups">🎪 Events &amp; meetups</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>When</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://www.openhomefoundation.org/community-day/" target="_blank" rel="noopener">Community Day</a></strong></td>
+<td>Yearly. The 2026 edition was <strong>Saturday, Nov 7</strong></td>
+<td>Worldwide meetups for Home Assistant, ESPHome and Music Assistant users. 2026 had <strong>97 meetups in 30+ countries</strong>, including a Brooklyn meetup in past years.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.home-assistant.io/community" target="_blank" rel="noopener">Home Assistant Meetups calendar (Luma)</a></strong></td>
+<td>All year</td>
+<td>Subscribe for meetups near you, or host your own (Philadelphia and State College are fair game).</td>
+</tr>
+<tr>
+<td><strong>Month of "What the Heck?!"</strong></td>
+<td>November 2026</td>
+<td>Share what annoys the <em>other people</em> in your home about HA on the forum. A great chance to hand your family the feedback form.</td>
+</tr>
+<tr>
+<td><strong>State of the Open Home</strong></td>
+<td>Yearly (Apr 8, 2026, Utrecht)</td>
+<td>The roadmap keynote. Watch the recordings on the Home Assistant YouTube channel.</td>
+</tr>
+<tr>
+<td><strong>Monthly release livestreams</strong></td>
+<td>Around the first Wednesday of each month</td>
+<td>The team demos each new release live, with community Q&amp;A.</td>
+</tr>
+<tr>
+<td><strong>DEF CON IoT Village</strong></td>
+<td>Every August</td>
+<td>🛡️ Hands-on IoT hacking talks and contests. The cyber-student crossover pick.</td>
+</tr>
+<tr>
+<td><strong>Penn State Maker Commons</strong></td>
+<td>Semester-round</td>
+<td>Campus makerspace: 3D-print sensor cases and solder ESP32 builds.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="learn-free">📺 Learn (free)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Everything Smart Home</strong> (YouTube)</td>
+<td>Beginner-friendly builds. Made by the creator of the Everything Presence sensors.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.smarthomejunkie.net/" target="_blank" rel="noopener">Smart Home Junkie</a></strong> (YouTube + blog)</td>
+<td>Dashboards, AWTRIX blueprints, release breakdowns.</td>
+</tr>
+<tr>
+<td><strong>BeardedTinker</strong> (YouTube)</td>
+<td>Deep, careful walkthroughs of advanced setups.</td>
+</tr>
+<tr>
+<td><strong>mostlychris</strong> (YouTube)</td>
+<td>Docker, ESPHome and practical automations.</td>
+</tr>
+<tr>
+<td><strong>Home Automation Guy</strong> (YouTube)</td>
+<td>Automation logic explained step by step.</td>
+</tr>
+<tr>
+<td><strong>Smart Home Solver</strong> (YouTube)</td>
+<td>Device reviews and clever automation ideas.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.simon42.com/" target="_blank" rel="noopener">simon42</a></strong> (German)</td>
+<td>The fastest coverage of every release.</td>
+</tr>
+<tr>
+<td><strong><a href="https://homeassistant.fm/" target="_blank" rel="noopener">Home Assistant Podcast</a></strong></td>
+<td>Weekly news and interviews to listen to on your commute.</td>
+</tr>
+<tr>
+<td><strong><a href="https://lazyadmin.nl/tag/home-assistant/" target="_blank" rel="noopener">LazyAdmin</a></strong> &amp; <strong><a href="https://smarthomescene.com/" target="_blank" rel="noopener">SmartHomeScene</a></strong></td>
+<td>Written guides, comparisons and theme and card roundups.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="5-weekend-workshops-do-them-in-order">🛠️ 5 weekend workshops (do them in order)</h3>
+<ol>
+<li><strong>Bluetooth proxy in 20 minutes</strong> 🟢: flash an ESP32 from the ESPHome web installer → add it by IP → watch BLE devices appear. (Fixes Docker Desktop's biggest gap.)</li>
+<li><strong>Homelab status wall</strong> 🟡: Uptime Kuma + Glances integrations → Mushroom chips + ApexCharts → the red-light alert from §11.</li>
+<li><strong>Zigbee without USB</strong> 🟡: SLZB-06 on Ethernet → Zigbee2MQTT container → pair 3 door sensors → "door left open" announcement on the Echo.</li>
+<li><strong>Local voice assistant</strong> 🧪: Whisper + Piper + openWakeWord containers → Ollama agent → "Okay Nabu, movie mode."</li>
+<li><strong>Doorbell that thinks</strong> 🧪: Reolink doorbell → Frigate → LLM Vision → a notification that says <em>who</em> is at the door.</li>
+</ol>
+<h3 id="the-best-blueprints-one-click-automations">🧩 The best blueprints (one-click automations)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Blueprint</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Motion-activated Light</strong> (built in)</td>
+<td>Light on with motion, off after X minutes of no motion.</td>
+</tr>
+<tr>
+<td><strong>Zone Notification</strong> (built in)</td>
+<td>Notifies you when someone leaves a zone.</td>
+</tr>
+<tr>
+<td><strong>Confirmable Notification</strong> (built-in script)</td>
+<td>An actionable "Do you want to…? Yes / No" phone notification.</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/SgtBatten/HA_blueprints" target="_blank" rel="noopener">Frigate Notifications (SgtBatten)</a></strong></td>
+<td>Rich camera alerts with snapshots, clips and cooldowns. One of the most popular Frigate blueprints.</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/EPMatt/awesome-ha-blueprints" target="_blank" rel="noopener">awesome-ha-blueprints</a></strong></td>
+<td>Controller blueprints for IKEA, Aqara, Philips and other remotes.</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/smarthomejunkie/Ulanzi-Awtrix-BluePrints" target="_blank" rel="noopener">Ulanzi AWTRIX blueprints</a></strong></td>
+<td>Weather, calendar, energy and notifications on your pixel clock.</td>
+</tr>
+<tr>
+<td><strong>Blueprints Exchange</strong> (<a href="https://community.home-assistant.io/" target="_blank" rel="noopener">HA forum</a>)</td>
+<td>Thousands more: low-battery roundups, appliance-done alerts and so on. Sort by <em>Top</em>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="the-automation-cookbook-36-ideas">🍳 The automation cookbook (36 ideas)</h3>
+<p>⚡ = quick win · 🟡 = some setup · 🧪 = project</p>
+<p><strong>🌅 Lighting &amp; comfort</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Motion lights that turn off after no motion</td>
+<td>Motion sensor + the built-in blueprint</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Lights follow the sun's color all day</td>
+<td>Adaptive Lighting</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Sunrise wake-up: 15-minute fade before your alarm</td>
+<td>Hue + phone's next-alarm sensor</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Jellyfin plays → dim the lights, restore them on pause</td>
+<td>Jellyfin + <code>scene.create</code> snapshot</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>"Goodnight" button: lights off, TV off, doors checked</td>
+<td>Aqara mini switch + a script</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Lights stay on while you sit still (no more arm-waving)</td>
+<td>mmWave presence (Everything Presence Lite)</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>TV backlight that matches the screen</td>
+<td>WLED + HyperHDR</td>
+<td>🧪</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>🛡️ Security &amp; safety</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leak detected → critical phone alert + Echo announcement</td>
+<td>Leak sensor + Alexa Devices</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Door open more than 5 minutes → announce it</td>
+<td>Door sensor</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Doorbell → snapshot + actionable notification</td>
+<td>Reolink/Ring + Frigate blueprint</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Smoke/CO alarm → all lights 100%, HVAC fan off, announcement</td>
+<td>Smoke sensor or listener</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Vacation mode: random lights in the evening</td>
+<td>Presence + a script</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Unknown device joins the LAN → alert</td>
+<td>Nmap Tracker or UniFi</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Failed HA login → ntfy (see §14)</td>
+<td>Built-in</td>
+<td>⚡</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>🖥️ Homelab &amp; tech</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uptime Kuma monitor down → red pulse + ntfy (see §11)</td>
+<td>Uptime Kuma + a light</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Server closet over 30 °C → alert + turn on a fan plug</td>
+<td>Temperature sensor + plug</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Power outage → alert, pause torrents, shut down safely</td>
+<td>UPS + NUT + qBittorrent</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Gaming or 4K streaming → qBittorrent alt-speed on</td>
+<td>qBittorrent + System Monitor/Jellyfin</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>No backup in 3 days → alert</td>
+<td>Backup integration sensors</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Tailscale device offline for 24 hours → alert</td>
+<td>Tailscale integration</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Sunday "house health" report: updates, batteries, backups</td>
+<td>Template + notify</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>⚡ Energy &amp; appliances</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Washer/dryer finished (power drops below 5 W) → announce</td>
+<td>Energy-monitoring plug</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Kill standby power overnight (TV, consoles)</td>
+<td>Smart plug</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Space heater on for 2 hours or nobody home → off</td>
+<td>Plug + presence</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Daily energy cost summary notification</td>
+<td>Energy dashboard + template</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Run the dishwasher or charger in off-peak hours</td>
+<td>Plug + utility rate sensor</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>👨‍👩‍👧 Family &amp; daily life</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Welcome home: lights + music when your phone arrives</td>
+<td>Companion app zones</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Morning brief on the Echo: weather + calendar + commute</td>
+<td>Alexa Devices + templates (or n8n)</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Trash-day reminder the night before</td>
+<td>Calendar integration</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Weekly low-battery roundup</td>
+<td>Blueprint from the Exchange</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Plant is thirsty → notification</td>
+<td>PLT-1 or a BLE plant sensor</td>
+<td>⚡</td>
+</tr>
+<tr>
+<td>Package detected at the door → notification</td>
+<td>Frigate (+ LLM Vision)</td>
+<td>🧪</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>🤖 AI &amp; fun</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>You need</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Doorbell notification that says <em>who</em> is there</td>
+<td>LLM Vision + Ollama</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>"Anything unusual today?" daily summary from your LLM</td>
+<td>Ollama + logbook template</td>
+<td>🧪</td>
+</tr>
+<tr>
+<td>Pixel clock shows homelab status and your next event</td>
+<td>AWTRIX NG + blueprints</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>"Hey Jarvis, movie mode" by voice</td>
+<td>openWakeWord + Assist</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Holiday lighting: WLED presets switch by date</td>
+<td>WLED + calendar</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
 </section><section class="panel"><h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://www.home-assistant.io/blog/2026/11/04/release-202611/" target="_blank" rel="noopener">Home Assistant 2026.11 release notes (Marketplace, naming, Matter cameras)</a></li>
@@ -1039,6 +1478,14 @@ actions:
 <li><a href="https://www.cnx-software.com/2025/11/20/home-assistant-connect-zbt-2-zigbee-thread-usb-adapter/" target="_blank" rel="noopener">CNX Software: Connect ZBT-2</a></li>
 <li><a href="https://feed.craftedsignal.io/briefs/2026-05-hacs-path-traversal/" target="_blank" rel="noopener">HACS path traversal advisory (CVE-2021-47942)</a></li>
 <li><a href="https://neilturner.me.uk/2025/02/23/" target="_blank" rel="noopener">Homeway pricing comparison</a></li>
+<li><a href="https://www.openhomefoundation.org/community-day/" target="_blank" rel="noopener">Community Day 2026 (Open Home Foundation)</a></li>
+<li><a href="https://raspberry.tips/en/raspberrypi-tutorials/home-assistant-hardware-comparison-2026-green-blue-yellow-vs-raspberry-pi" target="_blank" rel="noopener">HA hardware comparison 2026 (Green price)</a></li>
+<li><a href="https://ameridroid.com/collections/nabu-casa" target="_blank" rel="noopener">Ameridroid: Nabu Casa &amp; Apollo prices</a></li>
+<li><a href="https://us.shelly.com/collections/all" target="_blank" rel="noopener">Shelly USA prices</a></li>
+<li><a href="https://www.trackalacker.com/articles/news/aqara-presence-sensor-fp300-price-specs-and-where-to-buy" target="_blank" rel="noopener">Aqara FP300 price</a></li>
+<li><a href="https://computingforgeeks.com/best-garage-door-opener-home-assistant/" target="_blank" rel="noopener">Garage door controllers for HA (ratgdo prices)</a></li>
+<li><a href="https://frontdeskreview.com/gear/smart-light-switches/" target="_blank" rel="noopener">Smart switch prices (Lutron, Inovelli)</a></li>
+<li><a href="https://www.dealnews.com/products/Reolink/Reolink-2-K-Po-E-Doorbell-Camera/498982.html" target="_blank" rel="noopener">Reolink PoE doorbell deals</a></li>
 <li><a href="https://subger.com/en/service/home-assistant-cloud" target="_blank" rel="noopener">Home Assistant Cloud pricing (2026)</a></li>
 </ul>
 <p><em>Made with 🫧 for a Frutiger Aero-loving cyber student. Free and open source only; paid things are marked 💸.</em></p></section>
@@ -1064,8 +1511,25 @@ actions:
   d.querySelectorAll('pre').forEach(function(p){var c=d.createElement('button');c.className='gloss copy';c.type='button';c.textContent='Copy';c.onclick=function(){var t=p.querySelector('code').innerText;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy'},1500)},function(){c.textContent='Select & copy'})};p.appendChild(c)});
   // search
   var q=d.getElementById('q'),cards=[].slice.call(d.querySelectorAll('.card')),cnt=d.getElementById('count');
-  function filter(){var v=q.value.trim().toLowerCase(),n=0;cards.forEach(function(c){var ok=!v||c.dataset.search.indexOf(v)>-1;c.classList.toggle('hide',!ok);if(ok)n++});cnt.textContent=v?(n+' of '+cards.length+' match'):(cards.length+' projects in galleries')}
+  function filter(){var v=q.value.trim().toLowerCase(),n=0;cards.forEach(function(c){var ok=!v||c.dataset.search.indexOf(v)>-1;c.classList.toggle('hide',!ok);if(ok)n++});cnt.textContent=v?(n+' of '+cards.length+' match'):(cards.length+' projects & devices')}
   q.addEventListener('input',filter);filter();
+  // device sorting + filters
+  var grid=d.getElementById('devgrid');
+  if(grid){
+    var devs=[].slice.call(grid.children),sel=d.getElementById('devsort'),fit=d.getElementById('devfit'),dc=d.getElementById('devcount'),cat='all';
+    function apply(){
+      var k=sel.value.split('-'),key=k[0],dir=k[1]==='desc'?-1:1;
+      devs.sort(function(a,b){
+        if(key==='idx')return a.dataset.idx-b.dataset.idx;
+        var x=+a.dataset[key],y=+b.dataset[key];
+        return x===y?a.dataset.idx-b.dataset.idx:(x-y)*dir});
+      var n=0;devs.forEach(function(c){grid.appendChild(c);var ok=(cat==='all'||c.dataset.cat===cat)&&(!fit.checked||c.dataset.fit!=='0');c.classList.toggle('devhide',!ok);if(ok&&!c.classList.contains('hide'))n++});
+      dc.textContent=n+' of '+devs.length+' devices';
+    }
+    sel.onchange=apply;fit.onchange=apply;
+    d.getElementById('devcats').addEventListener('click',function(e){var b=e.target.closest('.chipbtn');if(!b)return;cat=b.dataset.cat;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});apply()});
+    q.addEventListener('input',apply);apply();
+  }
   // progress + active toc + to top
   var bar=d.getElementById('progress'),top=d.getElementById('totop'),links=[].slice.call(d.querySelectorAll('#toc a')),heads=links.map(function(a){return d.getElementById(a.getAttribute('href').slice(1))});
   top.onclick=function(){scrollTo({top:0,behavior:'smooth'})};

@@ -18,6 +18,7 @@
 6. ⚡ **Connect your homelab:** Uptime Kuma, Jellyfin, Immich, Seerr, ntfy and Ollama all have **official** integrations now (§05).
 7. **Add one automation that feels like magic:** if the homelab goes down, the lights flash red and your phone gets an ntfy alert (§11).
 8. 🧪 **Pick a "signature" project:** a pixel clock (AWTRIX NG), a 3D floorplan, or a fully local voice assistant built on your Ollama (§12–§15).
+9. 🛒 **Shopping?** The sortable device guide is in §19, and the 36-idea automation cookbook and weekend workshops are in §20.
 
 ---
 
@@ -459,6 +460,8 @@ actions:
 mode: single
 ```
 
+> 🍳 **Want more?** §20 has 36 more automations, the best blueprints and 5 weekend workshops.
+
 > 🧩 **Blueprints** turn this into one click: Settings → Automations → Blueprints → *Import*, then browse [awesome-ha-blueprints](https://github.com/EPMatt/awesome-ha-blueprints).
 
 ---
@@ -601,6 +604,190 @@ actions:
 
 ---
 
+## 19 · Device shopping guide: what's worth buying
+
+🎯 **TL;DR:** on Docker Desktop, favor devices that talk **Wi-Fi/Ethernet (ESPHome, Shelly, Reolink, WLED)** or **Zigbee through a network coordinator**. Skip anything that needs USB, Bluetooth or Thread until you move HA to the UNO Q or a mini PC. **On the website you can sort this list** by price, setup difficulty, popularity and how common it is, filter by category, and hide what won't work on your setup.
+
+**How to read the ratings:**
+- **Price:** typical US street price seen in Oct–Nov 2026. Prices move, so check before you buy.
+- **Setup:** 🟢 plug & play · 🟡 some setup (flashing, an app, adding by IP) · 🔴 tinkerer (wiring, mains power, or flashing firmware). Hire an electrician for anything in your breaker panel.
+- **Popularity:** how often r/homeassistant and the HA forum *recommend* it (★1–5). This is a judgment from community threads and reviews.
+- **Common:** how likely you'll find it in an average HA home (●1–5), meaning mass-market reach rather than enthusiasm.
+
+<!-- devices -->
+| Device | Category | Price (US) | Setup | Popularity | Common | Works via | On your setup | Why get it |
+|---|---|---|---|---|---|---|---|---|
+| **[SMLIGHT SLZB-06U / 06Mg24U](https://smlight.tech/products/slzb-06mg24u)** | 📡 Hubs & radios | $40–60 | 🟡 Some setup | ★★★★★ | ●●●○○ | ZHA / Zigbee2MQTT over TCP | ✅ Best Zigbee pick for Docker Desktop | A Zigbee coordinator on Ethernet/PoE, so you never need USB passthrough. Put it in the middle of the house for the best range. |
+| **Home Assistant Connect ZBT-2** | 📡 Hubs & radios | $49 | 🟢 Plug & play | ★★★★★ | ●●●●○ | ZHA / Zigbee2MQTT / Thread | ❌ USB: works once HA is on Linux (UNO Q, mini PC) | Official adapter with plug-and-play migration. It runs Zigbee **or** Thread, not both at once. |
+| **Home Assistant Connect ZWA-2** | 📡 Hubs & radios | $69 | 🟢 Plug & play | ★★★☆☆ | ●●○○○ | Z-Wave JS | ❌ USB | Z-Wave with Long Range support. Only needed if you buy Z-Wave locks or switches. |
+| **ESP32 Bluetooth proxy (Atom Lite or any ESP32)** | 📡 Hubs & radios | $8–15 | 🟡 Some setup | ★★★★★ | ●●●○○ | ESPHome (Wi-Fi) | ✅ Fixes "no Bluetooth" on Docker Desktop | Flash it from the browser and it relays BLE devices (Govee BLE, SwitchBot, plant sensors, room presence) to HA over Wi-Fi. |
+| **Home Assistant Voice Preview Edition** | 📡 Hubs & radios | $59–69 | 🟢 Plug & play | ★★★★☆ | ●●○○○ | ESPHome + Assist | ✅ Add by IP | A local smart speaker for Assist, with a physical mic mute. Pairs with your Ollama (§12). |
+| **Home Assistant Green** | 📡 Hubs & radios | $159–199 | 🟢 Plug & play | ★★★★☆ | ●●●○○ | Home Assistant OS | ✅ Would replace Docker Desktop entirely | The official box: full Apps, real host networking and USB. Its price has gone up since launch. |
+| **Philips Hue bulbs** | 💡 Lighting | $15–50 | 🟢 Plug & play | ★★★★★ | ●●●●● | Philips Hue (local) | ✅ You already own the bridge | The most reliable color bulbs. Just add more to your existing bridge. |
+| **IKEA smart bulbs (Zigbee)** | 💡 Lighting | $10–20 | 🟢 Plug & play | ★★★★☆ | ●●●●○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator (newer Matter models need Thread ❌) | The cheapest decent smart bulbs, and they strengthen your Zigbee mesh. |
+| **WLED LED strip controller** | 💡 Lighting | $20–40 | 🟡 Some setup | ★★★★★ | ●●●○○ | WLED (local) | ✅ Add by IP | Addressable LED strips with 100+ effects, music sync and segments. Peak Frutiger Aero desk glow. |
+| **Lutron Caséta dimmer (+ Smart Hub)** | 💡 Lighting | $60–70 | 🔴 Tinkerer | ★★★★★ | ●●●●○ | Lutron Caséta (local) | ✅ Add the hub by IP | Rock-solid wall dimmers, **no neutral wire needed**. Pico remotes are great for family members. |
+| **Inovelli Blue Series 2-1 switch** | 💡 Lighting | $55–65 | 🔴 Tinkerer | ★★★★☆ | ●●○○○ | Zigbee (ZHA / Z2M) | ✅ With a network coordinator | A switch with an LED bar you can use for notifications ("washer done" turns it blue). Has energy monitoring too. |
+| **Shelly 1 Mini Gen4 / 1PM Gen4 relay** | 💡 Lighting | $17–28 | 🔴 Tinkerer | ★★★★★ | ●●●●○ | Shelly (local) | ✅ Add by IP | Hides behind your existing switch to make any light, fan or garage door smart. |
+| **Aqara Wireless Mini Switch** | 💡 Lighting | $20 | 🟢 Plug & play | ★★★★☆ | ●●●○○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator | A stick-anywhere button: single press, double press and hold give you 3 automations. |
+| **Aqara Door & Window Sensor** | 🛡️ Sensors | $15–20 | 🟢 Plug & play | ★★★★★ | ●●●●● | ZHA / Zigbee2MQTT | ✅ With a network coordinator | Tiny, cheap, and the battery lasts years. The building block of security automations. |
+| **Aqara Temperature & Humidity Sensor** | 🛡️ Sensors | $22 | 🟢 Plug & play | ★★★★★ | ●●●●○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator | A temperature reading in every room. Watch your server closet with it. |
+| **Aqara Water Leak Sensor** | 🛡️ Sensors | $21 | 🟢 Plug & play | ★★★★★ | ●●●○○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator | The cheapest insurance in the house. Put one under the water heater, washer and sinks. |
+| **Sonoff SNZB sensors (budget Zigbee)** | 🛡️ Sensors | $8–15 | 🟢 Plug & play | ★★★★☆ | ●●●○○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator | Budget door, motion and temperature sensors when you need lots of them. |
+| **[Everything Presence Lite](https://shop.everythingsmart.io/products/everything-presence-lite)** | 🛡️ Sensors | $39 | 🟡 Some setup | ★★★★★ | ●●○○○ | ESPHome (Wi-Fi) | ✅ Add by IP, and it doubles as a Bluetooth proxy | mmWave presence: lights stay on while you sit still. Tracks up to 3 people in zones. |
+| **[Apollo MSR-2 / MTR-1](https://ameridroid.com/collections/apollo)** | 🛡️ Sensors | $32–43 | 🟡 Some setup | ★★★★☆ | ●○○○○ | ESPHome (Wi-Fi) | ✅ Add by IP | Pre-flashed mmWave + light + temperature multisensors that are fully local. |
+| **Aqara Presence Sensor FP300** | 🛡️ Sensors | $50 | 🟢 Plug & play | ★★★★☆ | ●●○○○ | Zigbee or Thread | ✅ In Zigbee mode (Thread mode ❌) | Battery-powered 5-in-1 presence sensor: no cable to hide. |
+| **[Apollo AIR-1](https://ameridroid.com/collections/apollo)** | 🛡️ Sensors | $110–123 | 🟡 Some setup | ★★★☆☆ | ●○○○○ | ESPHome (Wi-Fi) | ✅ Add by IP | CO₂, VOC and particulates. Get an "open a window" alert when the room gets stuffy. |
+| **Apollo PLT-1 plant sensor** | 🛡️ Sensors | $32 | 🟡 Some setup | ★★★☆☆ | ●○○○○ | ESPHome (Wi-Fi) | ✅ Add by IP | Soil moisture and light. Your plants send you push notifications. |
+| **Kasa / Tapo energy-monitoring plug** | ⚡ Plugs & energy | $10–25 | 🟢 Plug & play | ★★★★★ | ●●●●● | TP-Link Smart Home (local) | ✅ You already use Kasa | Power readings make "washer done" and standby-killer automations possible. |
+| **Shelly Plug US Gen4** | ⚡ Plugs & energy | $23 | 🟢 Plug & play | ★★★★☆ | ●●●○○ | Shelly (local) | ✅ Add by IP | A fully local plug with metering and no cloud account needed. |
+| **Third Reality Zigbee smart plug** | ⚡ Plugs & energy | $12–15 | 🟢 Plug & play | ★★★★☆ | ●●●○○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator | Cheap, and each one is a **Zigbee router** that extends your mesh. |
+| **Emporia Vue 3 energy monitor** | ⚡ Plugs & energy | $100–150 | 🔴 Tinkerer | ★★★★☆ | ●●○○○ | Cloud integration, or ESPHome reflash | ✅ Works as-is | Clamps in your breaker panel to show whole-home and per-circuit power. **Hire an electrician** for this one. |
+| **Home Assistant Glow (DIY)** | ⚡ Plugs & energy | $15 | 🔴 Tinkerer | ★★★☆☆ | ●○○○○ | ESPHome (Wi-Fi) | ✅ Add by IP | Reads your electric meter's blinking LED for live usage. A fun first ESPHome build (§15). |
+| **ecobee smart thermostat** | 🌡️ Climate | $170–250 | 🟡 Some setup | ★★★★★ | ●●●●○ | HomeKit Device (local) or ecobee | ⚠️ Local HomeKit pairing needs discovery, so the cloud integration is easier | Room sensors and eco schedules. Pairs nicely with your temperature sensors. |
+| **IR blaster (Broadlink RM4 mini)** | 🌡️ Climate | $25–35 | 🟢 Plug & play | ★★★★☆ | ●●●○○ | Broadlink (local) | ✅ Add by IP | Makes old ACs, fans and TVs smart. HA 2026.4 added native IR support too. |
+| **Reolink PoE camera (e.g. RLC-510A)** | 🎥 Security | $50–80 | 🟡 Some setup | ★★★★★ | ●●●●○ | Reolink (local) + Frigate | ✅ ⭐ On your wishlist | RTSP/ONVIF, no subscription. The Frigate community's favorite camera brand. |
+| **Reolink Video Doorbell PoE** | 🎥 Security | $80–110 | 🟡 Some setup | ★★★★★ | ●●●○○ | Reolink (local) | ✅ Works as-is | A local doorbell with no monthly fee. It can replace a Ring Protect subscription. |
+| **[ratgdo32 / ratgdo32 disco](https://ratcloud.llc/products/ratgdo32)** | 🎥 Security | $62–94 | 🔴 Tinkerer | ★★★★★ | ●●○○○ | ESPHome (local) | ⚠️ Add by IP (auto-adoption needs mDNS) | Local garage door control for Chamberlain/LiftMaster openers after myQ blocked HA. The disco version also detects whether a car is parked. |
+| **Smart lock (Yale Assure 2 / Aqara U200)** | 🎥 Security | $150–280 | 🔴 Tinkerer | ★★★★☆ | ●●●○○ | Z-Wave, Zigbee or Matter (model-dependent) | ⚠️ Pick a Zigbee or Wi-Fi model | Auto-lock at night, "door unlocked for 10 minutes" alerts, guest codes. |
+| **Ulanzi TC001 pixel clock** | 🖥️ Displays & media | $50 | 🟡 Some setup | ★★★★★ | ●●○○○ | MQTT (AWTRIX NG) | ✅ Works as-is | Notifications, homelab stats and weather on a pixel display. Everyone who visits asks about it (§15). |
+| **Old tablet / Lenovo Tab M11 wall panel** | 🖥️ Displays & media | $0–250 | 🟢 Plug & play | ★★★★★ | ●●●●○ | Companion app + Kiosk Mode | ✅ Works as-is | A family-friendly control panel. A drawer tablet costs nothing (§16). |
+| **Sonoff NSPanel Pro** | 🖥️ Displays & media | ~$110 | 🟡 Some setup | ★★★☆☆ | ●●○○○ | Companion app / Zigbee | ✅ Works as-is | A purpose-built wall panel that replaces a light switch. |
+| **Used Kindle (e-ink dashboard)** | 🖥️ Displays & media | $20–40 | 🔴 Tinkerer | ★★★☆☆ | ●○○○○ | Kindle screensaver project | ✅ Works as-is | An always-on e-ink status screen that sips power. Pair it with the Graphite E-Ink theme. |
+| **Sonos speakers** | 🖥️ Displays & media | $200+ | 🟢 Plug & play | ★★★★☆ | ●●●●○ | Sonos (local) + Music Assistant | ⚠️ Add by IP | Multi-room audio, TTS announcements, doorbell chimes through the house. |
+| **Roborock robot vacuum** | 🏠 Cleaning & comfort | $300–800 | 🟢 Plug & play | ★★★★★ | ●●●●○ | Roborock, or Valetudo on supported models | ✅ Works as-is | Clean when everyone leaves, and room-by-room cleaning from a map card. |
+| **IKEA smart blinds (Zigbee)** | 🏠 Cleaning & comfort | $130–200 | 🟡 Some setup | ★★★★☆ | ●●○○○ | ZHA / Zigbee2MQTT | ✅ With a network coordinator | Blinds open at sunrise and close when a movie starts. |
+| **UniFi Cloud Gateway / Dream Machine** | 🌐 Network & power | $200–500 | 🟡 Some setup | ★★★★★ | ●●●○○ | UniFi Network (local) | ✅ ⭐ On your wishlist | Wi-Fi presence detection, client lists and firewall data, perfect for the security dashboard (§14). |
+| **PoE switch** | 🌐 Network & power | $60–200 | 🟡 Some setup | ★★★★☆ | ●●○○○ | Powers SLZB-06, cameras and doorbell | ✅ ⭐ On your wishlist | One cable per device for both power and data, with no adapters behind the TV. |
+| **UPS with USB (CyberPower / APC) + NUT** | 🌐 Network & power | $90–200 | 🟡 Some setup | ★★★★☆ | ●●○○○ | Network UPS Tools (NUT) | ⚠️ Run the NUT server on the UNO Q or a Pi | Power-outage alerts and a graceful shutdown before the battery dies. ⭐ On your wishlist. |
+
+> 🛒 **Starter bundle for your setup (~$150):** SLZB-06U ($40) + 3 Aqara door sensors (~$50) + 2 leak sensors (~$42) + an ESP32 Bluetooth proxy ($10). That's a solid security base with no USB at all.
+
+---
+
+## 20 · Workshops, courses & the automation cookbook
+
+🎯 **TL;DR:** meet the community in person through the **Luma meetup calendar**, learn from a handful of great YouTube channels, run the 5 weekend workshops below, then steal from the 36-automation cookbook.
+
+### 🎪 Events & meetups
+
+| Event | When | What it is |
+|---|---|---|
+| **[Community Day](https://www.openhomefoundation.org/community-day/)** | Yearly. The 2026 edition was **Saturday, Nov 7** | Worldwide meetups for Home Assistant, ESPHome and Music Assistant users. 2026 had **97 meetups in 30+ countries**, including a Brooklyn meetup in past years. |
+| **[Home Assistant Meetups calendar (Luma)](https://www.home-assistant.io/community)** | All year | Subscribe for meetups near you, or host your own (Philadelphia and State College are fair game). |
+| **Month of "What the Heck?!"** | November 2026 | Share what annoys the *other people* in your home about HA on the forum. A great chance to hand your family the feedback form. |
+| **State of the Open Home** | Yearly (Apr 8, 2026, Utrecht) | The roadmap keynote. Watch the recordings on the Home Assistant YouTube channel. |
+| **Monthly release livestreams** | Around the first Wednesday of each month | The team demos each new release live, with community Q&A. |
+| **DEF CON IoT Village** | Every August | 🛡️ Hands-on IoT hacking talks and contests. The cyber-student crossover pick. |
+| **Penn State Maker Commons** | Semester-round | Campus makerspace: 3D-print sensor cases and solder ESP32 builds. |
+
+### 📺 Learn (free)
+
+| Resource | Best for |
+|---|---|
+| **Everything Smart Home** (YouTube) | Beginner-friendly builds. Made by the creator of the Everything Presence sensors. |
+| **[Smart Home Junkie](https://www.smarthomejunkie.net/)** (YouTube + blog) | Dashboards, AWTRIX blueprints, release breakdowns. |
+| **BeardedTinker** (YouTube) | Deep, careful walkthroughs of advanced setups. |
+| **mostlychris** (YouTube) | Docker, ESPHome and practical automations. |
+| **Home Automation Guy** (YouTube) | Automation logic explained step by step. |
+| **Smart Home Solver** (YouTube) | Device reviews and clever automation ideas. |
+| **[simon42](https://www.simon42.com/)** (German) | The fastest coverage of every release. |
+| **[Home Assistant Podcast](https://homeassistant.fm/)** | Weekly news and interviews to listen to on your commute. |
+| **[LazyAdmin](https://lazyadmin.nl/tag/home-assistant/)** & **[SmartHomeScene](https://smarthomescene.com/)** | Written guides, comparisons and theme and card roundups. |
+
+### 🛠️ 5 weekend workshops (do them in order)
+
+1. **Bluetooth proxy in 20 minutes** 🟢: flash an ESP32 from the ESPHome web installer → add it by IP → watch BLE devices appear. (Fixes Docker Desktop's biggest gap.)
+2. **Homelab status wall** 🟡: Uptime Kuma + Glances integrations → Mushroom chips + ApexCharts → the red-light alert from §11.
+3. **Zigbee without USB** 🟡: SLZB-06 on Ethernet → Zigbee2MQTT container → pair 3 door sensors → "door left open" announcement on the Echo.
+4. **Local voice assistant** 🧪: Whisper + Piper + openWakeWord containers → Ollama agent → "Okay Nabu, movie mode."
+5. **Doorbell that thinks** 🧪: Reolink doorbell → Frigate → LLM Vision → a notification that says *who* is at the door.
+
+### 🧩 The best blueprints (one-click automations)
+
+| Blueprint | What it does |
+|---|---|
+| **Motion-activated Light** (built in) | Light on with motion, off after X minutes of no motion. |
+| **Zone Notification** (built in) | Notifies you when someone leaves a zone. |
+| **Confirmable Notification** (built-in script) | An actionable "Do you want to…? Yes / No" phone notification. |
+| **[Frigate Notifications (SgtBatten)](https://github.com/SgtBatten/HA_blueprints)** | Rich camera alerts with snapshots, clips and cooldowns. One of the most popular Frigate blueprints. |
+| **[awesome-ha-blueprints](https://github.com/EPMatt/awesome-ha-blueprints)** | Controller blueprints for IKEA, Aqara, Philips and other remotes. |
+| **[Ulanzi AWTRIX blueprints](https://github.com/smarthomejunkie/Ulanzi-Awtrix-BluePrints)** | Weather, calendar, energy and notifications on your pixel clock. |
+| **Blueprints Exchange** ([HA forum](https://community.home-assistant.io/)) | Thousands more: low-battery roundups, appliance-done alerts and so on. Sort by *Top*. |
+
+### 🍳 The automation cookbook (36 ideas)
+
+⚡ = quick win · 🟡 = some setup · 🧪 = project
+
+**🌅 Lighting & comfort**
+
+| Automation | You need | Level |
+|---|---|---|
+| Motion lights that turn off after no motion | Motion sensor + the built-in blueprint | ⚡ |
+| Lights follow the sun's color all day | Adaptive Lighting | ⚡ |
+| Sunrise wake-up: 15-minute fade before your alarm | Hue + phone's next-alarm sensor | ⚡ |
+| Jellyfin plays → dim the lights, restore them on pause | Jellyfin + `scene.create` snapshot | ⚡ |
+| "Goodnight" button: lights off, TV off, doors checked | Aqara mini switch + a script | 🟡 |
+| Lights stay on while you sit still (no more arm-waving) | mmWave presence (Everything Presence Lite) | 🟡 |
+| TV backlight that matches the screen | WLED + HyperHDR | 🧪 |
+
+**🛡️ Security & safety**
+
+| Automation | You need | Level |
+|---|---|---|
+| Leak detected → critical phone alert + Echo announcement | Leak sensor + Alexa Devices | ⚡ |
+| Door open more than 5 minutes → announce it | Door sensor | ⚡ |
+| Doorbell → snapshot + actionable notification | Reolink/Ring + Frigate blueprint | ⚡ |
+| Smoke/CO alarm → all lights 100%, HVAC fan off, announcement | Smoke sensor or listener | ⚡ |
+| Vacation mode: random lights in the evening | Presence + a script | 🟡 |
+| Unknown device joins the LAN → alert | Nmap Tracker or UniFi | 🟡 |
+| Failed HA login → ntfy (see §14) | Built-in | ⚡ |
+
+**🖥️ Homelab & tech**
+
+| Automation | You need | Level |
+|---|---|---|
+| Uptime Kuma monitor down → red pulse + ntfy (see §11) | Uptime Kuma + a light | ⚡ |
+| Server closet over 30 °C → alert + turn on a fan plug | Temperature sensor + plug | ⚡ |
+| Power outage → alert, pause torrents, shut down safely | UPS + NUT + qBittorrent | 🟡 |
+| Gaming or 4K streaming → qBittorrent alt-speed on | qBittorrent + System Monitor/Jellyfin | 🟡 |
+| No backup in 3 days → alert | Backup integration sensors | ⚡ |
+| Tailscale device offline for 24 hours → alert | Tailscale integration | ⚡ |
+| Sunday "house health" report: updates, batteries, backups | Template + notify | 🟡 |
+
+**⚡ Energy & appliances**
+
+| Automation | You need | Level |
+|---|---|---|
+| Washer/dryer finished (power drops below 5 W) → announce | Energy-monitoring plug | ⚡ |
+| Kill standby power overnight (TV, consoles) | Smart plug | ⚡ |
+| Space heater on for 2 hours or nobody home → off | Plug + presence | ⚡ |
+| Daily energy cost summary notification | Energy dashboard + template | 🟡 |
+| Run the dishwasher or charger in off-peak hours | Plug + utility rate sensor | 🟡 |
+
+**👨‍👩‍👧 Family & daily life**
+
+| Automation | You need | Level |
+|---|---|---|
+| Welcome home: lights + music when your phone arrives | Companion app zones | ⚡ |
+| Morning brief on the Echo: weather + calendar + commute | Alexa Devices + templates (or n8n) | 🟡 |
+| Trash-day reminder the night before | Calendar integration | ⚡ |
+| Weekly low-battery roundup | Blueprint from the Exchange | ⚡ |
+| Plant is thirsty → notification | PLT-1 or a BLE plant sensor | ⚡ |
+| Package detected at the door → notification | Frigate (+ LLM Vision) | 🧪 |
+
+**🤖 AI & fun**
+
+| Automation | You need | Level |
+|---|---|---|
+| Doorbell notification that says *who* is there | LLM Vision + Ollama | 🧪 |
+| "Anything unusual today?" daily summary from your LLM | Ollama + logbook template | 🧪 |
+| Pixel clock shows homelab status and your next event | AWTRIX NG + blueprints | 🟡 |
+| "Hey Jarvis, movie mode" by voice | openWakeWord + Assist | 🟡 |
+| Holiday lighting: WLED presets switch by date | WLED + calendar | 🟡 |
+
+---
+
 ## Sources
 
 - [Home Assistant 2026.11 release notes (Marketplace, naming, Matter cameras)](https://www.home-assistant.io/blog/2026/11/04/release-202611/)
@@ -618,6 +805,14 @@ actions:
 - [CNX Software: Connect ZBT-2](https://www.cnx-software.com/2025/11/20/home-assistant-connect-zbt-2-zigbee-thread-usb-adapter/)
 - [HACS path traversal advisory (CVE-2021-47942)](https://feed.craftedsignal.io/briefs/2026-05-hacs-path-traversal/)
 - [Homeway pricing comparison](https://neilturner.me.uk/2025/02/23/)
+- [Community Day 2026 (Open Home Foundation)](https://www.openhomefoundation.org/community-day/)
+- [HA hardware comparison 2026 (Green price)](https://raspberry.tips/en/raspberrypi-tutorials/home-assistant-hardware-comparison-2026-green-blue-yellow-vs-raspberry-pi)
+- [Ameridroid: Nabu Casa & Apollo prices](https://ameridroid.com/collections/nabu-casa)
+- [Shelly USA prices](https://us.shelly.com/collections/all)
+- [Aqara FP300 price](https://www.trackalacker.com/articles/news/aqara-presence-sensor-fp300-price-specs-and-where-to-buy)
+- [Garage door controllers for HA (ratgdo prices)](https://computingforgeeks.com/best-garage-door-opener-home-assistant/)
+- [Smart switch prices (Lutron, Inovelli)](https://frontdeskreview.com/gear/smart-light-switches/)
+- [Reolink PoE doorbell deals](https://www.dealnews.com/products/Reolink/Reolink-2-K-Po-E-Doorbell-Camera/498982.html)
 - [Home Assistant Cloud pricing (2026)](https://subger.com/en/service/home-assistant-cloud)
 
 *Made with 🫧 for a Frutiger Aero-loving cyber student. Free and open source only; paid things are marked 💸.*
